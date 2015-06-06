@@ -10,7 +10,7 @@ Ansible playbooks and other admin tools/docs for maintaining the #! network.
 
 ## Usage
 
-  ### Install a package
+### Install a package
 
   1. Connect to any shell server as yourself
 
@@ -36,7 +36,7 @@ Ansible playbooks and other admin tools/docs for maintaining the #! network.
       sudo etckeeper commit -m 'Updated some package'
       ```
 
-  ### Making a configuration change
+### Making a configuration change
 
   1. Connect to any shell server as yourself
 
@@ -56,7 +56,7 @@ Ansible playbooks and other admin tools/docs for maintaining the #! network.
       sudo etckeeper commit -m 'updated some-config with some change'
       ```
 
-  ### Sync packages/config across all servers
+### Sync packages/config across all servers
 
   1. Run Ansible playbook "sync"
 
