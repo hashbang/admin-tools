@@ -1,11 +1,3 @@
----
-- name: Update list of locally installed packages
-  hosts: 127.0.0.1
-  connection: local
-  tasks:
-  - shell: /usr/bin/dpkg --get-selections > /etc/packages.txt
-  - shell: etckeeper commit -m 'update packages.txt'
-
 - name: Pull latest /etc files on all servers
   hosts: shell-servers
   sudo: yes
