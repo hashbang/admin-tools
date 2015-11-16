@@ -2,7 +2,7 @@
   hosts: shell-servers
   sudo: yes
   tasks:
-  - shell: git pull chdir=/etc
+  - shell: git pull chdir=/etc --ff-only
 
 - name: Update/Sync system packages across all servers
   hosts: shell-servers
@@ -10,9 +10,9 @@
   tasks:
   - apt: update_cache=yes
   - apt: upgrade=dist
-  - shell: awk '{print $1}' /etc/packages.txt | xargs aptitude install -y -q
-  - shell: apt-get install -y -q -t unstable selinux-policy-default
-  - shell: executable=/bin/bash diff <(dpkg --get-selections) <(cat /etc/packages.txt) | grep -E '^<' | awk '{ print $2 }' | xargs apt-get remove -y -q
+  - shell: dpkg --clear-selections
+  - shell: dpkg --set-selections < /etc/packages.txt
+  - shell: apt-get dselect-upgrade
   - shell: aptitude purge -y -q ~c
 
 - name: update #! python packages to all servers
