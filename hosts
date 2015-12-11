@@ -14,6 +14,7 @@ im.hashbang.sh
 
 [coreos:vars]
 ansible_user=core
+ansible_python_interpreter="PATH=/home/core/bin:$PATH python"
 
 [coreos:children]
 irc
