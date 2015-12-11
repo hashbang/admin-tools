@@ -12,6 +12,9 @@ ldap.hashbang.sh
 voip.hashbang.sh
 im.hashbang.sh
 
+[coreos:vars]
+ansible_user=core
+
 [coreos:children]
 irc
 
