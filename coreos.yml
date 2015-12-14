@@ -2,3 +2,4 @@
   gather_facts: False
   roles:
     - coreos-bootstrap
+    - coreos-authorized_keys group=admins

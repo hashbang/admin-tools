@@ -1,3 +1,6 @@
 [submodule "roles/coreos-bootstrap"]
 	path = roles/coreos-bootstrap
 	url = https://github.com/defunctzombie/ansible-coreos-bootstrap.git
+[submodule "roles/coreos-authorized_keys"]
+	path = roles/coreos-authorized_keys
+	url = https://github.com/hashbang/ansible-authorized_keys.d.git
