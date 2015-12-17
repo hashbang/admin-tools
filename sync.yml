@@ -1,8 +1,10 @@
+---
+
 - name: Pull latest /etc files on all servers
   hosts: shell-servers
   sudo: yes
   tasks:
-  - shell: git pull chdir=/etc --ff-only
+  - shell: etckeeper vcs pull --ff-only
 
 - name: Update/Sync system packages across all servers
   hosts: shell-servers
