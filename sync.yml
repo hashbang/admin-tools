@@ -2,7 +2,7 @@
   hosts: shell-servers
   sudo: yes
   tasks:
-  - shell: git pull chdir=/etc --ff-only
+  - shell: etckeeper vcs pull chdir=/etc --ff-only
 
 - name: Update/Sync system packages across all servers
   hosts: shell-servers
