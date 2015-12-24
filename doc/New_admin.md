@@ -66,7 +66,7 @@ Do this on both IRC servers (`sfo1.irc.hashbang.sh` and `lon1.irc.hashbang.sh`):
 		oper $USER {
 		        class clients;
 		        from { userhost *@*; };
-		        password "$HASH" { sha1; }
+		        password "$HASH" { sha1; };
 		        flags { netadmin; can_gkline; can_override; can_gzline; can_restart; can_die; global; };
 		};
 
