@@ -14,7 +14,7 @@ _TODO:_ major/minor changes, provisor always major?
 Send another admin your SSH public key(s);
 they will add you to all CoreOS servers.
 
-_TODO:_ Ansible automation for adding keys.
+_TODO:_ Ansible automation for adding keys in progress (see branch `coreos`).
 
 ## ... to the shared password db
 - Tell them your GitHub account name.  
@@ -73,3 +73,6 @@ Do this on both IRC servers (`sfo1.irc.hashbang.sh` and `lon1.irc.hashbang.sh`):
 5. `docker exec -it ircd Unreal3.2.10.4/unreal rehash`
 
 Now, in your IRC client, you can `/oper $USER $PASSWORD`.
+
+_TODO:_ The IRC config ought to be an Ansible-managed template.
+However, I don't think we should store password hashes in plaintext here.
