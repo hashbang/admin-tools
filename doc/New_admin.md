@@ -4,26 +4,51 @@ Hi, dear new admin.
 Thank you for chosing to dedicate time and energy to #!.  I hope we will learn
 from one another and have fun  ;)
 
+
 # Development process
 
 _TODO:_ major/minor changes, provisor always major?
 
-# Gaining access
+
+# Gaining access -- part I
+
+We will first go over the parts that require cooperation
+  with an established admin.
 
 ## ... to the CoreOS servers
+
 Send another admin your SSH public key(s);
-they will add you to all CoreOS servers.
+  they will add you to all CoreOS servers.
 
 _TODO:_ Ansible automation for adding keys in progress (see branch `coreos`).
 
 ## ... to the shared password db
+
 - Tell them your GitHub account name.  
   They will give you Git access to the shared pass db.
 - Add yourself to the `.gpg-id` file, do a signed commit, push.
 - The other admin confirms the key, then runs `pass init` to re-encrypt the
   files and pushes (again, signed commits!).
 
+## ... to the DigitalOcean organisation
+
+- Create a DigitalOcean account, in the #! organisation.  
+  _NOTE:_ You **must** wait for the invitation mail, otherwise the account is
+  created outside the team.
+
+## ... to Dockerhub
+
+- Create a DockerHub account, ask an admin for access.
+
+
+# Gaining access -- part II
+
+By now, you have all you need to add yourself the missing access.
+Take it as an opportunity to familiarise yourself with our infrastructure,
+  and don't hesitate to ask other admins questions.
+
 ## ... to the shell servers
+
 You now have access to `ldap.hashbang.sh`:
 you can give yourself a password and add yourself to the `sudo` group.
 
@@ -46,15 +71,8 @@ Still on `ldap.hashbang.sh`, with `HISTFILE` unset:
 
 _TODO:_ lrvick ought to review this part, since I didn't do it myself.
 
-## ... to the DigitalOcean organisation
-- Create a DigitalOcean account, in the #! organisation.  
-  _NOTE:_ You **must** wait for the invitation mail, otherwise the account is
-  created outside the team.
-
-## ... to Dockerhub
-- Create a DockerHub account, ask an admin for access.
-
 ## ... to IRC oper
+
 Do this on both IRC servers (`sfo1.irc.hashbang.sh` and `lon1.irc.hashbang.sh`):
 
 1. `unset HISTFILE`
