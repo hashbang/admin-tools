@@ -4,6 +4,10 @@ to1.hashbang.sh
 da1.hashbang.sh
 sf1.hashbang.sh
 
+[shell-servers:vars]
+ask_sudo_pass=True
+
+
 [coreos]
 hashbang.sh
 mail.hashbang.sh
