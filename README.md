@@ -61,5 +61,5 @@ Ansible playbooks and other admin tools/docs for maintaining the #! network.
   1. Run Ansible playbook "sync"
 
       ```bash
-     ansible-playbook -K -u your-sudo-user sync.yml
+     ansible-playbook -K -u your-sudo-user -i hosts sync.yml
       ```
