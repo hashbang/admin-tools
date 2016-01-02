@@ -12,9 +12,10 @@
   tasks:
   - apt: update_cache=yes
   - apt: upgrade=dist
+  - shell: dselect update
   - shell: dpkg --clear-selections
   - shell: dpkg --set-selections < /etc/packages.txt
-  - shell: apt-get dselect-upgrade
+  - shell: apt-get dselect-upgrade -qy
   - shell: aptitude purge -y -q ~c
 
 - name: update #! python packages to all servers
