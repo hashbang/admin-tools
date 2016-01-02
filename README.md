@@ -27,7 +27,7 @@ Ansible playbooks and other admin tools/docs for maintaining the #! network.
   3. Update packages.txt list
 
       ```bash
-      sudo dpkg --get-selections > /etc/packages.txt
+      dpkg --get-selections | sudo tee /etc/packages.txt
       ```
 
   3. Commit changes via etckeeper
