@@ -24,16 +24,13 @@ Ansible playbooks and other admin tools/docs for maintaining the #! network.
       sudo apt-get install some-package
       ```
 
-  3. Update packages.txt list
+  3. Deploy changes on other servers
+
+      The configuration changes (including `packages.txt`) should have been
+      auto-pushed to `shell-etc`.  Now, you only need to re-sync the servers:
 
       ```bash
-      dpkg --get-selections | sudo tee /etc/packages.txt
-      ```
-
-  3. Commit changes via etckeeper
-
-      ```bash
-      sudo etckeeper commit -m 'Updated some package'
+      ansible-playbook -i hosts sync.yml
       ```
 
 ### Making a configuration change
@@ -61,5 +58,5 @@ Ansible playbooks and other admin tools/docs for maintaining the #! network.
   1. Run Ansible playbook "sync"
 
       ```bash
-     ansible-playbook -K -u your-sudo-user -i hosts sync.yml
+      ansible-playbook -K -u your-sudo-user -i hosts sync.yml
       ```
