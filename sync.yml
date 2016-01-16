@@ -4,7 +4,8 @@
   hosts: shell-servers
   sudo: yes
   tasks:
-  - shell: etckeeper vcs pull --ff-only
+  - command: etckeeper vcs pull --ff-only
+  - command: etckeeper init
 
 - name: Update/Sync system packages across all servers
   hosts: shell-servers
