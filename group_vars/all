@@ -1,3 +1,8 @@
+user_groups:
+  admins:
+    - kellerfuchs
+    - alissa
+
 users:
   kellerfuchs: {}
   alissa:
