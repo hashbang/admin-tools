@@ -30,7 +30,7 @@ Ansible playbooks and other admin tools/docs for maintaining the #! network.
       auto-pushed to `shell-etc`.  Now, you only need to re-sync the servers:
 
       ```bash
-      ansible-playbook -i hosts sync.yml
+      ansible-playbook -K -i hosts sync.yml
       ```
 
 ### Making a configuration change
