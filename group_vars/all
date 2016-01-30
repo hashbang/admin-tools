@@ -1,8 +1,10 @@
 user_groups:
   admins:
-    - kellerfuchs
     - alissa
+    - daurnimator
+    - kellerfuchs
 
 users:
-  kellerfuchs: {}
   alissa: {}
+  daurnimator: {}
+  kellerfuchs: {}
