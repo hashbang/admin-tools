@@ -2,9 +2,12 @@ user_groups:
   admins:
     - alissa
     - daurnimator
+    - dgrove
     - kellerfuchs
 
 users:
   alissa: {}
   daurnimator: {}
   kellerfuchs: {}
+  dgrove:
+    key: https://github.com/drGrove.keys
