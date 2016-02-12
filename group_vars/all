@@ -4,10 +4,12 @@ user_groups:
     - daurnimator
     - dgrove
     - kellerfuchs
+    - lrvick
 
 users:
   alissa: {}
   daurnimator: {}
   kellerfuchs: {}
+  lrvick: {}
   dgrove:
     key: https://github.com/drGrove.keys
