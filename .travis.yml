@@ -1,0 +1,16 @@
+sudo: false
+dist: precise
+
+addons:
+  apt:
+    packages:
+    - python-pip
+
+git:
+  depth: 3
+
+before_script: pip install --user ansible ansible-lint
+  
+script:
+- ansible-lint coreos.yml
+- ansible-lint sync.yml
