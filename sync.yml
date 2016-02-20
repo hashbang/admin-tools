@@ -1,5 +1,25 @@
 ---
 
+- name: Deploy SSH keys for root
+  hosts: shell-servers
+  sudo: yes
+  tasks:
+  - command: mktemp /root/.ssh/authorized_keys.XXXXX
+    register: tmpfile
+  - authorized_key:
+      user: root
+      path: "{{ tmpfile.stdout }}"
+      key: "{{ users[item].key }}"
+    when: users[item].key is defined
+    with_items: user_groups.admins
+  - authorized_key:
+      user: root
+      path: "{{ tmpfile.stdout }}"
+      key: "{{ lookup('file', 'files/keys/' + item + '.pub') }}"
+    when: users[item].key is not defined
+    with_items: user_groups.admins
+  - command: mv {{ tmpfile.stdout }} /root/.ssh/authorized_keys
+
 - name: Pull latest /etc files on all servers
   hosts: shell-servers
   sudo: yes
