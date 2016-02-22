@@ -5,8 +5,7 @@ da1.hashbang.sh
 sf1.hashbang.sh
 
 [shell-servers:vars]
-ask_sudo_pass=True
-
+ask_become_pass=True
 
 [coreos]
 hashbang.sh

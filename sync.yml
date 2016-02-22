@@ -2,7 +2,7 @@
 
 - name: Deploy SSH keys for root
   hosts: shell-servers
-  sudo: yes
+  become: true
   tasks:
   - command: mktemp /root/.ssh/authorized_keys.XXXXX
     register: tmpfile
@@ -22,14 +22,14 @@
 
 - name: Pull latest /etc files on all servers
   hosts: shell-servers
-  sudo: yes
+  become: true
   tasks:
   - command: etckeeper vcs pull --ff-only
   - command: etckeeper init
 
 - name: Update/Sync system packages across all servers
   hosts: shell-servers
-  sudo: yes
+  become: true
   tasks:
   - apt: update_cache=yes
   - shell: dselect update
@@ -45,7 +45,7 @@
 
 - name: update #! python packages to all servers
   hosts: shell-servers
-  sudo: yes
+  become: true
   tasks:
   - pip: name='git+https://github.com/hashbang/provisor/#egg=provisor'
   - pip: name='git+https://github.com/hashbang/hashbangctl/#egg=hashbangctl'
