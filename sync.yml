@@ -20,7 +20,7 @@
     with_items: "{{ user_groups.admins }}"
   - command: mv {{ tmpfile.stdout }} /root/.ssh/authorized_keys
 
-- name: Pull latest /etc files on all servers
+- name: Pull latest /etc files
   hosts: shell-servers
   become: true
   tasks:
@@ -30,7 +30,7 @@
   - command: etckeeper init
     when: etc_result.changed
 
-- name: Update/Sync system packages across all servers
+- name: Update/Sync system packages
   hosts: shell-servers
   become: true
   tasks:
@@ -46,7 +46,7 @@
     environment:
       DEBIAN_FRONTEND: noninteractive
 
-- name: update #! python packages to all servers
+- name: "Update #! python packages"
   hosts: shell-servers
   become: true
   tasks:
