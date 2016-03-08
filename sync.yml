@@ -25,7 +25,10 @@
   become: true
   tasks:
   - command: etckeeper vcs pull --ff-only
+    register: etc_result
+    changed_when: etc_result.stdout == "Already up-to-date.\n"
   - command: etckeeper init
+    when: etc_result.changed
 
 - name: Update/Sync system packages across all servers
   hosts: shell-servers
