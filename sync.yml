@@ -60,5 +60,5 @@
   hosts: shell-servers
   become: true
   tasks:
-  - pip: name='git+https://github.com/hashbang/provisor/#egg=provisor'
-  - pip: name='git+https://github.com/hashbang/hashbangctl/#egg=hashbangctl'
+  - pip: name='git+https://github.com/hashbang/provisor/#egg=provisor'       editable=False
+  - pip: name='git+https://github.com/hashbang/hashbangctl/#egg=hashbangctl' editable=False
