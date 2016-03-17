@@ -45,7 +45,7 @@
   become: true
   tasks:
   - apt: update_cache=yes
-  - shell: dselect update
+  - shell: apt-cache dumpavail | dpkg --update-avail
   - shell: dpkg --clear-selections
   - shell: dpkg --set-selections < /etc/packages.txt
   - shell: apt-get dselect-upgrade -qy
