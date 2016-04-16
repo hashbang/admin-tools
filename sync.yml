@@ -11,14 +11,7 @@
     - authorized_key:
         user: root
         path: "{{ tmpfile.stdout }}"
-        key: "{{ users[item].key }}"
-      when: users[item].key is defined
-      with_items: "{{ user_groups.admins }}"
-    - authorized_key:
-        user: root
-        path: "{{ tmpfile.stdout }}"
-        key: "{{ lookup('file', 'files/keys/' + item + '.pub') }}"
-      when: users[item].key is not defined
+        key: "{{ users[item].get('key') or lookup('file', 'files/keys/' + item + '.pub') }}"
       with_items: "{{ user_groups.admins }}"
 
     - command: mv {{ tmpfile.stdout }} /root/.ssh/authorized_keys
