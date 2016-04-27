@@ -1,3 +1,16 @@
+# This is the list of (privileged) users,
+#  whose credentials are managed through Ansible.
+#
+# Groups, under `user_groups`, are lists of usernames.
+# Each username *MUST* occur under `users`,
+#  with the following attibutes:
+#  - key: either a plain SSH key or a URL to a SSH key file
+#         If not set, the key *MUST* be in `files/keys/$user.pub`
+#  - irc: the user's nick on IRC, if different from the username
+#  - github: the username on Github, if different
+#  - unix: the username in LDAP, if different
+
+
 user_groups:
   admins:
     - alissa
@@ -7,9 +20,15 @@ user_groups:
     - lrvick
 
 users:
-  alissa: {}
+  alissa:
+    github: ChickenNuggers
+
   daurnimator: {}
-  kellerfuchs: {}
-  lrvick: {}
+
   dgrove:
     key: https://github.com/drGrove.keys
+    github: drGrove
+
+  kellerfuchs: {}
+
+  lrvick: {}
