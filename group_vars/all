@@ -18,6 +18,7 @@ user_groups:
     - dgrove
     - kellerfuchs
     - lrvick
+    - viaken
 
 users:
   alissa:
@@ -32,3 +33,6 @@ users:
   kellerfuchs: {}
 
   lrvick: {}
+
+  viaken:
+    github: dpflug
