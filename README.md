@@ -2,11 +2,25 @@
 
 Ansible playbooks and other admin tools/docs for maintaining the #! network.
 
+
 ## Requirements
 
   * Recent version of Ansible
   * Local [#! pass database](https://github.com/hashbang/password-store)
   * User with sudo access on all servers
+
+
+## Playbooks
+
+There are 3 playbooks present here:
+- `shell.yml` is used to synchronise the configuration (incl. installed packages)
+  across the shell servers.
+- `credentials.yml` is used to deploy the admin's SSH keys across all servers:
+  - admins can login as `root` on the shell servers;
+  - they can login as `core` on the CoreOS servers.
+- `coreos.yml` performs CoreOS-specific tasks.  Currently, it only bootstraps
+  tha Ansible agent's dependencies.
+
 
 ## Usage
 
@@ -33,6 +47,7 @@ Ansible playbooks and other admin tools/docs for maintaining the #! network.
       ansible-playbook --ask-become-pass sync.yml
       ```
 
+
 ### Making a configuration change
 
   1. Connect to any shell server as yourself
@@ -52,6 +67,7 @@ Ansible playbooks and other admin tools/docs for maintaining the #! network.
       ```bash
       sudo etckeeper commit -m 'updated some-config with some change'
       ```
+
 
 ### Sync packages/config across all servers
 
