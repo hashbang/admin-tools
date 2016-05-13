@@ -20,6 +20,7 @@ user_groups:
     - kellerfuchs
     - lrvick
     - viaken
+    - gscott
 
 users:
   alissa:
@@ -40,3 +41,6 @@ users:
 
   viaken:
     github: dpflug
+
+  gscott:
+    github: picardrulez
