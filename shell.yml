@@ -3,11 +3,22 @@
   hosts: shell-servers
   become: true
   tasks:
-  - command: etckeeper vcs pull --ff-only
-    register: etc_result
-    changed_when: "'Already up-to-date' not in etc_result.stdout"
-  - command: etckeeper init
-    when: etc_result.changed
+    - block:
+        - command: mktemp -d
+          register: tmpdir
+        - copy:
+            src: gpg.conf
+            dest: "{{ tmpdir.stdout + '/gpg.conf' }}"
+        - command: etckeeper vcs pull --ff-only --verify-signatures
+          environment:
+            GNUPGHOME: "{{ tmpdir.stdout }}"
+          register: etc_result
+          changed_when: "'Already up-to-date' not in etc_result.stdout"
+      always:
+        - file: path={{ tmpdir.stdout }} state=absent
+
+    - command: etckeeper init
+      when: etc_result.changed
 
 - name: Update/Sync system packages
   hosts: shell-servers
