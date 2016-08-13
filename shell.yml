@@ -25,10 +25,3 @@
     environment:
       DEBIAN_FRONTEND: noninteractive
   - shell: apt-get clean
-
-- name: "Update #! python packages"
-  hosts: shell-servers
-  become: true
-  tasks:
-  - pip: name='git+https://github.com/hashbang/provisor/'    editable=False state=latest
-  - pip: name='git+https://github.com/hashbang/hashbangctl/' editable=False state=latest
