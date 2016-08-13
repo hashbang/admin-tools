@@ -24,15 +24,15 @@
   hosts: shell-servers
   become: true
   tasks:
-  - apt: update_cache=yes
-  - shell: apt-cache dumpavail | dpkg --update-avail
-  - shell: dpkg --clear-selections
-  - shell: dpkg --set-selections < /etc/packages.txt
-  - shell: apt-get dselect-upgrade -qy
-    environment:
-      DEBIAN_FRONTEND: noninteractive
-  - apt: upgrade=dist
-  - shell: aptitude purge -y -q ~c
-    environment:
-      DEBIAN_FRONTEND: noninteractive
-  - shell: apt-get clean
+    - apt: update_cache=yes
+    - shell: apt-cache dumpavail | dpkg --update-avail
+    - shell: dpkg --clear-selections
+    - shell: dpkg --set-selections < /etc/packages.txt
+    - shell: apt-get dselect-upgrade -qy
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+    - apt: upgrade=dist
+    - shell: aptitude purge -y -q ~c
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+    - shell: apt-get clean
