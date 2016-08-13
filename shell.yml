@@ -24,6 +24,7 @@
   - shell: aptitude purge -y -q ~c
     environment:
       DEBIAN_FRONTEND: noninteractive
+  - shell: apt-get clean
 
 - name: "Update #! python packages"
   hosts: shell-servers
