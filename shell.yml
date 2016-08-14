@@ -6,39 +6,49 @@
     - block:
         - command: mktemp -d
           register: tmpdir
+          changed_when: false
+
         - copy:
             src: gpg.conf
             dest: "{{ tmpdir.stdout + '/gpg.conf' }}"
+          changed_when: false
+
         - command: etckeeper vcs pull --ff-only --verify-signatures
           environment:
             GNUPGHOME: "{{ tmpdir.stdout }}"
-          register: etc_result
-          changed_when: "'Already up-to-date' not in etc_result.stdout"
+          register: etc
+          changed_when: "'Already up-to-date' not in etc.stdout"
+
       always:
         - file: path={{ tmpdir.stdout }} state=absent
+          changed_when: false
 
     - command: etckeeper init
-      when: etc_result.changed
+      when: etc.changed
 
 - name: Update/Sync system packages
   hosts: shell-servers
   become: true
   tasks:
-    - apt:      update_cache=yes
-      register: apt_update
-    - shell:    apt-cache dumpavail | dpkg --update-avail
-      when:     apt_update.changed
+    - apt:   update_cache=yes
+    - shell: apt-cache dumpavail | dpkg --update-avail
+      tags: [skip_ansible_lint]
+
     - block:
         - command: dpkg --clear-selections
         - shell:   dpkg --set-selections < /etc/packages.txt
         - command: apt-get dselect-upgrade -qy
           environment:
             DEBIAN_FRONTEND: noninteractive
-      when: etc_result.changed
+      when: etc.changed
+
     - apt: upgrade=dist
-    - block:
-        - command: aptitude purge -y -q ~c
-          environment:
-            DEBIAN_FRONTEND: noninteractive
-        - command: apt-get clean
-      tags: [skip_ansible_lint]
+      register: apt_upgrade
+
+    - command: aptitude purge -y -q ~c
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when: etc.changed or apt_upgrade.changed
+
+    - command: apt-get clean
+      changed_when: false
