@@ -24,15 +24,21 @@
   hosts: shell-servers
   become: true
   tasks:
-    - apt:     update_cache=yes
-    - shell:   apt-cache dumpavail | dpkg --update-avail
-    - command: dpkg --clear-selections
-    - shell:   dpkg --set-selections < /etc/packages.txt
-    - command: apt-get dselect-upgrade -qy
-      environment:
-        DEBIAN_FRONTEND: noninteractive
-    - apt:     upgrade=dist
-    - command: aptitude purge -y -q ~c
-      environment:
-        DEBIAN_FRONTEND: noninteractive
-    - command: apt-get clean
+    - apt:      update_cache=yes
+      register: apt_update
+    - shell:    apt-cache dumpavail | dpkg --update-avail
+      when:     apt_update.changed
+    - block:
+        - command: dpkg --clear-selections
+        - shell:   dpkg --set-selections < /etc/packages.txt
+        - command: apt-get dselect-upgrade -qy
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+      when: etc_result.changed
+    - apt: upgrade=dist
+    - block:
+        - command: aptitude purge -y -q ~c
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+        - command: apt-get clean
+      tags: [skip_ansible_lint]
