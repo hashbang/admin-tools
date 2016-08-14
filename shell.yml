@@ -26,6 +26,9 @@
     - command: etckeeper init
       when: etc.changed
 
+    - command: etckeeper push
+      when: etc.changed
+
 - name: Update/Sync system packages
   hosts: shell-servers
   become: true
