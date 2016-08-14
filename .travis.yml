@@ -6,6 +6,8 @@ addons:
     packages:
     - python-pip
 
+cache: pip
+
 git:
   depth: 3
 
