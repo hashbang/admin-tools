@@ -3,31 +3,42 @@
   hosts: shell-servers
   become: true
   tasks:
-  - command: etckeeper vcs pull --ff-only
-    register: etc_result
-    changed_when: "'Already up-to-date' not in etc_result.stdout"
-  - command: etckeeper init
-    when: etc_result.changed
+    - block:
+        - command: mktemp -d
+          register: tmpdir
+        - copy:
+            src: gpg.conf
+            dest: "{{ tmpdir.stdout + '/gpg.conf' }}"
+        - command: etckeeper vcs pull --ff-only --verify-signatures
+          environment:
+            GNUPGHOME: "{{ tmpdir.stdout }}"
+          register: etc_result
+          changed_when: "'Already up-to-date' not in etc_result.stdout"
+      always:
+        - file: path={{ tmpdir.stdout }} state=absent
+
+    - command: etckeeper init
+      when: etc_result.changed
 
 - name: Update/Sync system packages
   hosts: shell-servers
   become: true
   tasks:
-  - apt: update_cache=yes
-  - shell: apt-cache dumpavail | dpkg --update-avail
-  - shell: dpkg --clear-selections
-  - shell: dpkg --set-selections < /etc/packages.txt
-  - shell: apt-get dselect-upgrade -qy
-    environment:
-      DEBIAN_FRONTEND: noninteractive
-  - apt: upgrade=dist
-  - shell: aptitude purge -y -q ~c
-    environment:
-      DEBIAN_FRONTEND: noninteractive
-
-- name: "Update #! python packages"
-  hosts: shell-servers
-  become: true
-  tasks:
-  - pip: name='git+https://github.com/hashbang/provisor/'    editable=False state=latest
-  - pip: name='git+https://github.com/hashbang/hashbangctl/' editable=False state=latest
+    - apt:      update_cache=yes
+      register: apt_update
+    - shell:    apt-cache dumpavail | dpkg --update-avail
+      when:     apt_update.changed
+    - block:
+        - command: dpkg --clear-selections
+        - shell:   dpkg --set-selections < /etc/packages.txt
+        - command: apt-get dselect-upgrade -qy
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+      when: etc_result.changed
+    - apt: upgrade=dist
+    - block:
+        - command: aptitude purge -y -q ~c
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+        - command: apt-get clean
+      tags: [skip_ansible_lint]

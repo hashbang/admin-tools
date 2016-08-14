@@ -1,20 +1,20 @@
 [shell-servers]
-ny1.hashbang.sh
-to1.hashbang.sh
 da1.hashbang.sh
+ny1.hashbang.sh
 sf1.hashbang.sh
+to1.hashbang.sh
 
 [coreos]
 hashbang.sh
+im.hashbang.sh
+ldap.hashbang.sh
 mail.hashbang.sh
 nyc3.apps.hashbang.sh
-ldap.hashbang.sh
 voip.hashbang.sh
-im.hashbang.sh
 
 [coreos:vars]
 ansible_user=core
-ansible_python_interpreter="PATH=/home/core/bin:$PATH python"
+ansible_python_interpreter="/home/core/bin/python"
 
 [coreos:children]
 irc
