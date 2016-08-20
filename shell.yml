@@ -40,7 +40,7 @@
     - block:
         - command: dpkg --clear-selections
         - shell:   dpkg --set-selections < /etc/packages.txt
-        - command: apt-get dselect-upgrade -qy
+        - command: apt-get dselect-upgrade -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -qy
           environment:
             DEBIAN_FRONTEND: noninteractive
       when: etc.changed
