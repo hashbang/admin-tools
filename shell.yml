@@ -2,6 +2,7 @@
 - name: Pull latest /etc files
   hosts: shell-servers
   become: true
+  gather_facts: false
   tasks:
     - block:
         - name: Create a temporary GNUPGHOME
@@ -37,6 +38,7 @@
 
 - name: Update/Sync system packages
   hosts: shell-servers
+  gather_facts: false
   become: true
   tasks:
     - name: Update apt cache
