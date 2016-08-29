@@ -1,0 +1,31 @@
+---
+- hosts: irc-servers
+  become: false
+  tasks:
+    - name: Start the ircd container
+      docker_container:
+        name: ircd
+        state: started
+
+    - name: Copy static configuration
+      copy:
+        src: "{{ item }}"
+        dest: /home/core/{{ item }}
+      with_fileglob:
+        - unrealircd/*.conf
+        - unrealircd/ircd.motd
+        - unrealircd/*/*.conf
+      notify: [rehash ircd]
+
+    - name: Generate templated configuration
+      template:
+        src: "{{ item }}"
+        dest: /home/core/{{ item | regex_replace('\.j2$', '') }}
+      with_fileglob:
+        - unrealircd/*.j2
+        - unrealircd/*/*.j2
+      notify: [rehash ircd]
+
+  handlers:
+    - name: rehash ircd
+      command: docker exec -it ircd Unreal3.2.10.4/unreal rehash

@@ -9,6 +9,8 @@
 #  - irc: the user's nick on IRC, if different from the username
 #  - github: the username on Github, if different
 #  - unix: the username in LDAP, if different
+#  - irc_oper: an object with a type attribute (usually "sha1")
+#              and a crypt attribute (the crypt(3)-format password).
 
 
 user_groups:
@@ -17,30 +19,84 @@ user_groups:
     - cbrooks
     - daurnimator
     - dgrove
+    - gscott
     - kellerfuchs
     - lrvick
     - viaken
-    - gscott
+
+  # admins are implicitely irc_ops
+  irc_ops:
+    - aagat
+    - SaidinWoT
+    - stinethebean
+    - Xomen
 
 users:
+  # Admins
   alissa:
     github: ChickenNuggers
+    irc_oper:
+      type: sha1
+      crypt: "{{ vault_users.alissa.irc_operpass }}"
 
   cbrooks:
     github: connerbrooks
+    irc_oper:
+      type: sha1
+      crypt: "{{ vault_users.cbrooks.irc_operpass }}"
 
-  daurnimator: {}
+  daurnimator:
+    irc_oper:
+      type: sha1
+      crypt: "{{ vault_users.daurnimator.irc_operpass }}"
 
   dgrove:
     key: https://github.com/drGrove.keys
     github: drGrove
-
-  kellerfuchs: {}
-
-  lrvick: {}
-
-  viaken:
-    github: dpflug
+    irc_oper:
+      type: sha1
+      crypt: "{{ vault_users.dgrove.irc_operpass }}"
 
   gscott:
     github: picardrulez
+    irc_oper:
+      type: sha1
+      crypt: "{{ vault_users.gscott.irc_operpass }}"
+
+  kellerfuchs:
+    irc_oper:
+      type: sha1
+      crypt: "{{ vault_users.kellerfuchs.irc_operpass }}"
+
+  lrvick:
+    irc_oper:
+      type: sha1
+      crypt: "{{ vault_users.lrvick.irc_operpass }}"
+
+  viaken:
+    github: dpflug
+    irc_oper:
+      type: sha1
+      crypt: "{{ vault_users.viaken.irc_operpass }}"
+
+
+  # IRC ops
+  aagat:
+    irc_oper:
+      type: sha1
+      crypt: "{{ vault_users.aagat.irc_operpass }}"
+
+  SaidinWoT:
+    irc_oper:
+      type: sha1
+      crypt: "{{ vault_users.SaidinWoT.irc_operpass }}"
+
+  stinethebean:
+    irc_oper:
+      type: sha1
+      crypt: "{{ vault_users.stinethebean.irc_operpass }}"
+
+  Xomen:
+    irc_oper:
+      type: sha1
+      crypt: "{{ vault_users.Xomen.irc_operpass }}"
