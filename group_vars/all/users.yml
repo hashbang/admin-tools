@@ -3,7 +3,7 @@
 #
 # Groups, under `user_groups`, are lists of usernames.
 # Each username *MUST* occur under `users`,
-#  with the following attibutes:
+#  with the following attributes:
 #  - key: either a plain SSH key or a URL to a SSH key file
 #         If not set, the key *MUST* be in `files/keys/$user.pub`
 #  - irc: the user's nick on IRC, if different from the username
