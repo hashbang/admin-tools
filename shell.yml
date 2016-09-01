@@ -2,43 +2,70 @@
 - name: Pull latest /etc files
   hosts: shell-servers
   become: true
+  gather_facts: false
   tasks:
     - block:
-        - command: mktemp -d
+        - name: Create a temporary GNUPGHOME
+          command: mktemp -d
           register: tmpdir
-        - copy:
+          changed_when: false
+
+        - name: Copy the dummy GnuPG config
+          copy:
             src: gpg.conf
             dest: "{{ tmpdir.stdout + '/gpg.conf' }}"
-        - command: etckeeper vcs pull --ff-only --verify-signatures
+          changed_when: false
+
+        - name: Pull changes and check signature
+          command: etckeeper vcs pull --ff-only --verify-signatures
           environment:
             GNUPGHOME: "{{ tmpdir.stdout }}"
-          register: etc_result
-          changed_when: "'Already up-to-date' not in etc_result.stdout"
-      always:
-        - file: path={{ tmpdir.stdout }} state=absent
+          register: etc
+          changed_when: "'Already up-to-date' not in etc.stdout"
 
-    - command: etckeeper init
-      when: etc_result.changed
+      always:
+        - name: Remove the temporary GNUPGHOME
+          file: path={{ tmpdir.stdout }} state=absent
+          changed_when: false
+
+    - name: Apply file permissions in /etc
+      command: etckeeper init
+      when: etc.changed
+
+    - name: Push new /etc state
+      command: etckeeper push
+      when: etc.changed
 
 - name: Update/Sync system packages
   hosts: shell-servers
+  gather_facts: false
   become: true
   tasks:
-    - apt:      update_cache=yes
-      register: apt_update
-    - shell:    apt-cache dumpavail | dpkg --update-avail
-      when:     apt_update.changed
-    - block:
-        - command: dpkg --clear-selections
-        - shell:   dpkg --set-selections < /etc/packages.txt
-        - command: apt-get dselect-upgrade -qy
-          environment:
-            DEBIAN_FRONTEND: noninteractive
-      when: etc_result.changed
-    - apt: upgrade=dist
-    - block:
-        - command: aptitude purge -y -q ~c
-          environment:
-            DEBIAN_FRONTEND: noninteractive
-        - command: apt-get clean
+    - name: Update apt cache
+      apt:   update_cache=yes
+    - name: Update dpkg cache
+      shell: apt-cache dumpavail | dpkg --update-avail
       tags: [skip_ansible_lint]
+
+    - block:
+        - name: Set dpkg selections
+          shell:   dpkg --clear-selections && dpkg --set-selections < /etc/packages.txt
+        - name: Apply dpkg selections
+          command: apt-get dselect-upgrade -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" -qy
+          environment:
+            DEBIAN_FRONTEND: noninteractive
+      when: etc.changed
+
+    - name: Upgrade packages
+      apt: upgrade=dist
+      register: apt_upgrade
+
+    - name: Purge uninstalled packages
+      command: aptitude purge -y -q ~c
+      environment:
+        DEBIAN_FRONTEND: noninteractive
+      when: etc.changed or apt_upgrade.changed
+
+    - name: Clean the apt package cache
+      command: apt-get clean
+      changed_when: false
