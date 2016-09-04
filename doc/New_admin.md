@@ -72,6 +72,19 @@ client certificate, which WeeChat supports fairly easily:
 		    type: sslclientcertfp
 		    pass: "0A:D8:51:3B:C6:1A:AB:6C:78:17:56:14:0A:D9:5E:43:4A:D9:33:64:04:5D:7F:4D:45:57:C2:86:33:D5:62:5B"
 
+4. Configure weechat to use it:
+
+		/set irc.server.hashbang.ssl_cert %h/ssl/kellerfuchs.pem
+
+5. Test it:
+
+		/reconnect hashbang
+		/oper kellerfuchs x
+
+
+_NOTE:_ Of course, use your own username everywhere,
+        rather than kellerfuchs...
+
 
 ## ... to the DigitalOcean organisation
 
