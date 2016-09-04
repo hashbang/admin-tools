@@ -9,6 +9,15 @@ Ansible playbooks and other admin tools/docs for maintaining the #! network.
   * Local [#! pass database](https://github.com/hashbang/password-store)
   * User with sudo access on all servers
 
+You might also want to use the following snippet in `~/.gitconfig`:
+
+	[diff "gpg"]
+		textconv = gpg --no-tty --decrypt
+		cachetextconv = false
+	[diff "ansible-vault"]
+		textconv = ansible-vault view
+		cachetextconv = false
+
 
 ## Playbooks
 
