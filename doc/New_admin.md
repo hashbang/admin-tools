@@ -48,6 +48,31 @@ Add your SSH keys in this repository:
 - Ask an admin to pull and run `credentials.yml`
 
 
+### Certificate authentication
+
+The preferred way to authenticate as an IRC oper is by using a SSL
+client certificate, which WeeChat supports fairly easily:
+
+1. Generate the certificate
+
+		mkdir ~/.weechat/ssl
+		cd ~/.weechat/ssl
+		openssl req -nodes -newkey rsa:2048 -keyout kellerfuchs.key -x509 -days 3650 -out kellerfuchs.crt
+		cat kellerfuchs.{crt,key} > kellerfuchs.pem
+		rm  kellerfuchs.{crt,key}
+
+2. Get its key fingerprint
+
+		openssl x509 -noout -fingerprint -sha256 -in kellerfuchs.pem
+
+3. Set it as your authentication method in `groups_var/all/users.yml`:
+
+		kellerfuchs:
+		  irc_oper:
+		    type: sslclientcertfp
+		    pass: "0A:D8:51:3B:C6:1A:AB:6C:78:17:56:14:0A:D9:5E:43:4A:D9:33:64:04:5D:7F:4D:45:57:C2:86:33:D5:62:5B"
+
+
 ## ... to the DigitalOcean organisation
 
 - Create a DigitalOcean account, in the #! organisation.  
