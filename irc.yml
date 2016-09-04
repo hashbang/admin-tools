@@ -2,10 +2,12 @@
 - hosts: irc_servers
   become: false
   tasks:
-    - name: Start the ircd container
-      docker_container:
-        name: ircd
-        state: started
+#    # Does not work on CoreOS, due to the fucked up
+#    # Python install and lack of installable packages.
+#    - name: Start the ircd container
+#      docker_container:
+#        name: ircd
+#        state: started
 
     - name: Copy static configuration
       copy:
