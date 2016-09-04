@@ -10,7 +10,7 @@
 #  - github: the username on Github, if different
 #  - unix: the username in LDAP, if different
 #  - irc_oper: an object with a type attribute (usually "sha1")
-#              and a crypt attribute (the crypt(3)-format password).
+#              and a pass attribute (usually the crypt(3)-format password).
 
 
 user_groups:
@@ -37,66 +37,66 @@ users:
     github: ChickenNuggers
     irc_oper:
       type: sha1
-      crypt: "{{ vault_users.alissa.irc_operpass }}"
+      pass: "{{ vault_users.alissa.irc_operpass }}"
 
   cbrooks:
     github: connerbrooks
     irc_oper:
       type: sha1
-      crypt: "{{ vault_users.cbrooks.irc_operpass }}"
+      pass: "{{ vault_users.cbrooks.irc_operpass }}"
 
   daurnimator:
     irc_oper:
       type: sha1
-      crypt: "{{ vault_users.daurnimator.irc_operpass }}"
+      pass: "{{ vault_users.daurnimator.irc_operpass }}"
 
   dgrove:
     key: https://github.com/drGrove.keys
     github: drGrove
     irc_oper:
       type: sha1
-      crypt: "{{ vault_users.dgrove.irc_operpass }}"
+      pass: "{{ vault_users.dgrove.irc_operpass }}"
 
   gscott:
     github: picardrulez
     irc_oper:
       type: sha1
-      crypt: "{{ vault_users.gscott.irc_operpass }}"
+      pass: "{{ vault_users.gscott.irc_operpass }}"
 
   kellerfuchs:
     irc_oper:
       type: sha1
-      crypt: "{{ vault_users.kellerfuchs.irc_operpass }}"
+      pass: "{{ vault_users.kellerfuchs.irc_operpass }}"
 
   lrvick:
     irc_oper:
       type: sha1
-      crypt: "{{ vault_users.lrvick.irc_operpass }}"
+      pass: "{{ vault_users.lrvick.irc_operpass }}"
 
   viaken:
     github: dpflug
     irc_oper:
       type: sha1
-      crypt: "{{ vault_users.viaken.irc_operpass }}"
+      pass: "{{ vault_users.viaken.irc_operpass }}"
 
 
   # IRC ops
   aagat:
     irc_oper:
       type: sha1
-      crypt: "{{ vault_users.aagat.irc_operpass }}"
+      pass: "{{ vault_users.aagat.irc_operpass }}"
 
   SaidinWoT:
     irc_oper:
       type: sha1
-      crypt: "{{ vault_users.SaidinWoT.irc_operpass }}"
+      pass: "{{ vault_users.SaidinWoT.irc_operpass }}"
 
   stinethebean:
     irc_oper:
       type: sha1
-      crypt: "{{ vault_users.stinethebean.irc_operpass }}"
+      pass: "{{ vault_users.stinethebean.irc_operpass }}"
 
   Xomen:
     irc_oper:
       type: sha1
-      crypt: "{{ vault_users.Xomen.irc_operpass }}"
+      pass: "{{ vault_users.Xomen.irc_operpass }}"
