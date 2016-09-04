@@ -1,5 +1,5 @@
 ---
-- hosts: irc-servers
+- hosts: irc_servers
   become: false
   tasks:
     - name: Start the ircd container

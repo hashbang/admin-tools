@@ -36,7 +36,7 @@ class servers {
     connfreq 100;
 };
 
-{% for server in irc if not server == ansible_fqdn %}
+{% for server in groups.irc_servers if not server == ansible_fqdn %}
 link {{ server }} {
     username *;
     hostname "{{ server }}";

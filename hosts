@@ -1,4 +1,4 @@
-[shell-servers]
+[shell_servers]
 da1.hashbang.sh
 ny1.hashbang.sh
 sf1.hashbang.sh
@@ -23,8 +23,8 @@ irc
 services.irc.hashbang.sh
 
 [irc:children]
-irc-servers
+irc_servers
 
-[irc-servers]
+[irc_servers]
 lon1.irc.hashbang.sh irc_numeric=2
 sfo1.irc.hashbang.sh irc_numeric=1

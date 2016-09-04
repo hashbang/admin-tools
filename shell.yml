@@ -1,6 +1,6 @@
 ---
 - name: Pull latest /etc files
-  hosts: shell-servers
+  hosts: shell_servers
   become: true
   gather_facts: false
   tasks:
@@ -37,7 +37,7 @@
       when: etc.changed
 
 - name: Update/Sync system packages
-  hosts: shell-servers
+  hosts: shell_servers
   gather_facts: false
   become: true
   tasks:
