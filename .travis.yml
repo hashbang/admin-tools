@@ -17,3 +17,4 @@ script:
 - ansible-lint --exclude=roles/coreos-bootstrap coreos.yml
 - ansible-lint -x ANSIBLE0011 --exclude=roles/coreos-bootstrap credentials.yml
 - ansible-lint -x ANSIBLE0006 shell.yml
+- ansible-lint irc.yml

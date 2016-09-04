@@ -21,5 +21,10 @@ irc
 
 [irc]
 services.irc.hashbang.sh
-lon1.irc.hashbang.sh
-sfo1.irc.hashbang.sh
+
+[irc:children]
+irc-servers
+
+[irc-servers]
+lon1.irc.hashbang.sh irc_numeric=2
+sfo1.irc.hashbang.sh irc_numeric=1

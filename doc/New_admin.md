@@ -27,17 +27,25 @@ We will first go over the parts that require cooperation
   the files and pushes (again, signed commits!).
 
 
-## ... to the CoreOS servers
+## ... to the Ansible Vault
+
+The other admin must also reencrypt the Ansible Vault decryption key,
+now that they know your GPG key.  In admin-tools:
+  
+		% gpg --decrypt vault_passphrase.pgp | \
+		   gpg -e -s -r 0x0123456789ABCDEF -r 0x123456789ABCDEF0 [...] \
+		   -o vault_passphrase.pgp
+		% git commit vault_passphrase.pgp && git push
+
+## ... to the CoreOS servers & IRC oper
 
 Add your SSH keys in this repository:
-- Edit `group_vars/all` and add a user object with your nick in `users`.
-  It can contain an optional `key` attribute that can either be a URL to
-  an `authorized_keys` file (like https://github.com/KellerFuchs.keys)
-  or a single inline key.  
-  If there is no `key` attribute, the key **must** be stored in
-  `files/keys/${NICK}.pub`
-- Push the changes here.
-- Ask an admin to pull and run `coreos.yml`
+- Edit `group_vars/all/users.yml` and add a user object with your nick
+  in `users`.  The expected values are documented in the file.  
+  Be careful and do not put secrets (including password hashes) in plain
+  text there, that's what Ansible Vault is for.
+- Do a signed commit and push.
+- Ask an admin to pull and run `credentials.yml`
 
 
 ## ... to the DigitalOcean organisation
@@ -82,28 +90,3 @@ Still on `ldap.hashbang.sh`, with `HISTFILE` unset:
 	changetype: modify
 	add: memberUid
 	memberUid: $USER
-
-
-## ... to IRC oper
-
-Do this on both IRC servers (`sfo1.irc.hashbang.sh` and `lon1.irc.hashbang.sh`):
-
-1. `unset HISTFILE`
-2. Hash your password with `docker exec -it ircd Unreal3.2.10.4/unreal mkpasswd sha1 "$PASSWORD"`  
-   _NOTE:_ It seems special characters can cause issues.
-3. Run `vi unrealircd/opers.conf`
-4. Insert your oper line:
-
-		oper $USER {
-		        class clients;
-		        from { userhost *@*; };
-		        password "$HASH" { sha1; };
-		        flags { netadmin; can_gkline; can_override; can_gzline; can_restart; can_die; global; };
-		};
-
-5. `docker exec -it ircd Unreal3.2.10.4/unreal rehash`
-
-Now, in your IRC client, you can `/oper $USER $PASSWORD`.
-
-_TODO:_ The IRC config ought to be an Ansible-managed template.
-However, I don't think we should store password hashes in plaintext here.
