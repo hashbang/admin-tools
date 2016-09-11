@@ -9,6 +9,9 @@ Ansible playbooks and other admin tools/docs for maintaining the #! network.
   * Local [#! pass database](https://github.com/hashbang/password-store)
   * User with sudo access on all servers
 
+
+### Git configuration
+
 You might also want to use the following snippet in `~/.gitconfig`:
 
 	[diff "gpg"]
@@ -17,6 +20,29 @@ You might also want to use the following snippet in `~/.gitconfig`:
 	[diff "ansible-vault"]
 		textconv = ansible-vault view
 		cachetextconv = false
+
+
+### SSH configuration
+
+All the “service servers” (as opposed to shell servers) listen for SSH
+on port 8993 (ASCII-encoding of `#!`), and the user is `core`, with
+the following exceptions:
+- `lon1.irc.hashbang.sh` and `sfo1.irc.hashbang.sh`
+  do not yet follow that convention;
+- `git-infra.hashbang.sh` is a service hosted on `nyc3.apps.hashbang.sh`
+  which uses port 22.
+
+This is expressed in the following `.ssh/config` snippet:
+
+	Host da1.hashbang.sh ny1.hashbang.sh sf1.hashbang.sh to1.hashbang.sh
+	     User your_nick
+
+	Host git-infra.hashbang.sh git.hashbang.sh
+	     User git
+
+	Host *.hashbang.sh hashbang.sh
+	     User core
+	     Port 8993
 
 
 ## Playbooks

@@ -15,6 +15,7 @@ voip.hashbang.sh
 [coreos:vars]
 ansible_user=core
 ansible_python_interpreter="/home/core/bin/python"
+ansible_port=8993
 
 [coreos:children]
 irc
@@ -28,3 +29,6 @@ irc_servers
 [irc_servers]
 lon1.irc.hashbang.sh irc_numeric=2
 sfo1.irc.hashbang.sh irc_numeric=1
+
+[irc_servers:vars]
+ansible_port=22
