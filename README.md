@@ -37,8 +37,11 @@ This is expressed in the following `.ssh/config` snippet:
 	Host da1.hashbang.sh ny1.hashbang.sh sf1.hashbang.sh to1.hashbang.sh
 	     User your_nick
 
-	Host git-infra.hashbang.sh git.hashbang.sh
+	Host git-infra.hashbang.sh
 	     User git
+
+	Host sfo1.irc.hashbang.sh lon1.irc.hashbang.sh
+	     User core
 
 	Host *.hashbang.sh hashbang.sh
 	     User core
