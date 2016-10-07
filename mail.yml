@@ -1,0 +1,32 @@
+---
+- hosts: mail.hashbang.sh
+  become: false
+  tasks:
+#    # Does not work on CoreOS, due to the fucked up
+#    # Python install and lack of installable packages.
+#    - name: Start the ircd container
+#      docker_container:
+#        name: postfix
+#        state: started
+
+    - name: Copy aliases
+      copy:
+        src: postfix/aliases
+        dest: /home/core/postfix/aliases
+      notify: [rehash aliases]
+
+    - name: Copy static configuration
+      copy:
+        src: "{{ item }}"
+        dest: /home/core/postfix/{{ item | basename }}
+      with_fileglob:
+        - postfix/*
+      notify: [reload config]
+
+  # Handlers are executed in the order they are written
+  handlers:
+    - name: rehash aliases
+      command: docker exec postfix newaliases
+
+    - name: reload config
+      command: docker exec postfix postfix reload
