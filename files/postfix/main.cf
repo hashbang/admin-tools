@@ -32,7 +32,7 @@ smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_una
 
 myhostname = mail.hashbang.sh
 relay_domains = hashbang.sh
-mydestination = mail.hashbang.sh, localhost.hashbang.sh, , localhost
+mydestination = mail.hashbang.sh, hashbang.sh, localhost.hashbang.sh, localhost
 mynetworks = 127.0.0.0/8 104.245.35.240 104.245.37.138 45.58.35.111 45.58.38.222
 relayhost = 
 alias_maps = hash:/etc/aliases
