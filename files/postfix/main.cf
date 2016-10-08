@@ -43,6 +43,5 @@ recipient_delimiter = +
 inet_interfaces = all
 
 virtual_alias_maps = ldap:/etc/postfix/ldap-aliases.cf 
-transport_maps = ldap:/etc/postfix/ldap-transport.cf
 
 message_size_limit = 52428800

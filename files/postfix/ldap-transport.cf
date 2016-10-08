@@ -1,6 +1,0 @@
-server_host = ldap.hashbang.sh
-search_base = ou=People,dc=hashbang,dc=sh
-domain = hashbang.sh
-query_filter = (&(objectclass=inetLocalMailRecipient)(uid=%U))
-result_attribute = host
-result_format = smtp:[%s]
