@@ -31,10 +31,12 @@
     - name: Apply file permissions in /etc
       command: etckeeper init
       when: etc.changed
+      tags: [skip_ansible_lint] # This cannot be made a handler
 
     - name: Push new /etc state
       command: etckeeper push
       when: etc.changed
+      tags: [skip_ansible_lint] # This cannot be made a handler
 
 - name: Update/Sync system packages
   hosts: shell_servers
@@ -55,6 +57,7 @@
           environment:
             DEBIAN_FRONTEND: noninteractive
       when: etc.changed
+      tags: [skip_ansible_lint] # The apt module doesn't support this
 
     - name: Upgrade packages
       apt: upgrade=dist
@@ -65,6 +68,7 @@
       environment:
         DEBIAN_FRONTEND: noninteractive
       when: etc.changed or apt_upgrade.changed
+      tags: [skip_ansible_lint] # W0016 triggers, but can't be a handler
 
     - name: Clean the apt package cache
       command: apt-get clean

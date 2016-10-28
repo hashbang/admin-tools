@@ -19,7 +19,6 @@ user_groups:
     - cbrooks
     - daurnimator
     - dgrove
-    - gscott
     - kellerfuchs
     - lrvick
     - viaken
@@ -56,12 +55,6 @@ users:
     irc_oper:
       type: sha1
       pass: "{{ vault_users.dgrove.irc_operpass }}"
-
-  gscott:
-    github: picardrulez
-    irc_oper:
-      type: sha1
-      pass: "{{ vault_users.gscott.irc_operpass }}"
 
   kellerfuchs:
     irc_oper:
