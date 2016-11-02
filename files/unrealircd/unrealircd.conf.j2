@@ -24,7 +24,7 @@ me {
 
 class clients {
     pingfreq 90;
-    maxclients 500;
+    maxclients 1000;
     sendq 100000;
     recvq 8000;
 };
@@ -74,9 +74,8 @@ ulines { services.irc.hashbang.sh ; };
 
 allow {
     ip      *@*;
-    hostname    *@*;
     class       clients;
-    maxperip    100;
+    maxperip    1000;
     options {
         useip;
     };
