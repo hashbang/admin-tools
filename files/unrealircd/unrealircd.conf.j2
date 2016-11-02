@@ -64,8 +64,8 @@ link services.irc.hashbang.sh {
     password-receive "{{ link_keys.services }}";
     class servers;
     options {
-	nohostcheck;
-	nodnscache;
+        nohostcheck;
+        nodnscache;
         ssl;
     };
 };
@@ -136,7 +136,7 @@ set {
 
 /* Server specific configuration */
 set {
-    kline-address       "staff@hashbang.sh";
+    kline-address       "team@hashbang.sh";
     modes-on-connect    "+iwx";
     modes-on-oper       "+xwgs";
     snomask-on-oper     "+ksfvGqo";
