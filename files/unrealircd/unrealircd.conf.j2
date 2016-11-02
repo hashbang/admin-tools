@@ -73,8 +73,8 @@ link services.irc.hashbang.sh {
 ulines { services.irc.hashbang.sh ; };
 
 allow {
-    ip      *@*;
-    hostname *;
+    ip       *@*;
+    hostname *@*;
     class       clients;
     maxperip    1000;
     options {
@@ -83,8 +83,8 @@ allow {
 };
 
 allow {
-    hostname *.hashbang.sh;
-    ip *@*;
+    hostname *@*.hashbang.sh;
+    ip       INVALID;
     class clients;
     maxperip 1000;
 };
