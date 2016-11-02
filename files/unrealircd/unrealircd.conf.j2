@@ -24,7 +24,7 @@ me {
 
 class clients {
     pingfreq 90;
-    maxclients 500;
+    maxclients 1000;
     sendq 100000;
     recvq 8000;
 };
@@ -64,8 +64,8 @@ link services.irc.hashbang.sh {
     password-receive "{{ link_keys.services }}";
     class servers;
     options {
-	nohostcheck;
-	nodnscache;
+        nohostcheck;
+        nodnscache;
         ssl;
     };
 };
@@ -74,12 +74,19 @@ ulines { services.irc.hashbang.sh ; };
 
 allow {
     ip      *@*;
-    hostname    *@*;
+    hostname *;
     class       clients;
-    maxperip    100;
+    maxperip    1000;
     options {
         useip;
     };
+};
+
+allow {
+    hostname *.hashbang.sh;
+    ip *@*;
+    class clients;
+    maxperip 1000;
 };
 
 log "/var/log/ircd.log" {
@@ -131,7 +138,7 @@ set {
 
 /* Server specific configuration */
 set {
-    kline-address       "staff@hashbang.sh";
+    kline-address       "team@hashbang.sh";
     modes-on-connect    "+iwx";
     modes-on-oper       "+xwgs";
     snomask-on-oper     "+ksfvGqo";
