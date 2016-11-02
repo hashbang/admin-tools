@@ -74,6 +74,7 @@ ulines { services.irc.hashbang.sh ; };
 
 allow {
     ip      *@*;
+    hostname *;
     class       clients;
     maxperip    1000;
     options {
@@ -83,6 +84,7 @@ allow {
 
 allow {
     hostname *.hashbang.sh;
+    ip *@*;
     class clients;
     maxperip 1000;
 };
