@@ -128,3 +128,11 @@ Still on `ldap.hashbang.sh`, with `HISTFILE` unset:
 	changetype: modify
 	add: memberUid
 	memberUid: $USER
+
+
+### Adding a user to the `team@` distribution list
+
+1. Edit `files/postfix/aliases`.
+2. Run the `mail.yml` playbook.
+3. Commit, pull request, signed merge.  
+   By now, you know the drill  ;)
