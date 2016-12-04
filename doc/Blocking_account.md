@@ -30,5 +30,5 @@ Using ansible:
 This invalidates that user's record in the SSS cache, then forcefully
 terminates the user's sessions (including all processes).
 
-Unfortunately, `terminate-user` does not dispatch a Russian mob
+Unfortunately, `terminate-user` does not send a Russian mob
 hitperson to dispatch the miscreant...

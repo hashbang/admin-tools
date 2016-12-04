@@ -50,67 +50,39 @@ This is expressed in the following `.ssh/config` snippet:
 
 ## Playbooks
 
-There are 3 playbooks present here:
+There are several playbooks present here:
 - `shell.yml` is used to synchronise the configuration (incl. installed packages)
   across the shell servers.
 - `credentials.yml` is used to deploy the admin's SSH keys across all servers:
   - admins can login as `root` on the shell servers;
   - they can login as `core` on the CoreOS servers.
 - `coreos.yml` performs CoreOS-specific tasks.  Currently, it only bootstraps
-  tha Ansible agent's dependencies.
+  the Ansible agent's dependencies.
+- `mail.yml` deploy the mail aliases and Postfix configuration.
+- `irc.yml` deploys static and templated configuration to the IRC servers,
+  including oper blocks for users defined in `group_vars/all/users.yml`.
 
 
 ## Usage
 
 ### Install a package
 
-  1. Connect to any shell server as yourself
-
-      ```bash
-      ssh you@ny1.hashbang.sh
-      ```
-
-  2. Install Package
-
-      ```bash
-      sudo apt-get install some-package
-      ```
-
-  3. Deploy changes on other servers
-
-      The configuration changes (including `packages.txt`) should have been
-      auto-pushed to `shell-etc`.  Now, you only need to re-sync the servers:
-
-      ```bash
-      ansible-playbook --ask-become-pass sync.yml
-      ```
+See `doc/Installing_packages.md`.
 
 
 ### Making a configuration change
 
-  1. Connect to any shell server as yourself
-
-      ```bash
-      ssh you@ny1.hashbang.sh
-      ```
-
-  2. Make and test any desired changes to files in /etc
-
-      ```bash
-      sudo vim /etc/some-config/file
-      ```
-
-  3. Commit changes via etckeeper
-
-      ```bash
-      sudo etckeeper commit -m 'updated some-config with some change'
-      ```
+ 1. Prepare your change for `shell-etc`, test it locally.
+ 2. Create a pull-request for it on Github, wait for a review.
+ 3. Performed a **signed** merge into `master`: `git merge -S --no-ff branch`  
+	Only merge into `master` things that you will deploy immediately.
+	Do not merge if you aren't in a position to follow-up with a deploy.
+ 4. Run the `shell.yml` playbook, see below.
 
 
-### Sync packages/config across all servers
+### Sync packages & configuration across all shell servers
 
-  1. Run Ansible playbook "sync"
-
-      ```bash
-      ansible-playbook --ask-become-pass -u your-sudo-user sync.yml
-      ```
+Simply run the appropriate Ansible playbook:
+```bash
+ansible-playbook -u root shell.yml
+```
