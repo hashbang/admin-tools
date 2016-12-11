@@ -11,6 +11,7 @@
 #  - unix: the username in LDAP, if different
 #  - irc_oper: an object with a type attribute (usually "sha1")
 #              and a pass attribute (usually the crypt(3)-format password).
+#  - mail: the user's email address; defaults to username@hashbang.sh
 
 
 user_groups:
@@ -37,17 +38,20 @@ users:
     irc_oper:
       type: sha1
       pass: "{{ vault_users.alissa.irc_operpass }}"
+    mail: "{{ vault_users.alissa.mail }}"
 
   cbrooks:
     github: connerbrooks
     irc_oper:
       type: sha1
       pass: "{{ vault_users.cbrooks.irc_operpass }}"
+    mail: "{{ vault_users.cbrooks.mail }}"
 
   daurnimator:
     irc_oper:
       type: sha1
       pass: "{{ vault_users.daurnimator.irc_operpass }}"
+    mail: "{{ vault_users.daurnimator.mail }}"
 
   dgrove:
     key: https://github.com/drGrove.keys
@@ -55,6 +59,7 @@ users:
     irc_oper:
       type: sha1
       pass: "{{ vault_users.dgrove.irc_operpass }}"
+    mail: "{{ vault_users.dgrove.mail }}"
 
   kellerfuchs:
     irc_oper:
@@ -65,12 +70,14 @@ users:
     irc_oper:
       type: sha1
       pass: "{{ vault_users.lrvick.irc_operpass }}"
+    mail: "{{ vault_users.lrvick.mail }}"
 
   viaken:
     github: dpflug
     irc_oper:
       type: sha1
       pass: "{{ vault_users.viaken.irc_operpass }}"
+    mail: "{{ vault_users.viaken.mail }}"
 
 
   # IRC ops

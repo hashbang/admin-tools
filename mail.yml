@@ -9,9 +9,9 @@
 #        name: postfix
 #        state: started
 
-    - name: Copy aliases
-      copy:
-        src: postfix/aliases
+    - name: Generating aliases
+      template:
+        src: files/postfix/aliases.j2
         dest: /home/core/postfix/aliases
       notify: [rehash aliases]
 
