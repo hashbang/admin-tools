@@ -20,7 +20,7 @@
         src: "{{ item }}"
         dest: /home/core/postfix/{{ item | basename }}
       with_fileglob:
-        - postfix/*
+        - postfix/*.cf
       notify: [reload config]
 
   # Handlers are executed in the order they are written
