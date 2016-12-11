@@ -11,5 +11,5 @@ abuse: root
 noc: root
 security: root
 root: team
-team: kellerfuchs Danny@drgrovellc.com david@tpflug.com quae@daurnimator.com lance@lrvick.net vandor2012@gmail.com connerbrooks@gmail.com
+team: {% for user in user_groups.admins %} {{ users[user].mail | default(user) }} {% endfor %}
 
