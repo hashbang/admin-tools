@@ -132,7 +132,7 @@ Still on `ldap.hashbang.sh`, with `HISTFILE` unset:
 
 ### Adding a user to the `team@` distribution list
 
-1. Edit `files/postfix/aliases`.
+1. Check that your email in `group_vars/all/users.yml` is correct.  
+   It can point to the vault `mail: {{ vault_users.$USER.mail }}` and
+   defaults to `$USER@hashbang.sh`.
 2. Run the `mail.yml` playbook.
-3. Commit, pull request, signed merge.  
-   By now, you know the drill  ;)
