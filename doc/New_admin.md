@@ -29,13 +29,19 @@ We will first go over the parts that require cooperation
 
 ## ... to the Ansible Vault
 
-The other admin must also reencrypt the Ansible Vault decryption key,
-now that they know your GPG key.  In admin-tools:
-  
-		% gpg --decrypt vault_passphrase.pgp | \
-		   gpg -e -s -r 0x0123456789ABCDEF -r 0x123456789ABCDEF0 [...] \
-		   -o vault_passphrase.pgp
-		% git commit vault_passphrase.pgp && git push
+The other admin must also reencrypt the Ansible Vault,
+now that they know your GPG key:
+
+1. Add the key, by fingerprint, to the `RECIPIENTS` array
+   in `vault_passphrase.sh`.
+
+2. Run `vault_passphrase.sh rekey`.  This generates a fresh
+   vault keys, re-encrypts the vault files and encrypts the
+   new key using GPG.
+
+3. Commit `vault_passphrase.pgp` and the vault files.
+   Push.
+
 
 ## ... to the CoreOS servers & IRC oper
 
