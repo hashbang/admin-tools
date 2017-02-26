@@ -2,7 +2,23 @@
 
 Sadly, sometimes abuse happen.  
 Sometimes, admins are required to block a user's account.  
-Sometimes, there is documentation explaining how.
+Sometimes, there is automation for it.
+
+	ansible-playbook ldap_ban.yml -e 'user=dude55b1'
+
+The playbook will take care of disabling the account and
+kicking the user from all shell servers.
+
+
+# How the sausage is made
+
+The playbook mainly performs two actions that can easily be done by hand:
+- set the user's shell to `/usr/sbin/nologin` in LDAP;
+- on each shell server:
+  - invalidate the SSSd cache for that user;
+  - terminate the user sessions.
+
+The following details how to do it manually.
 
 
 ## Disabling the account
