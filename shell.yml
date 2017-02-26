@@ -1,7 +1,6 @@
 ---
 - name: Pull latest /etc files
   hosts: shell_servers
-  become: true
   gather_facts: false
   tasks:
     - block:
@@ -41,7 +40,6 @@
 - name: Update/Sync system packages
   hosts: shell_servers
   gather_facts: false
-  become: true
   tasks:
     - name: Update apt cache
       apt:   update_cache=yes
