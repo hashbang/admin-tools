@@ -4,7 +4,10 @@ set -e
 KEY_FILE="vault_passphrase.pgp"
 NEW_KEY_FILE=".vault_newpassphrase.pgp"
 
-VAULT_FILES=( group_vars/all/vault.yml )
+VAULT_FILES=(
+    group_vars/all/vault.yml
+    group_vars/irc
+)
 RECIPIENTS=(
     0x54BA90995CCBD6D6B0E68D27CDAB3CCDA649FFDA! # lrvick's 4k encryption key
     0x954A3772D62EF90E4B31FBC6C91A9911192C187A  # daurnimator
