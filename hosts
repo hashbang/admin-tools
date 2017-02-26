@@ -4,6 +4,10 @@ ny1.hashbang.sh
 sf1.hashbang.sh
 to1.hashbang.sh
 
+[shell_servers]
+ansible_user=root
+
+
 [coreos]
 hashbang.sh
 im.hashbang.sh
