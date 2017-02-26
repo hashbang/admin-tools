@@ -7,6 +7,7 @@ NEW_KEY_FILE=".vault_newpassphrase.pgp"
 VAULT_FILES=(
     group_vars/all/vault.yml
     group_vars/irc
+    host_vars/ldap.hashbang.sh
 )
 RECIPIENTS=(
     0x54BA90995CCBD6D6B0E68D27CDAB3CCDA649FFDA! # lrvick's 4k encryption key
