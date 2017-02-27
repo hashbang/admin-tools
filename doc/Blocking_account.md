@@ -1,9 +1,24 @@
 # How to block an account -- LDAP edition
 
-Unfortunately, sometimes asshats don't take a hint and can't
-be reasoned in using shared ressources respectfully.
+Sadly, sometimes abuse happen.  
+Sometimes, admins are required to block a user's account.  
+Sometimes, there is automation for it.
 
-For those times, the banhammer can be a reasonable option.
+	ansible-playbook ldap_ban.yml -e 'user=dude55b1'
+
+The playbook will take care of disabling the account and
+kicking the user from all shell servers.
+
+
+# How the sausage is made
+
+The playbook mainly performs two actions that can easily be done by hand:
+- set the user's shell to `/usr/sbin/nologin` in LDAP;
+- on each shell server:
+  - invalidate the SSSd cache for that user;
+  - terminate the user sessions.
+
+The following details how to do it manually.
 
 
 ## Disabling the account
@@ -21,14 +36,16 @@ On `ldap.hashbang.sh`:
 	EOF
 
 
-## Terminating the user
+## Closing the user's sessions
 
-Using ansible:
+Using Ansible:
 
 	ansible shell_servers -u root -m shell -a "sss_cache -u dude55b1; loginctl terminate-user dude55b1"
 
-This invalidates that user's record in the SSS cache, then forcefully
-terminates the user's sessions (including all processes).
+This does two things, in order:
+- invalidate that user's record in the SSS cache,
+  otherwise the change in LDAP might not be picked up immediately;
+- forcefully terminates the user's sessions (including all processes).
 
 Unfortunately, `terminate-user` does not send a Russian mob
 hitperson to dispatch the miscreant...
