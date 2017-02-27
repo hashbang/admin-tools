@@ -1,6 +1,7 @@
 ---
 - hosts: irc_servers
   become: false
+  strategy: free
   tasks:
 #    # Does not work on CoreOS, due to the fucked up
 #    # Python install and lack of installable packages.
