@@ -27,11 +27,13 @@ ansible_port=8993
 [coreos:children]
 irc
 
+
 [irc]
 services.irc.hashbang.sh
 
 [irc:children]
 irc_servers
+
 
 [irc_servers]
 lon1.irc.hashbang.sh irc_numeric=2
