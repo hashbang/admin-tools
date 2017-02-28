@@ -1,7 +1,6 @@
 ---
 - name: Pull latest /etc files
   hosts: shell_servers
-  become: true
   gather_facts: false
   strategy: free
   tasks:
@@ -43,7 +42,6 @@
   hosts: shell_servers
   gather_facts: false
   strategy: free
-  become: true
   tasks:
     - name: Update apt cache
       apt:   update_cache=yes
