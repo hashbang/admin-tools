@@ -5,6 +5,8 @@ sf1.hashbang.sh
 to1.hashbang.sh
 
 [shell_servers]
+# become/sudo does not work properly due to a pam_namespace issue
+# See hashbang/shell-etc#74
 ansible_user=root
 
 
