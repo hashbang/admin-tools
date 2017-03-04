@@ -78,7 +78,7 @@ See `doc/Installing_packages.md`.
 
  1. Prepare your change for `shell-etc`, test it locally.
  2. Create a pull-request for it on Github, wait for a review.
- 3. Performed a **signed** merge into `master`: `git merge -S --no-ff branch`  
+ 3. Perform a **signed** merge into `master`: `git merge -S --no-ff branch`  
 	Only merge into `master` things that you will deploy immediately.
 	Do not merge if you aren't in a position to follow-up with a deploy.
  4. Run the `shell.yml` playbook, see below.
