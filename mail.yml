@@ -1,6 +1,6 @@
 ---
 - hosts: mail.hashbang.sh
-  become: false
+  become: true
   tasks:
 #    # Does not work on CoreOS, due to the fucked up
 #    # Python install and lack of installable packages.
@@ -12,13 +12,13 @@
     - name: Generating aliases
       template:
         src: files/postfix/aliases.j2
-        dest: /home/core/postfix/aliases
+        dest: /home/core/postfix/config/aliases
       notify: [rehash aliases]
 
     - name: Copy static configuration
       copy:
         src: "{{ item }}"
-        dest: /home/core/postfix/{{ item | basename }}
+        dest: /home/core/postfix/config/{{ item | basename }}
       with_fileglob:
         - postfix/*.cf
       notify: [reload config]

@@ -65,6 +65,7 @@ users:
     irc_oper:
       type: sslclientcertfp
       pass: "0A:D8:51:3B:C6:1A:AB:6C:78:17:56:14:0A:D9:5E:43:4A:D9:33:64:04:5D:7F:4D:45:57:C2:86:33:D5:62:5B"
+    mail: "{{ vault_users.kellerfuchs.mail }}"
 
   lrvick:
     irc_oper:
