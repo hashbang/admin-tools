@@ -19,6 +19,7 @@ user_groups:
     - alissa
     - cbrooks
     - daurnimator
+    - deviavir
     - dgrove
     - kellerfuchs
     - lrvick
@@ -52,6 +53,14 @@ users:
       type: sha1
       pass: "{{ vault_users.daurnimator.irc_operpass }}"
     mail: "{{ vault_users.daurnimator.mail }}"
+
+  deviavir:
+    key: https://github.com/deviavir.keys
+    github: deviavir
+    irc_oper:
+      type: sslclientcertfp
+      pass: "BE:D2:60:10:04:57:93:A3:EF:AC:0B:DB:B7:C5:5C:F6:0F:21:CD:CC:6E:DB:B5:BD:D1:94:21:ED:0E:76:B1:4B"
+    mail: "{{ vault_users.deviavir.mail }}"
 
   dgrove:
     key: https://github.com/drGrove.keys
