@@ -50,8 +50,8 @@ Add your SSH keys in this repository:
   in `users`.  The expected values are documented in the file.  
   Be careful and do not put secrets (including password hashes) in plain
   text there, that's what Ansible Vault is for.
-- Do a signed commit and push.
-- Ask an admin to pull and run `credentials.yml`
+- Do a signed commit and create a pull request.
+- Ask an admin to review, run `credentials.yml` and merge.
 
 
 ### Certificate authentication
