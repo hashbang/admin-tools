@@ -27,7 +27,10 @@ elif [ $# -eq 1 ] && [ "$1" = "rekey" ]; then
     NEW_KEY=$(od -vAn -N32 -tx -w /dev/random)
 
     # Save the new key
-    gpg -e $(printf "%s" "${RECIPIENTS[@]/#/ -r }") -o "${NEW_KEY_FILE}" <<< "${NEW_KEY}"
+    # Using `--trust-model always` is valid: key are designated by fingerprint
+    gpg --trust-model always                        \
+        -e $(printf "%s" "${RECIPIENTS[@]/#/ -r }") \
+        -o "${NEW_KEY_FILE}" <<< "${NEW_KEY}"
 
     # Re-encrypt the files
     ansible-vault rekey --new-vault-password-file ./.vault_newpassphrase.sh "${VAULT_FILES[@]}"
