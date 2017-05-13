@@ -132,6 +132,8 @@ set {
         trusted-ca-file "/etc/unrealircd/certs/server-bundle.crt";
         certificate "/etc/unrealircd/certs/server.crt";
         key "/etc/unrealircd/certs/server.key";
+
+	server-cipher-list "ECDH+AESGCM256:ECDH+AESGCM128:ECDH+AES256:ECDH+AES128:!aNULL:!MD5:!RC4:!DSS:!EXPORT";
     };
     sasl-server "services.irc.hashbang.sh";
 };
