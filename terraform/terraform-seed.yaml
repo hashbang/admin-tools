@@ -1,0 +1,138 @@
+# Seed an AWS account to get it ready for terraform
+AWSTemplateFormatVersion: "2010-09-09"
+
+Parameters:
+  AccountName:
+    Type: String
+    Description: Name for account.
+    Default: "hashbang"
+
+Resources:
+  # Bucket for storing Terraform state files:
+  TerraformBucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Sub "${AccountName}-terraform"
+      LoggingConfiguration:
+        DestinationBucketName: !Ref TerraformLogBucket
+      VersioningConfiguration:
+        Status: "Enabled"
+      LifecycleConfiguration:
+        Rules:
+          - Id: "ExpirationRule"
+            Status: "Enabled"
+            NoncurrentVersionExpirationInDays: 90
+  TerraformBucketPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket:
+        Ref: TerraformBucket
+      PolicyDocument:
+        Statement:
+          # Only MFA-ed users can delete
+          - Action: "s3:Delete*"
+            Effect: "Deny"
+            Principal: "*"
+            Resource: !Sub "arn:aws:s3:::${TerraformBucket}/*"
+            Condition:
+              BoolIfExists:
+                aws:MultiFactorAuthPresent: false
+
+  # Bucket for storing S3 access logs
+  TerraformLogBucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Sub "${AccountName}-terraform-logs"
+      AccessControl: "LogDeliveryWrite"
+      LifecycleConfiguration:
+        Rules:
+          - Id: "ExpirationRule"
+            Status: "Enabled"
+            ExpirationInDays: 90
+  TerraformLogBucketPolicy:
+      Type: "AWS::S3::BucketPolicy"
+      Properties:
+        Bucket:
+          Ref: TerraformLogBucket
+        PolicyDocument:
+          Statement:
+            # Only MFA-ed users can delete
+            - Action: "s3:Delete*"
+              Effect: "Deny"
+              Principal: "*"
+              Resource: !Sub "arn:aws:s3:::${TerraformLogBucket}/*"
+              Condition:
+                BoolIfExists:
+                  aws:MultiFactorAuthPresent: false
+
+  # Bucket for storing CloudTrail logs
+  TerraformCloudTrailBucket:
+    DeletionPolicy: Retain
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Sub "${AccountName}-terraform-cloudtrail"
+      LifecycleConfiguration:
+        Rules:
+          - Id: "ExpirationRule"
+            Status: "Enabled"
+            ExpirationInDays: 730
+  TerraformCloudTrailBucketPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Properties: 
+      Bucket: 
+        Ref: TerraformCloudTrailBucket
+      PolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - Effect: "Allow"
+            Principal: 
+              Service: "cloudtrail.amazonaws.com"
+            Action: "s3:GetBucketAcl"
+            Resource: !Sub "arn:aws:s3:::${TerraformCloudTrailBucket}"
+          - Effect: "Allow"
+            Principal: 
+              Service: "cloudtrail.amazonaws.com"
+            Action: "s3:PutObject"
+            Resource: !Sub "arn:aws:s3:::${TerraformCloudTrailBucket}/AWSLogs/${AWS::AccountId}/*"
+            Condition: 
+              StringEquals:
+                s3:x-amz-acl: "bucket-owner-full-control"
+          # Only MFA-ed users can delete
+          - Effect: "Deny"
+            Principal: "*"
+            Action: "s3:Delete*"
+            Resource: !Sub "arn:aws:s3:::${TerraformCloudTrailBucket}/*"
+            Condition:
+              BoolIfExists:
+                aws:MultiFactorAuthPresent: false
+
+  # CloudTrail audit logs:
+  TerraformTrail:
+    Type: "AWS::CloudTrail::Trail"
+    DependsOn: 
+      - TerraformCloudTrailBucket
+      - TerraformCloudTrailBucketPolicy
+    Properties:
+      IncludeGlobalServiceEvents: true
+      S3BucketName: !Ref TerraformCloudTrailBucket
+      IsLogging: true
+      IsMultiRegionTrail: true
+      EnableLogFileValidation: true
+      Tags:
+        - Key: Name
+          Value: !Sub "${AccountName}-terraform"
+
+  # DynamoDb table for Terraform locking:
+  TerraformTable:
+    Type: "AWS::DynamoDB::Table"
+    Properties:
+      TableName: !Sub "${AccountName}-terraform"
+      AttributeDefinitions:
+        - AttributeName: "LockID"
+          AttributeType: "S"
+      KeySchema:
+        - AttributeName: "LockID"
+          KeyType: "HASH"
+      ProvisionedThroughput:
+        ReadCapacityUnits: 1
+        WriteCapacityUnits: 1

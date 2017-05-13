@@ -1,2 +1,4 @@
 .vault_newpassphrase.pgp
 *.retry
+terraform/.terraform
+terraform/terraform.tfstate.backup
