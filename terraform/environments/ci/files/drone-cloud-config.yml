@@ -1,0 +1,122 @@
+#cloud-config
+hostname: "drone"
+coreos:
+  units:
+  - name: update-engine.service
+    command: stop
+  - name: locksmithd.service
+    command: stop
+  - name: mnt-shared.mount
+    command: start
+    content: |
+      [Mount]
+      What=${efs_id}.efs.${aws_region}.amazonaws.com:/
+      Where=/mnt/shared
+      Type=nfs
+  - name: drone-server-secrets.service
+    enable: true
+    content: |
+      [Unit]
+      Description=DroneCI Server Secrets Writer
+      After=docker.service
+      Requires=docker.service
+      [Install]
+      WantedBy=multi-user.target
+      [Service]
+      TimeoutStartSec=0
+      ExecStart=/usr/bin/docker run \
+        --env "AWS_DEFAULT_REGION=${aws_region}" \
+        --env "KMS_DRONE_GITHUB_CLIENT=${kms_drone_github_client}" \
+        --env "KMS_DRONE_GITHUB_SECRET=${kms_drone_github_secret}" \
+        --env "KMS_DRONE_SECRET=${kms_drone_secret}" \
+        --volume drone-server-secrets:/secrets \
+        --volume /usr/bin/bash:/usr/bin/bash \
+        --volume /lib64:/lib64 \
+        --volume /home/core/scripts/decrypt.sh:/usr/bin/decrypt.sh \
+        --entrypoint /usr/bin/bash \
+        quay.io/coreos/awscli decrypt.sh "/secrets/secrets.env"
+  - name: drone-agent-secrets.service
+    enable: true
+    content: |
+      [Unit]
+      Description=DroneCI Agent Secrets Writer
+      Requires=docker.service
+      After=docker.service
+      [Install]
+      WantedBy=multi-user.target
+      [Service]
+      TimeoutStartSec=0
+      ExecStart=/usr/bin/docker run \
+        --env "AWS_DEFAULT_REGION=${aws_region}" \
+        --env "KMS_DRONE_SECRET=${kms_drone_secret}" \
+        --volume drone-agent-secrets:/secrets \
+        --volume /lib64:/lib64 \
+        --volume /usr/bin/bash:/usr/bin/bash \
+        --volume /home/core/scripts/decrypt.sh:/usr/bin/decrypt.sh \
+        --entrypoint /usr/bin/bash \
+        quay.io/coreos/awscli decrypt.sh "/secrets/secrets.env"
+  - name: drone-server.service
+    enable: true
+    command: start
+    content: |
+      [Unit]
+      Description=Drone CI Server
+      Requires=drone-server-secrets.service
+      After=drone-server-secrets.service
+      [Install]
+      WantedBy=multi-user.target
+      [Service]
+      Restart=always
+      TimeoutStartSec=0
+      ExecStartPre=-/usr/bin/docker kill %p
+      ExecStartPre=-/usr/bin/docker rm %p
+      ExecStartPre=/usr/bin/docker pull drone/drone:0.6
+      ExecStart=/usr/bin/docker run \
+        --name %p \
+        --volume /mnt/shared/drone:/var/lib/drone \
+        --volume drone-server-secrets:/secrets/ \
+        --volume /lib64:/lib64 \
+        --volume /usr/bin/bash:/usr/bin/bash \
+        --entrypoint="/usr/bin/bash" \
+        --publish 80:80 \
+        --publish 443:443 \
+        --env DRONE_OPEN=true \
+        --env DRONE_GITHUB=true \
+        --env DRONE_HOST=https://${domain} \
+        --env DRONE_ADMIN=${drone_admins} \
+        --env DRONE_LETS_ENCRYPT=true \
+        drone/drone -c 'source /secrets/secrets.env; /drone server'
+      ExecStop=/usr/bin/docker stop %p
+  - name: drone-agent.service
+    enable: true
+    command: start
+    content: |
+      [Unit]
+      Description=Drone CI Agent
+      Requires=drone-agent-secrets.service
+      After=drone-agent-secrets.service
+      [Install]
+      WantedBy=multi-user.target
+      [Service]
+      Restart=always
+      TimeoutStartSec=0
+      ExecStartPre=-/usr/bin/docker kill %p
+      ExecStartPre=-/usr/bin/docker rm %p
+      ExecStartPre=/usr/bin/docker pull drone/drone:0.6
+      ExecStart=/usr/bin/docker run \
+        --name %p \
+        --volumes-from drone-server \
+        --volume drone-agent-secrets:/secrets/ \
+        --volume /lib64:/lib64 \
+        --volume /usr/bin/bash:/usr/bin/bash \
+        --entrypoint="/usr/bin/bash" \
+        --volume /var/run/docker.sock:/var/run/docker.sock \
+        --env DRONE_SERVER=ws://drone-server:8000/ws/broker \
+        drone/drone -c 'source /secrets/secrets.env; /drone agent'
+      ExecStop=/usr/bin/docker stop %p
+write_files:
+  - path: "/home/core/scripts/decrypt.sh"
+    permissions: "0755"
+    owner: "core"
+    encoding: base64
+    content: ${base64encode(decrypt_script)}

@@ -20,7 +20,7 @@ Run terraform init.
 
 ```
 make init
-``` 
+```
 
 Plan terraform changes, to verify.
 
@@ -33,7 +33,7 @@ make plan
 
 ```
 make plan
-``` 
+```
 
 verify your changes are executed as you'd like.
 
@@ -47,4 +47,27 @@ follow the stream, and verify your changes have been applied using the AWS Conso
 
 ```
 make ${your_action_here}
+```
+
+### Secrets
+
+Secrets in AWS are managed via KMS
+
+Each project should have a unique key
+
+#### Generate Key
+```
+aws kms create-key \
+  --profile hashbang \
+  --description "some-app" \
+  --region us-west-2
+```
+
+#### Encrypt Secret
+```
+aws kms encrypt \
+  --profile hashbang \
+  --key-id fe5d40fe-dcf6-1558-4080-096648020239 \
+  --plaintext "$(pass Hashbang/someapp | head -n1)" \
+  --output text --query CiphertextBlob
 ```
