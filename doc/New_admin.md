@@ -43,6 +43,13 @@ now that they know your GPG key:
    Push.
 
 
+While this goes on, setup [git configuration] to deal with GPG
+and Ansible Vault files.  You can confirm it works properly by
+reviewing pull requests to this repository.
+
+[git configuration]: https://github.com/hashbang/admin-tools#git-configuration
+
+
 ## ... to the CoreOS servers & IRC oper
 
 Add your SSH keys in this repository:
