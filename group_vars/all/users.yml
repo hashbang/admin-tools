@@ -24,6 +24,7 @@ user_groups:
     - kellerfuchs
     - lrvick
     - viaken
+    - singlerider
 
   # admins are implicitely irc_ops
   irc_ops:
@@ -75,6 +76,11 @@ users:
       type: sslclientcertfp
       pass: "0A:D8:51:3B:C6:1A:AB:6C:78:17:56:14:0A:D9:5E:43:4A:D9:33:64:04:5D:7F:4D:45:57:C2:86:33:D5:62:5B"
     mail: "{{ vault_users.kellerfuchs.mail }}"
+
+  singlerider:
+    irc_oper:
+      type: sslclientcertfp
+      pass: "41:AE:61:33:58:25:B2:BB:30:D1:07:1A:2C:F6:A7:CB:59:A6:E6:81:16:CA:86:82:09:2F:F3:F3:3F:0D:0E:88"
 
   lrvick:
     irc_oper:
