@@ -17,7 +17,6 @@
 user_groups:
   admins:
     - alissa
-    - cbrooks
     - daurnimator
     - deviavir
     - dgrove
@@ -41,13 +40,6 @@ users:
       type: sha1
       pass: "{{ vault_users.alissa.irc_operpass }}"
     mail: "{{ vault_users.alissa.mail }}"
-
-  cbrooks:
-    github: connerbrooks
-    irc_oper:
-      type: sha1
-      pass: "{{ vault_users.cbrooks.irc_operpass }}"
-    mail: "{{ vault_users.cbrooks.mail }}"
 
   daurnimator:
     irc_oper:
