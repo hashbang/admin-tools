@@ -88,5 +88,5 @@ See `doc/Installing_packages.md`.
 
 Simply run the appropriate Ansible playbook:
 ```bash
-ansible-playbook -u root shell.yml
+ansible-playbook shell.yml
 ```
