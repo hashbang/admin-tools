@@ -1,3 +1,3 @@
 #!/bin/sh
 
-exec gpg --batch --decrypt ".vault_newpassphrase.pgp" 2>/dev/null
+exec gpg --quiet --decrypt ".vault_newpassphrase.pgp"
