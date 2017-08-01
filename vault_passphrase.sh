@@ -21,7 +21,7 @@ RECIPIENTS=(
 )
 
 if [ $# -eq 0 ]; then
-    exec gpg --decrypt "${KEY_FILE}"
+    exec gpg --decrypt --quiet "${KEY_FILE}"
 
 elif [ $# -eq 1 ] && [ "$1" = "rekey" ]; then
     # Get 256b out of /dev/random, hex encoded
