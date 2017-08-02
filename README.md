@@ -40,7 +40,7 @@ This is expressed in the following `.ssh/config` snippet:
 	Host git-infra.hashbang.sh
 	     User git
 
-	Host sfo1.irc.hashbang.sh lon1.irc.hashbang.sh
+	Host sfo1.irc.hashbang.sh
 	     User core
 
 	Host *.hashbang.sh hashbang.sh

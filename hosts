@@ -36,8 +36,4 @@ irc_servers
 
 
 [irc_servers]
-lon1.irc.hashbang.sh irc_numeric=2
-sfo1.irc.hashbang.sh irc_numeric=1
-
-[irc_servers:vars]
-ansible_port=22
+sfo1.irc.hashbang.sh irc_numeric=1 ansible_port=22
