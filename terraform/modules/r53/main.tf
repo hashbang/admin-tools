@@ -16,7 +16,7 @@ resource "aws_route53_record" "sfo1-irc-ipv4" {
     name = "sfo1.irc.${aws_route53_zone.hashbang.name}"
     type = "A"
     ttl  = "1800"
-    records = ["104.236.128.136"]
+    records = ["107.170.252.157"]
 }
 
 resource "aws_route53_record" "lon1-irc-ipv4" {
