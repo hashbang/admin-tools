@@ -33,7 +33,7 @@ resource "aws_route53_record" "irc-ipv4-default" {
     name = "irc.${aws_route53_zone.hashbang.name}"
     type = "A"
     ttl  = "1800"
-    records = ["104.236.128.136"]
+    records = ["107.170.252.157"]
 
     set_identifier = "default"
     geolocation_routing_policy {
@@ -46,7 +46,7 @@ resource "aws_route53_record" "irc-ipv4-us" {
     name = "irc.${aws_route53_zone.hashbang.name}"
     type = "A"
     ttl  = "1800"
-    records = ["104.236.128.136"]
+    records = ["107.170.252.157"]
 
     set_identifier = "us"
     geolocation_routing_policy {
@@ -71,7 +71,7 @@ resource "aws_route53_record" "irc-ipv4-eu" {
 
 // HEALTHCHECKS
 resource "aws_route53_health_check" "irc-us" {
-  ip_address        = "104.236.128.136"
+  ip_address        = "107.170.252.157"
   port              = 6697
   type              = "TCP"
   failure_threshold = "5"
