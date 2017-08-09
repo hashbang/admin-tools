@@ -201,9 +201,10 @@ spamfilter {
 {% for i in spam_filters %}
 
 spamfilter {
-  regex "{{ i.regexp | mandatory }}";
+  regex "{{ i['regex'] | mandatory }}";
   target { channel; private; }; {# TODO: Make configurable #}
-  action {{ i.action | default('kill') }};
-  reason "{{ i.reason | default("SPAM isn't tasty") | regex_replace('"', '\\"') }}";
+
+  action {{ i['action'] | default('kill') }};
+  reason "{{ i['reason'] | default("SPAM isn't tasty") | regex_replace('"', '\\"') }}";
 };
 {% endfor %}
