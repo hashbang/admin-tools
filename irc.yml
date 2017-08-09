@@ -29,4 +29,4 @@
 
   handlers:
     - name: rehash ircd
-      command: docker exec -i ircd Unreal3.2.10.4/unreal rehash
+      command: docker exec -i ircd /unrealircd/unreal rehash
