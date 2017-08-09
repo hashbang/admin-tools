@@ -1,14 +1,4 @@
-# This file is managed with Ansible!  DO NOT EDIT MANUALLY
-# See https://github.com/hashbang/admin-tools for information
-
-/*
- * This an example spamfilter file, it contains several
- * real and useful spamfilters. This should give you an
- * idea of how powerful spamfilter can be in real-life
- * situations.
- *
- * $Id$
- */
+{{ ansible_managed | comment }}
 
 /* Guidelines on the 'action' field:
  * As a general rule we use 'action block' for any newly added
@@ -207,3 +197,13 @@ spamfilter {
 	action block;
 	reason "Spamming users with an mIRC trojan. Type '/unload -rs newb' to remove the trojan.";
 };
+
+{% for i in spam_filters %}
+
+spamfilter {
+  regex "{{ i.regexp | mandatory }}";
+  target { channel; private; }; {# TODO: Make configurable #}
+  action {{ i.action | default('kill') }};
+  reason "{{ i.reason | default("SPAM isn't tasty") | regex_replace('"', '\\"') }}";
+};
+{% endfor %}
