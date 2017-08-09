@@ -9,7 +9,6 @@ oper {{ user }} {
 	password "{{ users[user].irc_oper.pass }}" { {{ users[user].irc_oper.type }}; };
 	flags { netadmin; can_gkline; can_override; can_gzline; can_restart; can_die; global; };
 	modes +q;
-
 };
 {% endfor %}
 
