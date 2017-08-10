@@ -154,6 +154,7 @@ opertype
 	privs = "*"
 }
 
+
 opertype
 {
 	name = "Services Root"
@@ -161,86 +162,35 @@ opertype
 	privs = "*"
 }
 
-oper
-{
-	name = "lrvick"
-	type = "Services Root"
-	require_oper = yes
-}
-oper
-{
-	name = "iShortBus"
-	type = "Services Root"
-	require_oper = yes
-}
-oper
-{
-	name = "dgrove"
-	type = "Services Root"
-	require_oper = yes
-}
-oper
-{
-	name = "stinethebean"
-	type = "Services Root"
-	require_oper = yes
-}
+### Admins
+{% for user in user_groups.admins %}
 
 oper
 {
-	name = "Viaken"
+	name = "{{ users[user].irc | default(user) }}"
 	type = "Services Root"
 	require_oper = yes
+	{% if users[user].irc_oper.type == "sslclientcertfp" %}
+	  certfp = "{{ users[user].irc_oper.pass | regex_replace(':', '') }}"
+	{% endif %}
 }
+{% endfor %}
+
+
+### IRCops
+{% for user in user_groups.admins %}
+
 oper
 {
-        name = "Xomen"
-        type = "Services Root"
-        require_oper = yes
-}
-oper
-{
-        name = "aagat"
-        type = "Services Root"
-        require_oper = yes
-}
-oper
-{
-	name = "SaidinWoT"
-	type = "Services Root"
+	name = "{{ users[user].irc | default(user) }}"
+	type = "Services Operator"
 	require_oper = yes
+	{% if users[user].irc_oper.type == "sslclientcertfp" %}
+	  certfp = "{{ users[user].irc_oper.pass | regex_replace(':', '') }}"
+	{% endif %}
 }
-oper
-{
-	name = "JesseH"
-	type = "Services Root"
-	require_oper = yes
-}
-oper
-{
-	name = "Alissa"
-	type = "Services Root"
-	require_oper = "yes"
-}
-oper
-{
-        name = "KellerFuchs"
-        type = "Services Root"
-        require_oper = "yes"
-}
-/*
- * #oper
- * {
- * 	name = "nick2"
- * 	type = "Services Administrator"
- * }
- *
- * #oper
- * {
- * 	name = "nick3"
- * 	type = "Helper"
- * }
- */
+{% endfor %}
+
 
 mail
 {
