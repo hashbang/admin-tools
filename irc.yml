@@ -34,7 +34,7 @@
 
 - name: Configure IRC services
   hosts: services.irc.hashbang.sh
-  become: false
+  become: true
   tasks:
 
     - name: Copy static configuration
