@@ -1,5 +1,6 @@
 ---
-- hosts: irc_servers
+- name: Configure IRC servers
+  hosts: irc_servers
   become: false
   strategy: free
   tasks:
@@ -30,3 +31,28 @@
   handlers:
     - name: rehash ircd
       command: docker exec -i ircd /unrealircd/unreal rehash
+
+- name: Configure IRC services
+  hosts: services.irc.hashbang.sh
+  become: true
+  tasks:
+
+    - name: Copy static configuration
+      copy:
+        src: "{{ item }}"
+        dest: /home/core/anope/config/{{ item | basename }}
+      with_fileglob:
+        - anope/*.conf
+      notify: [Reload anope config]
+
+    - name: Generate templated configuration
+      template:
+        src: "{{ item }}"
+        dest: /home/core/anope/config/{{ item | basename | regex_replace('\.j2$', '') }}
+      with_fileglob:
+        - anope/*.j2
+      notify: [Reload anope config]
+
+  handlers:
+    - name: Reload anope config
+      command: docker exec -i irc-services pkill -HUP services

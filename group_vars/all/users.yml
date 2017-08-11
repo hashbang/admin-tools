@@ -35,7 +35,8 @@ user_groups:
 users:
   # Admins
   alissa:
-    github: ChickenNuggers
+    github: RyanSquared
+    irc: ryan
     irc_oper:
       type: sha1
       pass: "{{ vault_users.alissa.irc_operpass }}"
