@@ -170,9 +170,10 @@ oper
 	name = "{{ users[user].irc | default(user) }}"
 	type = "Services Root"
 	require_oper = yes
-	{% if users[user].irc_oper.type == "sslclientcertfp" %}
+  {# FIXME: certfp entirely prevents admins from using OperServ #}
+{#	{% if users[user].irc_oper.type == "sslclientcertfp" %}
 	  certfp = "{{ users[user].irc_oper.pass | regex_replace(':', '') }}"
-	{% endif %}
+	{% endif %} #}
 }
 {% endfor %}
 
@@ -185,9 +186,9 @@ oper
 	name = "{{ users[user].irc | default(user) }}"
 	type = "Services Operator"
 	require_oper = yes
-	{% if users[user].irc_oper.type == "sslclientcertfp" %}
+{#	{% if users[user].irc_oper.type == "sslclientcertfp" %}
 	  certfp = "{{ users[user].irc_oper.pass | regex_replace(':', '') }}"
-	{% endif %}
+	{% endif %} #}
 }
 {% endfor %}
 
