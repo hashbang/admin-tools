@@ -5,7 +5,7 @@
   become: false
   vars:
     ldif: |
-      dn: uid={{ user }},ou=People,dc=hashbang,dc=sh
+      dn: uid={{ user | mandatory }},ou=People,dc=hashbang,dc=sh
       changetype: modify
       replace: loginShell
       loginShell: /usr/sbin/nologin
