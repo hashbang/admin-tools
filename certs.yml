@@ -24,3 +24,30 @@
       service:
         name:  docker-postfix
         state: restarted
+
+- hosts: irc_servers
+  become: False
+  vars_files:
+    - files/certs/hashbang.sh.yml
+    - files/certs/hashbang.sh.key
+  tasks:
+    - copy:
+        content: "{{ item.value }}"
+        dest: "unrealircd/certs/{{ item.key }}"
+        mode: 0400
+
+      with_dict:
+        server.crt: "{{ cert }}"
+        server.key: "{{  key }}"
+        server-bundle.crt: |
+          {{ cert }}
+          {{  ca  }}
+
+      loop_control:
+        label: "{{ item.key }}"
+
+      notify: rehash ircd
+
+  handlers:
+    - name: rehash ircd
+      command: docker exec -i ircd /unrealircd/unreal rehash
