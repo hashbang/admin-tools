@@ -80,3 +80,32 @@
       service:
         name:  docker-slapd
         state: restarted
+
+- hosts: hashbang.sh
+  become: False
+  vars_files:
+    - files/certs/hashbang.sh.yml
+    - files/certs/hashbang.sh.key
+  tasks:
+    - copy:
+        content: "{{ item.value }}"
+        dest: "hashbang.sh/certs/{{ item.key }}"
+        mode: 0444
+
+      with_dict:
+        server.key: "{{ key }}"
+        server.crt: |
+          {{ cert }}
+          {{  ca  }}
+
+      loop_control:
+        label: "{{ item.key }}"
+
+      notify: restart hashbang.sh
+
+  handlers:
+    - name: restart hashbang.sh
+      become: True
+      service:
+        name:  hashbangsh
+        state: restarted
