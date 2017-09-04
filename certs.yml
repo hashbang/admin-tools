@@ -1,0 +1,26 @@
+- hosts: mail.hashbang.sh
+  become: True
+  vars_files:
+    - files/certs/hashbang.sh.yml
+    - files/certs/hashbang.sh.key
+  tasks:
+    - copy:
+        content: "{{ item.value }}"
+        dest: "postfix/config/certs/{{ item.key }}"
+        mode: 0444
+
+      with_dict:
+        cacert.pem: "{{   ca }}"
+        server.crt: "{{ cert }}"
+        server.key: "{{  key }}"
+
+      loop_control:
+        label: "{{ item.key }}"
+
+      notify: restart postfix
+
+  handlers:
+    - name: restart postfix
+      service:
+        name:  docker-postfix
+        state: restarted
