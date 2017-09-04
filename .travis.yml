@@ -1,17 +1,11 @@
 sudo: false
-dist: precise
-
-addons:
-  apt:
-    packages:
-    - python-pip
-
+language: python
 cache: pip
 
 git:
   depth: 3
 
-before_script: pip install --user ansible ansible-lint
+before_script: pip install ansible ansible-lint
   
 script:
 - ./lint.sh
