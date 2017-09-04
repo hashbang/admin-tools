@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 # Global options
 declare -a OPTIONS=( -x ANSIBLE0011 --exclude=roles/coreos-bootstrap )
 
@@ -9,13 +11,17 @@ declare -A F_OPTIONS=(
     [ldap_ban.yml]="-x ANSIBLE0012"
 )
 
+exec() {
+    echo '$' "$@"
+    "$@"
+}
+
+
 if ! command -v ansible-lint >/dev/null; then
     echo "This script requires ansible-lint"
     exit 1
 fi
 
-set -ex
-
 for playbook in *.yml; do
-    ansible-lint "${OPTIONS[@]}" ${F_OPTIONS[$playbook]} $playbook
+    exec ansible-lint "${OPTIONS[@]}" ${F_OPTIONS[$playbook]} $playbook
 done
