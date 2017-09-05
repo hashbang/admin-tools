@@ -74,6 +74,7 @@ users:
     irc_oper:
       type: sslclientcertfp
       pass: "41:AE:61:33:58:25:B2:BB:30:D1:07:1A:2C:F6:A7:CB:59:A6:E6:81:16:CA:86:82:09:2F:F3:F3:3F:0D:0E:88"
+    mail: "{{ vault_users.singlerider.mail }}"
 
   lrvick:
     irc_oper:
