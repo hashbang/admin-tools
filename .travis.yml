@@ -1,20 +1,11 @@
 sudo: false
-dist: precise
-
-addons:
-  apt:
-    packages:
-    - python-pip
-
+language: python
 cache: pip
 
 git:
   depth: 3
 
-before_script: pip install --user ansible ansible-lint
+before_script: pip install ansible ansible-lint
   
 script:
-- ansible-lint --exclude=roles/coreos-bootstrap coreos.yml
-- ansible-lint -x ANSIBLE0011 --exclude=roles/coreos-bootstrap credentials.yml
-- ansible-lint -x ANSIBLE0006 shell.yml
-- ansible-lint irc.yml
+- ./lint.sh
