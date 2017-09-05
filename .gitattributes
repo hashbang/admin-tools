@@ -1,3 +1,4 @@
 vault.yml diff=ansible-vault merge=ansible-vault
 *.vault.yml diff=ansible-vault merge=ansible-vault
 group_vars/irc diff=ansible-vault merge=ansible-vault
+files/certs/*.key diff=ansible-vault merge=ansible-vault
