@@ -1,0 +1,111 @@
+- hosts: mail.hashbang.sh
+  become: True
+  vars_files:
+    - files/certs/hashbang.sh.yml
+    - files/certs/hashbang.sh.key
+  tasks:
+    - copy:
+        content: "{{ item.value }}"
+        dest: "postfix/config/certs/{{ item.key }}"
+        mode: 0444
+
+      with_dict:
+        cacert.pem: "{{   ca }}"
+        server.crt: "{{ cert }}"
+        server.key: "{{  key }}"
+
+      loop_control:
+        label: "{{ item.key }}"
+
+      notify: restart postfix
+
+  handlers:
+    - name: restart postfix
+      service:
+        name:  docker-postfix
+        state: restarted
+
+- hosts: irc_servers
+  become: False
+  vars_files:
+    - files/certs/hashbang.sh.yml
+    - files/certs/hashbang.sh.key
+  tasks:
+    - copy:
+        content: "{{ item.value }}"
+        dest: "unrealircd/certs/{{ item.key }}"
+        mode: 0400
+
+      with_dict:
+        server.crt: "{{ cert }}"
+        server.key: "{{  key }}"
+        server-bundle.crt: |
+          {{ cert }}
+          {{  ca  }}
+
+      loop_control:
+        label: "{{ item.key }}"
+
+      notify: rehash ircd
+
+  handlers:
+    - name: rehash ircd
+      command: docker exec -i ircd /unrealircd/unreal rehash
+
+
+- hosts: ldap.hashbang.sh
+  become: False
+  vars_files:
+    - files/certs/hashbang.sh.yml
+    - files/certs/hashbang.sh.key
+  tasks:
+    - copy:
+        content: "{{ item.value }}"
+        dest: "slapd/ssl/{{ item.key }}"
+        mode: 0444
+
+      with_dict:
+        ca.crt:   "{{   ca }}"
+        ldap.crt: "{{ cert }}"
+        ldap.key: "{{  key }}"
+
+      loop_control:
+        label: "{{ item.key }}"
+
+      notify: restart ldap
+
+  handlers:
+    - name: restart ldap
+      become: True
+      service:
+        name:  docker-slapd
+        state: restarted
+
+- hosts: hashbang.sh
+  become: False
+  vars_files:
+    - files/certs/hashbang.sh.yml
+    - files/certs/hashbang.sh.key
+  tasks:
+    - copy:
+        content: "{{ item.value }}"
+        dest: "hashbang.sh/certs/{{ item.key }}"
+        mode: 0444
+
+      with_dict:
+        server.key: "{{ key }}"
+        server.crt: |
+          {{ cert }}
+          {{  ca  }}
+
+      loop_control:
+        label: "{{ item.key }}"
+
+      notify: restart hashbang.sh
+
+  handlers:
+    - name: restart hashbang.sh
+      become: True
+      service:
+        name:  hashbangsh
+        state: restarted

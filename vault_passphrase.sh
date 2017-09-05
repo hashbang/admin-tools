@@ -5,6 +5,7 @@ KEY_FILE="vault_passphrase.pgp"
 NEW_KEY_FILE=".vault_newpassphrase.pgp"
 
 VAULT_FILES=(
+    files/certs/hashbang.sh.key
     group_vars/all/vault.yml
     group_vars/irc
     host_vars/ldap.hashbang.sh

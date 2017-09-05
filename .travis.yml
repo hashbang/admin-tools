@@ -6,6 +6,6 @@ git:
   depth: 3
 
 before_script: pip install ansible ansible-lint
-  
+
 script:
 - ./lint.sh
