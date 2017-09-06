@@ -1,5 +1,5 @@
 - name: Load data from vault
-  hosts: all
+  hosts: "{{ hosts | default('all') }}"
   gather_facts: False
   tasks:
     - local_action: include_vars dir=vault/{{ item }}

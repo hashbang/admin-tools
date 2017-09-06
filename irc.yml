@@ -1,4 +1,4 @@
-- include: vault.yml load=irc,users
+- include: vault.yml load=irc,users hosts=irc
 
 - name: Configure IRC servers
   hosts: irc_servers

@@ -1,4 +1,4 @@
-- include: vault.yml load=users
+- include: vault.yml load=users hosts=mail.hashbang.sh
 
 - hosts: mail.hashbang.sh
   become: true
