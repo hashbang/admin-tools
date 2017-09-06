@@ -1,4 +1,6 @@
 ---
+- include: vault.yml load=ldap
+
 # This is a sucky way to make LDAP changes,
 # but Ansible's ldap_attr module is v2.3 only
 - hosts: ldap.hashbang.sh
