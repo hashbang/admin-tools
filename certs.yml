@@ -1,8 +1,7 @@
+- include: vault.yml load=certs
+
 - hosts: mail.hashbang.sh
   become: True
-  vars_files:
-    - files/certs/hashbang.sh.yml
-    - files/certs/hashbang.sh.key
   tasks:
     - copy:
         content: "{{ item.value }}"
@@ -27,9 +26,6 @@
 
 - hosts: irc_servers
   become: False
-  vars_files:
-    - files/certs/hashbang.sh.yml
-    - files/certs/hashbang.sh.key
   tasks:
     - copy:
         content: "{{ item.value }}"
@@ -55,9 +51,6 @@
 
 - hosts: ldap.hashbang.sh
   become: False
-  vars_files:
-    - files/certs/hashbang.sh.yml
-    - files/certs/hashbang.sh.key
   tasks:
     - copy:
         content: "{{ item.value }}"
@@ -83,9 +76,6 @@
 
 - hosts: hashbang.sh
   become: False
-  vars_files:
-    - files/certs/hashbang.sh.yml
-    - files/certs/hashbang.sh.key
   tasks:
     - copy:
         content: "{{ item.value }}"
