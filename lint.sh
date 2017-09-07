@@ -3,19 +3,25 @@
 set -e
 
 # Global options
-declare -a OPTIONS=( -x ANSIBLE0011 --exclude=roles/coreos-bootstrap )
+declare -a OPTIONS=( --exclude=roles/coreos-bootstrap )
+declare -a IGNORES=( ANSIBLE0011 )
 
-# Per-file options
-declare -A F_OPTIONS=(
-    [shell.yml]="-x ANSIBLE0006"
-    [ldap_ban.yml]="-x ANSIBLE0012"
+# Per-file lint ignores
+declare -A F_IGNORES=(
+    [shell.yml]="ANSIBLE0006"
+    [ldap_ban.yml]="ANSIBLE0012"
 )
 
-exec() {
+function exec() {
     echo '$' "$@"
     "$@"
 }
 
+function join {
+    local IFS="$1"
+    shift
+    echo "$*"
+}
 
 if ! command -v ansible-lint >/dev/null; then
     echo "This script requires ansible-lint"
@@ -23,5 +29,7 @@ if ! command -v ansible-lint >/dev/null; then
 fi
 
 for playbook in *.yml; do
-    exec ansible-lint "${OPTIONS[@]}" ${F_OPTIONS[$playbook]} $playbook
+    exec ansible-lint "${OPTIONS[@]}"                         \
+         -x "$(join , ${IGNORES[@]} ${F_IGNORES[$playbook]})" \
+         $playbook
 done
