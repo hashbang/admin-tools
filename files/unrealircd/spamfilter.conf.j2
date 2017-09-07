@@ -198,7 +198,7 @@ spamfilter {
 	reason "Spamming users with an mIRC trojan. Type '/unload -rs newb' to remove the trojan.";
 };
 
-{% for i in spam_filters %}
+{% for i in irc.spam_filters %}
 
 spamfilter {
   regex "{{ i['regex'] | mandatory }}";

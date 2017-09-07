@@ -1,0 +1,7 @@
+irc:
+  link_keys:
+    irc:        "{{ vault_irc.link_keys.irc      }}"
+    services:   "{{ vault_irc.link_keys.services }}"
+
+  cloak_keys:   "{{ vault_irc.cloak_keys         }}"
+  spam_filters: "{{ vault_irc.spam_filters       }}"

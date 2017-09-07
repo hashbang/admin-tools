@@ -1,8 +1,7 @@
+- include: vault.yml load=certs
+
 - hosts: mail.hashbang.sh
   become: True
-  vars_files:
-    - files/certs/hashbang.sh.yml
-    - files/certs/hashbang.sh.key
   tasks:
     - copy:
         content: "{{ item.value }}"
@@ -10,9 +9,9 @@
         mode: 0444
 
       with_dict:
-        cacert.pem: "{{   ca }}"
-        server.crt: "{{ cert }}"
-        server.key: "{{  key }}"
+        cacert.pem: "{{ certs.wildcard.ca   }}"
+        server.crt: "{{ certs.wildcard.cert }}"
+        server.key: "{{ certs.wildcard['key']  }}"
 
       loop_control:
         label: "{{ item.key }}"
@@ -27,9 +26,6 @@
 
 - hosts: irc_servers
   become: False
-  vars_files:
-    - files/certs/hashbang.sh.yml
-    - files/certs/hashbang.sh.key
   tasks:
     - copy:
         content: "{{ item.value }}"
@@ -37,11 +33,11 @@
         mode: 0400
 
       with_dict:
-        server.crt: "{{ cert }}"
-        server.key: "{{  key }}"
+        server.crt: "{{ certs.wildcard.cert }}"
+        server.key: "{{ certs.wildcard.key  }}"
         server-bundle.crt: |
-          {{ cert }}
-          {{  ca  }}
+          {{ certs.wildcard.cert }}
+          {{ certs.wildcard.ca   }}
 
       loop_control:
         label: "{{ item.key }}"
@@ -55,9 +51,6 @@
 
 - hosts: ldap.hashbang.sh
   become: False
-  vars_files:
-    - files/certs/hashbang.sh.yml
-    - files/certs/hashbang.sh.key
   tasks:
     - copy:
         content: "{{ item.value }}"
@@ -65,9 +58,9 @@
         mode: 0444
 
       with_dict:
-        ca.crt:   "{{   ca }}"
-        ldap.crt: "{{ cert }}"
-        ldap.key: "{{  key }}"
+        ca.crt:   "{{ certs.wildcard.ca   }}"
+        ldap.crt: "{{ certs.wildcard.cert }}"
+        ldap.key: "{{ certs.wildcard.key  }}"
 
       loop_control:
         label: "{{ item.key }}"
@@ -83,9 +76,6 @@
 
 - hosts: hashbang.sh
   become: False
-  vars_files:
-    - files/certs/hashbang.sh.yml
-    - files/certs/hashbang.sh.key
   tasks:
     - copy:
         content: "{{ item.value }}"
@@ -93,10 +83,10 @@
         mode: 0444
 
       with_dict:
-        server.key: "{{ key }}"
+        server.key: "{{ certs.wildcard.key }}"
         server.crt: |
-          {{ cert }}
-          {{  ca  }}
+          {{ certs.wildcard.cert }}
+          {{ certs.wildcard.ca }}
 
       loop_control:
         label: "{{ item.key }}"

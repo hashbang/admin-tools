@@ -41,8 +41,8 @@ link {{ server }} {
     username *;
     hostname "{{ server }}";
     port 6697;
-    password-connect "{{ link_keys.irc }}";
-    password-receive "{{ link_keys.irc }}";
+    password-connect "{{ irc.link_keys.irc }}";
+    password-receive "{{ irc.link_keys.irc }}";
     hub *;
     class servers;
     options {
@@ -60,8 +60,8 @@ link services.irc.hashbang.sh {
     hostname "services.irc.hashbang.sh";
     port 6697;
     hub *;
-    password-connect "{{ link_keys.services }}";
-    password-receive "{{ link_keys.services }}";
+    password-connect "{{ irc.link_keys.services }}";
+    password-receive "{{ irc.link_keys.services }}";
     class servers;
     options {
         nohostcheck;
@@ -115,7 +115,7 @@ set {
     help-channel        "#help";
     hiddenhost-prefix   "#!";
     cloak-keys {
-{% for item in cloak_keys %}
+{% for item in irc.cloak_keys %}
         "{{ item }}";
 {% endfor %}
     };
