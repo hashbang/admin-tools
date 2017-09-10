@@ -50,7 +50,7 @@ reviewing pull requests to this repository.
 [git configuration]: https://github.com/hashbang/admin-tools#git-configuration
 
 
-## ... to the CoreOS servers & IRC oper
+## ... to the CoreOS servers, root SSH on shell servers, & IRC oper
 
 Add your SSH keys in this repository:
 - Edit `group_vars/all/users.yml` and add a user object with your nick
