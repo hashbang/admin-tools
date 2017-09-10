@@ -12,7 +12,7 @@ declare -A F_IGNORES=(
     [ldap_ban.yml]="ANSIBLE0012"
 )
 
-function exec() {
+function exec {
     echo '$' "$@"
     "$@"
 }
