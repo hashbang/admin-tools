@@ -11,7 +11,7 @@
 #  - unix: the username in LDAP, if different
 #  - irc_oper: an object with a type attribute (usually "sha1")
 #              and a pass attribute (usually the crypt(3)-format password).
-#  - mail: the user's email address; defaults to username@hashbang.sh
+#  - mail: the user's email address; required for admins
 
 
 user_groups:
