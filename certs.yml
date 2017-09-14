@@ -9,9 +9,9 @@
         mode: 0444
 
       with_dict:
-        cacert.pem: "{{ certs.wildcard.ca   }}"
-        server.crt: "{{ certs.wildcard.cert }}"
-        server.key: "{{ certs.wildcard['key']  }}"
+        cacert.pem: "{{ certs.hashbang.ca   }}"
+        server.crt: "{{ certs.hashbang.cert }}"
+        server.key: "{{ certs.hashbang['key']  }}"
 
       loop_control:
         label: "{{ item.key }}"
@@ -33,11 +33,11 @@
         mode: 0400
 
       with_dict:
-        server.crt: "{{ certs.wildcard.cert }}"
-        server.key: "{{ certs.wildcard.key  }}"
+        server.crt: "{{ certs.hashbang.cert }}"
+        server.key: "{{ certs.hashbang.key  }}"
         server-bundle.crt: |
-          {{ certs.wildcard.cert }}
-          {{ certs.wildcard.ca   }}
+          {{ certs.hashbang.cert }}
+          {{ certs.hashbang.ca   }}
 
       loop_control:
         label: "{{ item.key }}"
@@ -58,9 +58,9 @@
         mode: 0444
 
       with_dict:
-        ca.crt:   "{{ certs.wildcard.ca   }}"
-        ldap.crt: "{{ certs.wildcard.cert }}"
-        ldap.key: "{{ certs.wildcard.key  }}"
+        ca.crt:   "{{ certs.hashbang.ca   }}"
+        ldap.crt: "{{ certs.hashbang.cert }}"
+        ldap.key: "{{ certs.hashbang.key  }}"
 
       loop_control:
         label: "{{ item.key }}"
@@ -83,10 +83,10 @@
         mode: 0444
 
       with_dict:
-        server.key: "{{ certs.wildcard.key }}"
+        server.key: "{{ certs.hashbang.key }}"
         server.crt: |
-          {{ certs.wildcard.cert }}
-          {{ certs.wildcard.ca }}
+          {{ certs.hashbang.cert }}
+          {{ certs.hashbang.ca }}
 
       loop_control:
         label: "{{ item.key }}"
