@@ -1,3 +1,4 @@
+# -*- eval: (ansible) -*-
 - include: vault.yml load=certs
 
 - hosts: mail.hashbang.sh
