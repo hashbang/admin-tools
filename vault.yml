@@ -1,3 +1,4 @@
+# -*- eval: (ansible) -*-
 - name: Load data from vault
   hosts: "{{ hosts | default('all') }}"
   gather_facts: False

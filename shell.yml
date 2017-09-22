@@ -1,4 +1,4 @@
----
+# -*- eval: (ansible) -*-
 - name: Pull latest /etc files
   hosts: shell_servers
   gather_facts: false

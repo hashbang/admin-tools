@@ -1,3 +1,4 @@
+# -*- eval: (ansible) -*-
 - hosts: coreos
   gather_facts: False
   roles:

@@ -1,3 +1,4 @@
+# -*- eval: (ansible) -*-
 - include: vault.yml load=ldap hosts=ldap.hashbang.sh
 
 # This is a sucky way to make LDAP changes,
