@@ -11,7 +11,7 @@
       with_dict:
         cacert.pem: "{{ certs.hashbang.ca   }}"
         server.crt: "{{ certs.hashbang.cert }}"
-        server.key: "{{ certs.hashbang['key']  }}"
+        server.key: "{{ certs.hashbang.key  }}"
 
       loop_control:
         label: "{{ item.key }}"
