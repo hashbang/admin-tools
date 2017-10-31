@@ -1,7 +1,6 @@
 # -*- eval: (ansible) -*-
 - name: Pull latest /etc files
   hosts: shell_servers
-  gather_facts: false
   strategy: free
   tasks:
     - block:
@@ -25,6 +24,7 @@
           environment:
             GNUPGHOME: "{{ tmpdir.stdout }}"
           register: etc
+          notify: etc changed
           changed_when: "'Already up-to-date' not in etc.stdout"
 
       always:
@@ -32,19 +32,18 @@
           file: path={{ tmpdir.stdout }} state=absent
           changed_when: false
 
-    - name: Apply file permissions in /etc
-      command: etckeeper init
-      when: etc.changed
-      tags: [skip_ansible_lint] # This cannot be made a handler
+  handlers:
+    - name: etc changed
+      block:
+        - name: Apply file permissions in /etc
+          command: etckeeper init
 
-    - name: Push new /etc state
-      command: etckeeper push
-      when: etc.changed
-      tags: [skip_ansible_lint] # This cannot be made a handler
+        - name: Push new /etc state
+          command: etckeeper push
 
-    - name: Update GnuPG keyring
-      command: /etc/cron.daily/gpg-keyring
-      when: etc.changed
+        - name: Update GnuPG keyring
+          command: /etc/cron.daily/gpg-keyring
+
 
 - name: Update/Sync system packages
   hosts: shell_servers
