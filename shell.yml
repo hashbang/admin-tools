@@ -15,7 +15,7 @@
             dest: "{{ tmpdir.stdout + '/gpg.conf' }}"
             content: |
               # Never, ever, ever do this in your personal gpg.conf
-              # However, this is sane when you know you use an empty GNUPGHOME
+              # However, this is OK when you know you use an empty GNUPGHOME
               keyring /var/lib/hashbang/admins.gpg
               trust-model always
           changed_when: false
