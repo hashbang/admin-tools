@@ -1,7 +1,6 @@
 # -*- eval: (ansible) -*-
 - name: Pull latest /etc files
   hosts: shell_servers
-  gather_facts: false
   strategy: free
   tasks:
     - block:
@@ -12,8 +11,12 @@
 
         - name: Copy the dummy GnuPG config
           copy:
-            src: gpg.conf
             dest: "{{ tmpdir.stdout + '/gpg.conf' }}"
+            content: |
+              # Never, ever, ever do this in your personal gpg.conf
+              # However, this is OK when you know you use an empty GNUPGHOME
+              keyring /var/lib/hashbang/admins.gpg
+              trust-model always
           changed_when: false
 
         - name: Pull changes and check signature
@@ -21,6 +24,7 @@
           environment:
             GNUPGHOME: "{{ tmpdir.stdout }}"
           register: etc
+          notify: etc changed
           changed_when: "'Already up-to-date' not in etc.stdout"
 
       always:
@@ -28,15 +32,18 @@
           file: path={{ tmpdir.stdout }} state=absent
           changed_when: false
 
-    - name: Apply file permissions in /etc
-      command: etckeeper init
-      when: etc.changed
-      tags: [skip_ansible_lint] # This cannot be made a handler
+  handlers:
+    - name: etc changed
+      block:
+        - name: Apply file permissions in /etc
+          command: etckeeper init
 
-    - name: Push new /etc state
-      command: etckeeper push
-      when: etc.changed
-      tags: [skip_ansible_lint] # This cannot be made a handler
+        - name: Push new /etc state
+          command: etckeeper push
+
+        - name: Update GnuPG keyring
+          command: /etc/cron.daily/gpg-keyring
+
 
 - name: Update/Sync system packages
   hosts: shell_servers
