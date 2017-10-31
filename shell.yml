@@ -42,6 +42,10 @@
       when: etc.changed
       tags: [skip_ansible_lint] # This cannot be made a handler
 
+    - name: Update GnuPG keyring
+      command: /etc/cron.daily/gpg-keyring
+      when: etc.changed
+
 - name: Update/Sync system packages
   hosts: shell_servers
   gather_facts: false
