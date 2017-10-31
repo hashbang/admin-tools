@@ -11,6 +11,14 @@ Thank you for chosing to dedicate time and energy to #!.  I hope we will
 _TODO:_ major/minor changes, provisor always major?
 
 
+# Key management
+
+The [key management doc] describes some of the public key infrastructure
+for #! administration.  Go read it and setup Parcimonie, you will need those.
+
+[key management doc]: https://github.com/hashbang/admin-tools/blob/master/doc/Key_management.md
+
+
 # Gaining access -- part I
 
 We will first go over the parts that require cooperation
@@ -23,9 +31,10 @@ We will first go over the parts that require cooperation
   They will give you Git access to the Github org, including the shared
   pass db.
 - Add yourself to the `.gpg-id` file, do a signed commit, push.
-- The other admin confirms the key, then runs `pass init` to re-encrypt
-  the files and pushes (again, signed commits!).
+- The other admin confirms the key, re-encrypt the secrets and pushes.
 
+Changing the recipients in `password-store`
+is, again, covered in the [key management doc].
 
 ## ... to the Ansible Vault
 
