@@ -3,7 +3,7 @@
 There are a couple of places where public key material
 is stored and must be kept up-to-date:
 
-- `files/keys/${name}.pub` must contain your SSH public key for #!
+- [`files/keys/${name}.pub`] must contain your SSH public key for #!
   administration; it is used for root access to shell servers and CoreOS boxes.
 - `/var/lib/hashbang/admins.gpg` contains, on the shell servers, a GPG keyring
   used to authenticate the [`dotfiles`] and [`shell-etc`] repositories.
@@ -11,10 +11,11 @@ is stored and must be kept up-to-date:
   of key fingerprints against which secrets are encrypted.
 
 
-[`dotfiles`]:       https://github.com/hashbang/dotfiles
-[`shell-etc`]:      https://github.com/hashbang/shell-etc
-[`password-store`]: https://github.com/hashbang/password-store
-[`.gpg-id`]:        https://github.com/hashbang/password-store/blob/master/.gpg-id
+[`dotfiles`]:               https://github.com/hashbang/dotfiles
+[`shell-etc`]:              https://github.com/hashbang/shell-etc
+[`password-store`]:         https://github.com/hashbang/password-store
+[`.gpg-id`]:                https://github.com/hashbang/password-store/blob/master/.gpg-id
+[`files/keys/${name}.pub`]: https://github.com/hashbang/admin-tools/tree/master/files/keys
 
 
 ## SSH public key
