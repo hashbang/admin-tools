@@ -22,8 +22,8 @@ if [ $# -eq 0 ]; then
     exec gpg --decrypt --quiet "${KEY_FILE}"
 
 elif [ $# -eq 1 ] && [ "$1" = "rekey" ]; then
-    # Get 256b out of /dev/random, hex encoded
-    NEW_KEY=$(od -vAn -N32 -tx -w /dev/random)
+    # Get 256b out of /dev/urandom, hex encoded
+    NEW_KEY=$(od -vAn -N32 -tx -w /dev/urandom)
 
     # Save the new key
     # Using `--trust-model always` is valid: key are designated by fingerprint
