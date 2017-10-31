@@ -51,13 +51,13 @@ reviewing pull requests to this repository.
 
 ## ... to the CoreOS servers, root SSH on shell servers, & IRC oper
 
-Add your SSH keys in this repository:
+- Add your SSH keys in this repository, under `files/keys`.
 - Edit `group_vars/all/users.yml` and add a user object with your nick
   in `users`.  The expected values are documented in the file.  
   Be careful and do not put secrets (including password hashes) in plain
   text there, that's what Ansible Vault is for.
 - Do a signed commit and create a pull request.
-- Ask an admin to review, run `credentials.yml` and merge.
+- Another admin will need to review, run `credentials.yml` and merge.
 
 
 ### Certificate authentication
@@ -145,6 +145,5 @@ Still on `ldap.hashbang.sh`, with `HISTFILE` unset:
 ### Adding a user to the `team@` distribution list
 
 1. Check that your email in `group_vars/all/users.yml` is correct.  
-   It can point to the vault `mail: {{ vault_users.$USER.mail }}` and
-   defaults to `$USER@hashbang.sh`.
+   It can point to the vault (`mail: {{ vault_users.$USER.mail }}`).
 2. Run the `mail.yml` playbook.
