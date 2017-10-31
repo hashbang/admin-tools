@@ -9,6 +9,8 @@ is stored and must be kept up-to-date:
   used to authenticate the [`dotfiles`] and [`shell-etc`] repositories.
 - [`.gpg-id`], in the [`password-store`] repository, contains a list
   of key fingerprints against which secrets are encrypted.
+- [`vault_passphrase.sh`] contains a list of key fingerprints to which the
+  Ansible vault is encrypted.
 
 
 [`dotfiles`]:               https://github.com/hashbang/dotfiles
@@ -16,6 +18,7 @@ is stored and must be kept up-to-date:
 [`password-store`]:         https://github.com/hashbang/password-store
 [`.gpg-id`]:                https://github.com/hashbang/password-store/blob/master/.gpg-id
 [`files/keys/${name}.pub`]: https://github.com/hashbang/admin-tools/tree/master/files/keys
+[`vault_passphrase.sh`]:    https://github.com/hashbang/admin-tools/blob/master/vault_passphrase.sh
 
 
 ## SSH public key
@@ -89,3 +92,24 @@ checkout to re-encrypt the secrets to the new recipients:
     $ export PASSWORD_STORE_DIR="${PWD}"
     $ xargs pass init < .gpg-id
     $ unset PASSWORD_STORE_DIR
+
+
+### In Ansible Vault
+
+Ansible Vault uses passphrase-based encryption to keep various secrets,
+used when configuring servers, safe.  Ansible is configured to use a script,
+[`vault_passphrase.sh`], to decrypt the passphrase (stored in
+`vault_passphrase.pgp`).
+
+[`vault_passphrase.sh`] contains a list of key fingerprints against which to
+encrypt the passphrase (in the `RECIPIENTS` array).  After updating the list,
+call `./vault_passphrase rekey` to automatically generate a new passphrase
+(256 random bits, from `/dev/urandom`, hex-encoded) and re-encrypt all
+vault-protected files.
+
+To summarise, when changing an OpenPGP key:
+
+1. Update the `RECIPIENTS` array in `vault_passphrase.sh`. Do a signed commit.
+
+2. Run `vault_passphrase.sh rekey`.  
+   Commit `vault_passphrase.pgp` and the vault files.

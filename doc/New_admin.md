@@ -39,18 +39,8 @@ is, again, covered in the [key management doc].
 ## ... to the Ansible Vault
 
 The other admin must also reencrypt the Ansible Vault,
-now that they know your GPG key:
-
-1. Add the key, by fingerprint, to the `RECIPIENTS` array
-   in `vault_passphrase.sh`.
-
-2. Run `vault_passphrase.sh rekey`.  This generates a fresh
-   vault keys, re-encrypts the vault files and encrypts the
-   new key using GPG.
-
-3. Commit `vault_passphrase.pgp` and the vault files.
-   Push.
-
+now that they know your GPG key; the procedure is documented
+in the key management docs.
 
 While this goes on, setup [git configuration] to deal with GPG
 and Ansible Vault files.  You can confirm it works properly by
