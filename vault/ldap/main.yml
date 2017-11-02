@@ -1,3 +1,4 @@
 ldap:
-  user: cn=admin,dc=hashbang,dc=sh
-  password: "{{ vault_ldap.password }}"
+  admin:
+    dn: cn=admin,dc=hashbang,dc=sh
+    password: "{{ vault_ldap.admin }}"
