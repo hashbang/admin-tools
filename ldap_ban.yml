@@ -14,7 +14,7 @@
 
   tasks:
     - name: Disable account in LDAP
-      shell: echo "{{ ldif }}" | docker exec -i slapd ldapmodify -D {{ ldap.user }} -w {{ ldap.password }}
+      shell: echo "{{ ldif }}" | docker exec -i slapd ldapmodify -D {{ ldap.admin.dn }} -w {{ ldap.admin.password }}
 
 - hosts: shell_servers
   become: true

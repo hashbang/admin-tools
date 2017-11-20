@@ -1,0 +1,7 @@
+[ldap]
+uri = ldap://ldap.hashbang.sh
+user = {{ ldap.provisor.dn }}
+password = {{ ldap.provisor.password }}
+user-base = ou=People,dc=hashbang,dc=sh
+group-base = ou=Group,dc=hashbang,dc=sh
+ca-certfile = /etc/ssl/certs/ca-certificates.crt

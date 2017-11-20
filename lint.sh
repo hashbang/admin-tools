@@ -28,7 +28,7 @@ if ! command -v ansible-lint >/dev/null; then
     exit 1
 fi
 
-for playbook in *.yml; do
+for playbook in *.yml secrets/*.yml; do
     exec ansible-lint "${OPTIONS[@]}"                         \
          -x "$(join , ${IGNORES[@]} ${F_IGNORES[$playbook]})" \
          $playbook
