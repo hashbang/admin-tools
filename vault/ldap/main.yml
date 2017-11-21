@@ -5,4 +5,3 @@ ldap:
   provisor:
     dn: cn=provisor,ou=Admin,dc=hashbang,dc=sh
     password: "{{ vault_ldap.provisor }}"
-    salt: VxFD6Lq1fXSCNvi9  # Fixed salt for idempotency
