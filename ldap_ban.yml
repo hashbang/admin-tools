@@ -18,7 +18,6 @@
 
 - hosts: shell_servers
   become: true
-  strategy: free
   tasks:
     - name: Invalidate SSSd cache for {{ user }}
       command: sss_cache -u {{ user }}

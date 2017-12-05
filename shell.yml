@@ -1,7 +1,6 @@
 # -*- eval: (ansible) -*-
 - name: Pull latest /etc files
   hosts: shell_servers
-  strategy: free
   tasks:
     - block:
         - name: Create a temporary GNUPGHOME
@@ -48,7 +47,6 @@
 - name: Update/Sync system packages
   hosts: shell_servers
   gather_facts: false
-  strategy: free
   tasks:
     - name: Update apt cache
       apt:   update_cache=yes
