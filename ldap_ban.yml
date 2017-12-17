@@ -14,7 +14,10 @@
 
   tasks:
     - name: Disable account in LDAP
-      command: docker exec -i slapd ldapmodify -D {{ ldap.admin.dn }} -w {{ ldap.admin.password }}
+      command: >
+        docker exec -i slapd ldapmodify
+          -D {{ ldap.admin.dn       | quote }}
+          -w {{ ldap.admin.password | quote }}
       args:
         stdin: "{{ ldif }}"
 
