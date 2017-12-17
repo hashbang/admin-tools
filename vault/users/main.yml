@@ -28,6 +28,7 @@ user_groups:
   # admins are implicitely irc_ops
   irc_ops:
     - aagat
+    - echelon
     - SaidinWoT
     - stinethebean
     - Xomen
@@ -55,6 +56,12 @@ users:
       pass: "BE:D2:60:10:04:57:93:A3:EF:AC:0B:DB:B7:C5:5C:F6:0F:21:CD:CC:6E:DB:B5:BD:D1:94:21:ED:0E:76:B1:4B"
     mail: "{{ vault_users.deviavir.mail }}"
 
+  echelon:
+    github: jxechelon
+    irc_oper:
+      type: sha1
+      pass: "{{ vault_users.echelon.irc_operpass }}"
+  
   dgrove:
     github: drGrove
     irc_oper:
