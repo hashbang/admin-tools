@@ -59,8 +59,8 @@ users:
   echelon:
     github: jxechelon
     irc_oper:
-      type: sslclientcertfp
-      pass: "DE:AD:BE:EF:EA:75:BE:BE"
+      type: sha1
+      pass: "{{ vault_users.echelon.irc_operpass }}"
   
   dgrove:
     github: drGrove
