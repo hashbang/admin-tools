@@ -4,7 +4,11 @@
   tasks:
     - name: Fetch changes
       command: etckeeper vcs fetch origin master
-      register: etc_fetch
+
+    - name: Get commit hashes
+      command: etckeeper vcs rev-parse HEAD origin/master
+      register: etc_hashes
+      changed_when: False
 
     - block:
         - name: Create a temporary GNUPGHOME
@@ -23,12 +27,12 @@
           changed_when: false
 
         - name: Check update signature
-          command: etckeeper vcs verify-commit origin/master
+          command: etckeeper vcs verify-commit {{ etc_hashes.stdout_lines[1] }}
           environment:
             GNUPGHOME: "{{ tmpdir.stdout }}"
 
         - name: Fast-forward changes
-          command: etckeeper vcs merge --ff-only origin/master
+          command: etckeeper vcs merge --ff-only {{ etc_hashes.stdout_lines[1] }}
           register: etc
           notify: etc changed
           changed_when: "'Already up-to-date' not in etc.stdout"
@@ -38,7 +42,7 @@
           file: path={{ tmpdir.stdout }} state=absent
           changed_when: false
 
-      when: etc_fetch.changed
+      when: etc_hashes.stdout_lines[0] != etc_hashes.stdout_lines[1]
 
 
   handlers:
