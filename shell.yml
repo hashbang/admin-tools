@@ -18,12 +18,21 @@
               trust-model always
           changed_when: false
 
-        - name: Pull changes and check signature
-          command: etckeeper vcs pull --ff-only --verify-signatures
+        - name: Fetch changes
+          command: etckeeper vcs fetch origin master
+          register: etc_fetch
+
+        - name: Check update signature
+          command: etckeeper vcs verify-commit origin/master
           environment:
             GNUPGHOME: "{{ tmpdir.stdout }}"
+          when: etc_fetch.changed
+
+        - name: Fast-forward changes
+          command: etckeeper vcs merge --ff-only origin/master
           register: etc
           notify: etc changed
+          when: etc_fetch.changed
           changed_when: "'Already up-to-date' not in etc.stdout"
 
       always:
