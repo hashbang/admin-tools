@@ -3,7 +3,9 @@
   hosts: shell_servers
   tasks:
     - name: Fetch changes
-      command: etckeeper vcs fetch origin master
+      command: etckeeper vcs fetch -v origin master
+      register: fetch
+      changed_when: "'up-to-date' not in fetch.stdout"
 
     - name: Get commit hashes
       command: etckeeper vcs rev-parse HEAD origin/master
