@@ -1,0 +1,17 @@
+# -*- eval: (ansible) -*-
+#
+# Note - this playbook requires the existence of either `python-apt` on the
+# system, but should not be installed by Ansible over a `shell` task.
+
+- name: Install Hashbang, Inc. packages and config onto system
+  hosts: shell_servers
+  vars:
+     packages:
+      - fortune
+
+  tasks:
+    - name: Install apt packages
+      apt:
+         name: "{{ item }}"
+         state: present
+      with_items: "{{ packages }}"
