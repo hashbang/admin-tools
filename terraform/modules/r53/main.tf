@@ -100,14 +100,14 @@ resource "aws_route53_record" "ldap-ipv6" {
     name = "ldap.${aws_route53_zone.hashbang.name}"
     type = "AAAA"
     ttl  = "1800"
-    records = ["2604:a880:800:a1::41c:6001"]
+    records = ["2604:a880:800:a1::1295:f001"]
 }
 resource "aws_route53_record" "ldap-ipv4" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
     name = "ldap.${aws_route53_zone.hashbang.name}"
     type = "A"
     ttl  = "1800"
-    records = ["159.203.127.193"]
+    records = ["165.227.96.208"]
 }
 
 resource "aws_route53_record" "sf1-ipv6" {
