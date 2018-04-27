@@ -72,6 +72,13 @@ link services.irc.hashbang.sh {
 
 ulines { services.irc.hashbang.sh ; };
 
+{% for service in ['Nick', 'Chan', 'Memo', 'Oper', 'Bot', 'Host'] %}
+ban nick {
+    mask "{{ service }}Serv";
+    reason "Reserved for services.";
+}
+{% endfor %}
+
 allow {
     ip       *@*;
     hostname *@*;
