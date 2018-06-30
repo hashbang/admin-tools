@@ -17,6 +17,7 @@
 user_groups:
   admins:
     - alissa
+    - benharri
     - daurnimator
     - deviavir
     - dgrove
@@ -42,6 +43,12 @@ users:
       type: sha1
       pass: "{{ vault_users.alissa.irc_operpass }}"
     mail: "{{ vault_users.alissa.mail }}"
+
+  benharri:
+    irc_oper:
+      type: sha1
+      pass: "{{ vault_users.benharri.irc_operpass }}"
+    mail: "{{ vault_users.benharri.mail }}"
 
   daurnimator:
     irc_oper:
