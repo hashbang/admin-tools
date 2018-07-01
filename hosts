@@ -14,7 +14,7 @@ ansible_user=root
 [coreos]
 hashbang.sh
 im.hashbang.sh
-ldap.hashbang.sh
+ldap.hashbang.sh ansible_port=22
 mail.hashbang.sh
 nyc3.apps.hashbang.sh
 voip.hashbang.sh
