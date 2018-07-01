@@ -46,8 +46,8 @@ users:
 
   benharri:
     irc_oper:
-      type: sha1
-      pass: "{{ vault_users.benharri.irc_operpass }}"
+      type: sslclientcertfp
+      pass: "90:7F:08:66:21:06:18:A8:29:6A:44:15:F9:FA:AB:D6:DF:A5:06:6A:05:69:4D:DA:C2:78:F7:20:E6:5E:88:92"
     mail: "{{ vault_users.benharri.mail }}"
 
   daurnimator:
