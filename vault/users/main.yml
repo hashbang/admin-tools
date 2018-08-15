@@ -68,12 +68,12 @@ users:
     irc_oper:
       type: sha1
       pass: "{{ vault_users.echelon.irc_operpass }}"
-  
+
   dgrove:
     github: drGrove
     irc_oper:
-      type: sha1
-      pass: "{{ vault_users.dgrove.irc_operpass }}"
+      type: sslclientcertfp
+      pass: "19:68:84:1D:AE:CE:2E:3A:65:56:71:F4:D6:9C:F1:92:99:12:EC:7C:99:78:95:B1:9C:7B:E3:AC:2E:9C:8A:F2"
     mail: "{{ vault_users.dgrove.mail }}"
 
   kellerfuchs:
@@ -122,3 +122,4 @@ users:
     irc_oper:
       type: sha1
       pass: "{{ vault_users.Xomen.irc_operpass }}"
+
