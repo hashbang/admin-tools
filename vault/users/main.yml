@@ -97,8 +97,8 @@ users:
   viaken:
     github: dpflug
     irc_oper:
-      type: sha1
-      pass: "{{ vault_users.viaken.irc_operpass }}"
+      type: sslclientcertfp
+      pass: "FD:09:31:18:8C:EB:AA:23:42:6C:58:FB:A1:88:2D:D0:5A:05:E9:E1:9A:1A:33:3E:E0:0C:0A:E1:4C:0A:85:2D"
     mail: "{{ vault_users.viaken.mail }}"
 
 
