@@ -1,25 +1,20 @@
 # -*- eval: (ansible) -*-
 - include: vault.yml load=ldap hosts=ldap.hashbang.sh
 
-# This is a sucky way to make LDAP changes,
-# but Ansible's ldap_attr module is v2.3 only
-- hosts: ldap.hashbang.sh
-  become: false
-  vars:
-    ldif: |
-      dn: uid={{ user | mandatory }},ou=People,dc=hashbang,dc=sh
-      changetype: modify
-      replace: loginShell
-      loginShell: /usr/sbin/nologin
-
+- name: Disable the account in LDAP
+  hosts: ldap.hashbang.sh
+  gather_facts: False
   tasks:
-    - name: Disable account in LDAP
-      command: >
-        docker exec -i slapd ldapmodify
-          -D {{ ldap.admin.dn       | quote }}
-          -w {{ ldap.admin.password | quote }}
-      args:
-        stdin: "{{ ldif }}"
+    - ldap_attr:
+        server_uri: ldaps://ldap.hashbang.sh
+        bind_dn: "{{ ldap.admin.dn }}"
+        bind_pw: "{{ ldap.admin.password }}"
+
+        dn: uid={{ user | mandatory }},ou=People,dc=hashbang,dc=sh
+        name: loginShell
+        state: exact
+        values: /usr/sbin/nologin
+      delegate_to: localhost
 
 - hosts: shell_servers
   become: true
