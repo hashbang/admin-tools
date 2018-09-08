@@ -22,6 +22,7 @@
     - name: Invalidate SSSd cache for {{ user }}
       command: sss_cache -u {{ user }}
       changed_when: false
+      ignore_errors: yes
 
     - name: Terminate sessions for {{ user }}
       command: loginctl terminate-user {{ user }}
