@@ -65,9 +65,10 @@ There are several playbooks present here:
   sessions on the shell servers; it requires python-ldap installed.
   Invoke as follows:
 
-		ansible-playbook ldap_ban.yml -e 'users=${USERNAME}'
+		ansible-playbook ldap_ban.yml
 
-  `users` can be a comma-separated list of users.
+  For scripting purposes, the script accepts a comma-separated list of users,
+  as parameter `users`.
 
 
 ## Usage

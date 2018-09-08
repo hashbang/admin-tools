@@ -4,6 +4,12 @@
 - name: Parse parameters
   hosts: ldap.hashbang.sh,shell_servers
   gather_facts: no
+
+  vars_prompt:
+    - name: users
+      prompt: Comma-separated list of users to ban
+      private: no
+
   tasks:
     - name: Parse users list
       set_fact:
@@ -11,7 +17,7 @@
 
 - name: Disable the account in LDAP
   hosts: ldap.hashbang.sh
-  gather_facts: False
+  gather_facts: no
   tasks:
     - ldap_attr:
         server_uri: ldaps://ldap.hashbang.sh
