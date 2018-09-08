@@ -1,6 +1,14 @@
 # -*- eval: (ansible) -*-
 - include: vault.yml load=ldap hosts=ldap.hashbang.sh
 
+- name: Parse parameters
+  hosts: ldap.hashbang.sh,shell_servers
+  gather_facts: no
+  tasks:
+    - name: Parse users list
+      set_fact:
+        user_list: "{{ users.split(',') }}"
+
 - name: Disable the account in LDAP
   hosts: ldap.hashbang.sh
   gather_facts: False
@@ -10,23 +18,27 @@
         bind_dn: "{{ ldap.admin.dn }}"
         bind_pw: "{{ ldap.admin.password }}"
 
-        dn: uid={{ user | mandatory }},ou=People,dc=hashbang,dc=sh
+        dn: uid={{ item }},ou=People,dc=hashbang,dc=sh
         name: loginShell
         state: exact
         values: /usr/sbin/nologin
       delegate_to: localhost
+      with_items: "{{ user_list }}"
 
 - hosts: shell_servers
   become: true
+  gather_facts: no
   tasks:
-    - name: Invalidate SSSd cache for {{ user }}
-      command: sss_cache -u {{ user }}
+    - name: Invalidate SSSd cache entries
+      command: sss_cache -u {{ item }}
+      with_items: "{{ user_list }}"
       changed_when: false
       ignore_errors: yes
 
-    - name: Terminate sessions for {{ user }}
-      command: loginctl terminate-user {{ user }}
+    - name: Terminate user sessions
+      command: loginctl terminate-user {{ item }}
       register: terminate
+      with_items: "{{ user_list }}"
       failed_when: |
         'Could not terminate user: No user' not in terminate.stderr
         and terminate|failed
