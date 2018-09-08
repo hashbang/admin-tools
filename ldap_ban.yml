@@ -10,10 +10,16 @@
       prompt: Comma-separated list of users to ban
       private: no
 
+    - name: delete
+      prompt: Delete home directories? (yes/no)
+      private: no
+      default: "no"
+
   tasks:
     - name: Parse users list
       set_fact:
         user_list: "{{ users.split(',') }}"
+        delete_homedirs: "{{ delete }}"
 
 - name: Disable the account in LDAP
   hosts: ldap.hashbang.sh
@@ -49,3 +55,10 @@
         'Could not terminate user: No user' not in terminate.stderr
         and terminate|failed
       changed_when: terminate.stderr == "" and terminate|success
+
+    - name: Delete home directories
+      when: delete_homedirs
+      with_items: "{{ user_list }}"
+      file:
+        path: /home/{{ item }}
+        state: absent

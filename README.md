@@ -68,7 +68,8 @@ There are several playbooks present here:
 		ansible-playbook ldap_ban.yml
 
   For scripting purposes, the script accepts a comma-separated list of users,
-  as parameter `users`.
+  (`users`), and a Boolean determining if the homedirs should be deleted
+  (`delete`).
 
 
 ## Usage
