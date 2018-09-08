@@ -53,7 +53,7 @@
       with_items: "{{ user_list }}"
       failed_when: |
         'Could not terminate user: No user' not in terminate.stderr
-        and terminate|failed
+        and terminate is failed
       changed_when: terminate.stderr == "" and terminate|success
 
     - name: Delete home directories
