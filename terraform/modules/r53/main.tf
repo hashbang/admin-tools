@@ -269,12 +269,13 @@ resource "aws_route53_record" "dmarc-txt" {
     records = ["v=DMARC1; p=none; pct=100; rua=mailto:re+niiphewtj3k@dmarc.postmarkapp.com; sp=none; aspf=s;"]
 }
 
-resource "aws_route53_record" "spf-txt" {
+resource "aws_route53_record" "hashbang-txt" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
     name = "${aws_route53_zone.hashbang.name}"
     type = "TXT"
     ttl  = "1800"
-    records = ["v=spf1 +mx -all"]
+    records = ["v=spf1 +mx -all",
+               "github-verification=pLnrWA79MbdJHxeWY8uxDXUaqDKbkhbJqtefK85f"]
 }
 
 
