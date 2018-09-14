@@ -2,6 +2,16 @@
 - name: Pull latest /etc files
   hosts: shell_servers
   tasks:
+    - name: Fetch changes
+      command: etckeeper vcs fetch -v origin master
+      register: fetch
+      changed_when: "'up-to-date' not in fetch.stdout"
+
+    - name: Get commit hashes
+      command: etckeeper vcs rev-parse HEAD origin/master
+      register: etc_hashes
+      changed_when: False
+
     - block:
         - name: Create a temporary GNUPGHOME
           command: mktemp -d
@@ -18,10 +28,13 @@
               trust-model always
           changed_when: false
 
-        - name: Pull changes and check signature
-          command: etckeeper vcs pull --ff-only --verify-signatures
+        - name: Check update signature
+          command: etckeeper vcs verify-commit {{ etc_hashes.stdout_lines[1] }}
           environment:
             GNUPGHOME: "{{ tmpdir.stdout }}"
+
+        - name: Fast-forward changes
+          command: etckeeper vcs merge --ff-only {{ etc_hashes.stdout_lines[1] }}
           register: etc
           notify: etc changed
           changed_when: "'Already up-to-date' not in etc.stdout"
@@ -30,6 +43,9 @@
         - name: Remove the temporary GNUPGHOME
           file: path={{ tmpdir.stdout }} state=absent
           changed_when: false
+
+      when: etc_hashes.stdout_lines[0] != etc_hashes.stdout_lines[1]
+
 
   handlers:
     - name: etc changed
