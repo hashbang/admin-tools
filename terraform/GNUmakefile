@@ -1,7 +1,7 @@
 REGION?=us-west-2
 
 prepare:
-	$(eval AWS := $(shell pass hashbang/aws/terraform))
+	$(eval AWS := $(shell pass Hashbang/aws/terraform))
 	$(eval AAK := $(word 1,$(AWS)))
 	$(eval ASK := $(word 2,$(AWS)))
 
