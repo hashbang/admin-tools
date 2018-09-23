@@ -1,50 +1,45 @@
 # terraform
 
-### init
+## Making changes
 
-##### Console
+Set up your current shell to use Hashbang AWS credentials.
+Once ran, ensure that you do not use this shell for other things.
 
-Log in to the AWS and navigate to the `CloudFormation` service. Create a new stack, import `terraform-seed.yaml`. Complete the stack creation and make sure it gets set up.
-
-##### CLI
-
-Make sure you completed `aws configure`.
-
+```bash
+read AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY <<< $(pass Hashbang/aws/terraform | tr "\n" " ")
+export AWS_ACCESS_KEY_ID AWS_SECRET_ACCESS_KEY
 ```
-aws cloudformation deploy --template-file terraform-seed.yaml --stack-name hashbang-terraform
-```
-
-##### Verify
 
 Run terraform init.
 
-```
-make init
+```bash
+terraform init
 ``` 
 
-Plan terraform changes, to verify.
+### Previewing changes
 
-```
-make plan
-```
-
-
-### plan & apply
-
-```
-make plan
-``` 
-
-verify your changes are executed as you'd like.
-
-```
-make apply
+```bash
+terraform plan
 ```
 
-follow the stream, and verify your changes have been applied using the AWS Console or CLI.
+Verify your changes are executed as you'd like.
 
-### others
 
+### Deploying
+
+```bash
+terraform apply
 ```
-make ${your_action_here}
+
+
+## Starting from scratch
+
+### Console
+
+Log in to the AWS and navigate to the `CloudFormation` service. Create a new stack, import `terraform-seed.yaml`. Complete the stack creation and make sure it gets set up.
+
+### CLI
+
+```bash
+aws cloudformation deploy --template-file terraform-seed.yaml --stack-name hashbang-terraform
 ```
