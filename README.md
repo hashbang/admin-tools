@@ -61,10 +61,15 @@ There are several playbooks present here:
 - `mail.yml` deploy the mail aliases and Postfix configuration.
 - `irc.yml` deploys static and templated configuration to the IRC servers,
   including oper blocks for users defined in `group_vars/all/users.yml`.
-- `ldap_ban.yml` disables a user's account in LDAP and terminate their
-  sessions on the shell servers.  Invoke as follows:
+- `ldap_ban.yml` disables user accounts in LDAP and terminates their
+  sessions on the shell servers; it requires python-ldap installed.
+  Invoke as follows:
 
-		ansible-playbook ldap_ban.yml -e 'user=${USERNAME}'
+		ansible-playbook ldap_ban.yml
+
+  For scripting purposes, the script accepts a comma-separated list of users,
+  (`users`), and a Boolean determining if the homedirs should be deleted
+  (`delete`).
 
 
 ## Usage
