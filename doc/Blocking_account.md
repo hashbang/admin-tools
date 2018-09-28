@@ -4,10 +4,13 @@ Sadly, sometimes abuse happen.
 Sometimes, admins are required to block a user's account.  
 Sometimes, there is automation for it.
 
-	ansible-playbook ldap_ban.yml -e 'user=dude55b1'
+	ansible-playbook ldap_ban.yml
 
-The playbook will take care of disabling the account and
-kicking the user from all shell servers.
+The playbook will take care of disabling the account and kicking the user from
+all shell servers. By default, it prompts for the list of users to ban, unless a
+colon-separated list is provided on the command line:
+
+	ansible-playbook ldap_ban.yml -e users=dude55b1,kellertest,lrobovick
 
 
 # How the sausage is made
