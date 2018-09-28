@@ -17,6 +17,7 @@
 user_groups:
   admins:
     - alissa
+    - benharri
     - daurnimator
     - deviavir
     - dgrove
@@ -25,7 +26,7 @@ user_groups:
     - viaken
     - singlerider
 
-  # admins are implicitely irc_ops
+  # admins are implicitly irc_ops
   irc_ops:
     - aagat
     - echelon
@@ -42,6 +43,12 @@ users:
       type: sha1
       pass: "{{ vault_users.alissa.irc_operpass }}"
     mail: "{{ vault_users.alissa.mail }}"
+
+  benharri:
+    irc_oper:
+      type: sslclientcertfp
+      pass: "90:7F:08:66:21:06:18:A8:29:6A:44:15:F9:FA:AB:D6:DF:A5:06:6A:05:69:4D:DA:C2:78:F7:20:E6:5E:88:92"
+    mail: "{{ vault_users.benharri.mail }}"
 
   daurnimator:
     irc_oper:
@@ -61,12 +68,12 @@ users:
     irc_oper:
       type: sha1
       pass: "{{ vault_users.echelon.irc_operpass }}"
-  
+
   dgrove:
     github: drGrove
     irc_oper:
-      type: sha1
-      pass: "{{ vault_users.dgrove.irc_operpass }}"
+      type: sslclientcertfp
+      pass: "19:68:84:1D:AE:CE:2E:3A:65:56:71:F4:D6:9C:F1:92:99:12:EC:7C:99:78:95:B1:9C:7B:E3:AC:2E:9C:8A:F2"
     mail: "{{ vault_users.dgrove.mail }}"
 
   kellerfuchs:
@@ -90,8 +97,8 @@ users:
   viaken:
     github: dpflug
     irc_oper:
-      type: sha1
-      pass: "{{ vault_users.viaken.irc_operpass }}"
+      type: sslclientcertfp
+      pass: "C0:B5:27:AD:10:E2:5F:60:39:0A:27:4D:5A:B9:30:51:17:54:87:99:EF:8A:C2:80:A0:31:4D:CA:A1:FE:78:9B"
     mail: "{{ vault_users.viaken.mail }}"
 
 
@@ -115,3 +122,4 @@ users:
     irc_oper:
       type: sha1
       pass: "{{ vault_users.Xomen.irc_operpass }}"
+
