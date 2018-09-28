@@ -54,7 +54,7 @@
       failed_when: |
         'Could not terminate user: No user' not in terminate.stderr
         and terminate is failed
-      changed_when: terminate.stderr == "" and terminate|success
+      changed_when: terminate.stderr == "" and terminate is success
 
     - name: Delete home directories
       when: delete_homedirs
