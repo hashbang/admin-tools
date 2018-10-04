@@ -7,7 +7,11 @@ oper {{ users[user].irc | default(user) }} {
 	class clients;
 	from { userhost *@*; };
 	password "{{ users[user].irc_oper.pass }}" { {{ users[user].irc_oper.type }}; };
-	flags { netadmin; can_gkline; can_override; can_gzline; can_restart; can_die; global; };
+	flags {
+    netadmin; can_gkline;
+    can_override; can_gzline;
+    can_restart; can_die; global;
+  };
 	modes +q;
 };
 {% endfor %}
@@ -20,7 +24,8 @@ oper {{ user }} {
 	class clients;
 	from { userhost *@*; };
 	password "{{ users[user].irc_oper.pass }}" { {{ users[user].irc_oper.type }}; };
-	flags { coadmin; can_override;
+	flags {
+    coadmin; can_override;
 	  can_localkill; can_globalkill;
 	  can_kline; can_unkline; can_gzline;
 	  can_wallops; can_localnotice; can_globalnotice;

@@ -15,7 +15,7 @@
     - name: Copy static configuration
       copy:
         src: "{{ item }}"
-        dest: /home/core/unrealircd/{{ item | basename }}
+        dest: /home/core/unrealircd/conf/{{ item | basename }}
       with_fileglob:
         - unrealircd/*.conf
         - unrealircd/ircd.motd
@@ -24,7 +24,7 @@
     - name: Generate templated configuration
       template:
         src: "{{ item }}"
-        dest: /home/core/unrealircd/{{ item | basename | regex_replace('\.j2$', '') }}
+        dest: /home/core/unrealircd/conf/{{ item | basename | regex_replace('\.j2$', '') }}
       with_fileglob:
         - unrealircd/*.j2
       notify: [rehash ircd]
