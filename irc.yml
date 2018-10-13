@@ -1,5 +1,5 @@
 # -*- eval: (ansible) -*-
-- include: vault.yml load=irc,users hosts=irc
+- import_playbook: vault.yml load=irc,users hosts=irc
 
 - name: Configure IRC servers
   hosts: irc_servers
@@ -12,26 +12,35 @@
 #        name: ircd
 #        state: started
 
+    - name: Create unrealircd folder
+      file:
+        path: "{{ ansible_env.HOME }}/unrealircd"
+        state: directory
+
     - name: Copy static configuration
-      copy:
+      synchronize:
         src: "{{ item }}"
-        dest: /home/core/unrealircd/conf/{{ item | basename }}
+        dest: "{{ ansible_env.HOME }}/unrealircd/conf/"
+        compress: true
+        recursive: true
       with_fileglob:
         - unrealircd/*.conf
+        - unrealircd/aliases/*.conf
+        - unrealircd/help/*.conf
         - unrealircd/ircd.motd
       notify: [rehash ircd]
 
     - name: Generate templated configuration
       template:
         src: "{{ item }}"
-        dest: /home/core/unrealircd/conf/{{ item | basename | regex_replace('\.j2$', '') }}
+        dest: "{{ ansible_env.HOME }}/unrealircd/conf/{{ item | relpath('files/unrealircd') | regex_replace('\\.j2$', '') }}"
       with_fileglob:
         - unrealircd/*.j2
       notify: [rehash ircd]
 
   handlers:
     - name: rehash ircd
-      command: docker exec -i ircd /unrealircd/unreal rehash
+      command: docker exec -i ircd /usr/lib64/unrealircd/bin/unrealircd rehash
 
 - name: Configure IRC services
   hosts: services.irc.hashbang.sh
@@ -41,7 +50,7 @@
     - name: Copy static configuration
       copy:
         src: "{{ item }}"
-        dest: /home/core/anope/config/{{ item | basename }}
+        dest: "{{ ansible_env.HOME }}/anope/config/{{ item | basename }}"
       with_fileglob:
         - anope/*.conf
       notify: [Reload anope config]
@@ -49,7 +58,7 @@
     - name: Generate templated configuration
       template:
         src: "{{ item }}"
-        dest: /home/core/anope/config/{{ item | basename | regex_replace('\.j2$', '') }}
+        dest: "{{ ansible_env.HOME }}/anope/config/{{ item | basename | regex_replace('\\.j2$', '') }}"
       with_fileglob:
         - anope/*.j2
       notify: [Reload anope config]

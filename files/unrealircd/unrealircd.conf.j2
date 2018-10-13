@@ -1,8 +1,5 @@
 {{ ansible_managed | comment }}
-
-loadmodule "/usr/lib64/unrealircd/modules/commands.so";
-loadmodule "/usr/lib64/unrealircd/modules/cloak.so";
-
+include "modules.default.conf";
 include "opers.conf";
 include "aliases/anope.conf";
 include "help.conf";
@@ -10,169 +7,169 @@ include "badwords.conf";
 include "spamfilter.conf";
 
 admin {
-    "Hashbang IRC Staff";
-    "staff@hashbang.sh";
+  "Hashbang IRC Staff";
+  "staff@hashbang.sh";
 };
 
 me {
-    name "{{ ansible_fqdn }}.irc.hashbang.sh";
-    info "Hashbang IRC Network";
-    numeric {{ irc_numeric }};
+  name "{{ ansible_fqdn }}.irc.hashbang.sh";
+  info "Hashbang IRC Network";
+  numeric {{ irc_numeric }};
 };
 
 class clients {
-    pingfreq 90;
-    maxclients 1000;
-    sendq 100000;
-    recvq 8000;
+  pingfreq 90;
+  maxclients 1000;
+  sendq 100000;
+  recvq 8000;
 };
 
 class servers {
-    pingfreq 90;
-    maxclients 10;
-    sendq 1000000;
-    connfreq 100;
+  pingfreq 90;
+  maxclients 10;
+  sendq 1000000;
+  connfreq 100;
 };
 
 {% for server in groups.irc_servers if not server == ansible_fqdn %}
 link {{ server }} {
-    username *;
-    hostname "{{ server }}";
-    port 6697;
-    password-connect "{{ irc.link_keys.irc }}";
-    password-receive "{{ irc.link_keys.irc }}";
-    hub *;
-    class servers;
-    options {
-        nohostcheck;
-        nodnscache;
-        autoconnect;
-        ssl;
-    };
+  username *;
+  hostname "{{ server }}";
+  port 6697;
+  password-connect "{{ irc.link_keys.irc }}";
+  password-receive "{{ irc.link_keys.irc }}";
+  hub *;
+  class servers;
+  options {
+    nohostcheck;
+    nodnscache;
+    autoconnect;
+    ssl;
+  };
 };
 
 {% endfor %}
 
 link services.irc.hashbang.sh {
-    username *;
-    hostname "services.irc.hashbang.sh";
-    port 6697;
-    hub *;
-    password-connect "{{ irc.link_keys.services }}";
-    password-receive "{{ irc.link_keys.services }}";
-    class servers;
-    options {
-        nohostcheck;
-        nodnscache;
-        ssl;
-    };
+  username *;
+  hostname "services.irc.hashbang.sh";
+  port 6697;
+  hub *;
+  password-connect "{{ irc.link_keys.services }}";
+  password-receive "{{ irc.link_keys.services }}";
+  class servers;
+  options {
+    nohostcheck;
+    nodnscache;
+    ssl;
+  };
 };
 
 ulines { services.irc.hashbang.sh ; };
 
 {% for service in ['Nick', 'Chan', 'Memo', 'Oper', 'Bot', 'Host'] %}
 ban nick {
-    mask "{{ service }}Serv";
-    reason "Reserved for services.";
+  mask "{{ service }}Serv";
+  reason "Reserved for services.";
 };
 {% endfor %}
 
 allow {
-    ip       *@*;
-    hostname *@*;
-    class       clients;
-    maxperip    1000;
-    options {
-        useip;
-    };
+  ip       *@*;
+  hostname *@*;
+  class       clients;
+  maxperip    1000;
+  options {
+    useip;
+  };
 };
 
 allow {
-    hostname *@*.hashbang.sh;
-    ip       INVALID;
-    class clients;
-    maxperip 1000;
+  hostname *@*.hashbang.sh;
+  ip       INVALID;
+  class clients;
+  maxperip 1000;
 };
 
 log "/usr/lib64/unrealircd/logs/ircd.log" {
-    maxsize 5MB;
-    flags {
-        errors;
-        kills;
-        tkl;
-        connects;
-        server-connects;
-        oper;
-        sadmin-commands;
-        chg-commands;
-        oper-override;
-        spamfilter;
-    };
+  maxsize 5MB;
+  flags {
+    errors;
+    kills;
+    tkl;
+    connects;
+    server-connects;
+    oper;
+    sadmin-commands;
+    chg-commands;
+    oper-override;
+    spamfilter;
+  };
 };
 
 listen *:6697 { options { ssl; }; };
 
 /* Network configuration */
 set {
-    network-name        "#!";
-    default-server      "irc.hashbang.sh";
-    services-server     "services.irc.hashbang.sh";
-    help-channel        "#help";
-    hiddenhost-prefix   "#!";
-    cloak-keys {
-{% for item in irc.cloak_keys %}
-        "{{ item }}";
-{% endfor %}
-    };
-    hosts {
-        local       "locop.hashbang.sh";
-        global      "ircop.hashbang.sh";
-        coadmin     "coadmin.hashbang.sh";
-        admin       "admin.hashbang.sh";
-        servicesadmin   "csops.hashbang.sh";
-        netadmin    "netadmin.hashbang.sh";
-        host-on-oper-up "no";
-    };
-    ssl {
-        trusted-ca-file "/usr/lib64/unrealircd/ssl/server-bundle.crt";
-        certificate "/usr/lib64/unrealircd/ssl/server.crt";
-        key "/usr/lib64/unrealircd/ssl/server.key";
-        server-cipher-list "ECDH+AESGCM256:ECDH+AESGCM128:ECDH+AES256:ECDH+AES128:!aNULL:!MD5:!RC4:!DSS:!EXPORT";
-    };
-    sasl-server "services.irc.hashbang.sh";
+  network-name        "#!";
+  default-server      "irc.hashbang.sh";
+  services-server     "services.irc.hashbang.sh";
+  help-channel        "#help";
+  hiddenhost-prefix   "#!";
+  cloak-keys {
+    {% for item in irc.cloak_keys %}
+    "{{ item }}";
+    {% endfor %}
+  };
+  hosts {
+    local       "locop.hashbang.sh";
+    global      "ircop.hashbang.sh";
+    coadmin     "coadmin.hashbang.sh";
+    admin       "admin.hashbang.sh";
+    servicesadmin   "csops.hashbang.sh";
+    netadmin    "netadmin.hashbang.sh";
+    host-on-oper-up "no";
+  };
+  ssl {
+    trusted-ca-file "/usr/lib64/unrealircd/ssl/server-bundle.crt";
+    certificate "/usr/lib64/unrealircd/ssl/server.crt";
+    key "/usr/lib64/unrealircd/ssl/server.key";
+    server-cipher-list "ECDH+AESGCM256:ECDH+AESGCM128:ECDH+AES256:ECDH+AES128:!aNULL:!MD5:!RC4:!DSS:!EXPORT";
+  };
+  sasl-server "services.irc.hashbang.sh";
 };
 
 /* Server specific configuration */
 set {
-    kline-address       "team@hashbang.sh";
-    modes-on-connect    "+iwx";
-    modes-on-oper       "+xwgs";
-    snomask-on-oper     "+ksfvGqo";
-    oper-auto-join      "#!opers";
-    options {
-        hide-ulines;
-        identd-check;
-        show-connect-info;
-    };
+  kline-address       "team@hashbang.sh";
+  modes-on-connect    "+iwx";
+  modes-on-oper       "+xwgs";
+  snomask-on-oper     "+ksfvGqo";
+  oper-auto-join      "#!opers";
+  options {
+    hide-ulines;
+    identd-check;
+    show-connect-info;
+  };
 
-    maxchannelsperuser 20;
-    anti-spam-quit-message-time 10s;
+  maxchannelsperuser 20;
+  anti-spam-quit-message-time 10s;
 
-    oper-only-stats "okfGsMRUEelLCXzdD";
+  oper-only-stats "okfGsMRUEelLCXzdD";
 
 #    throttle {
 #        connections 3;
 #        period 60s;
 #    };
 
-    anti-flood {
-        nick-flood 3:60;    /* 3 nickchanges per 60 seconds (the default) */
-    };
+  anti-flood {
+    nick-flood 3:60;    /* 3 nickchanges per 60 seconds (the default) */
+  };
 
-    spamfilter {
-        ban-time 1d;
-        ban-reason "Spam/Advertising";
-        virus-help-channel "#help";
-    };
+  spamfilter {
+    ban-time 1d;
+    ban-reason "Spam/Advertising";
+    virus-help-channel "#help";
+  };
 };
 
