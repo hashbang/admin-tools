@@ -227,9 +227,9 @@ spamfilter {
 {% for i in irc.spam_filters %}
 
 spamfilter {
-  match-type posix; {# TODO(groved): Make configurable #}
+  match-type posix;{# TODO(groved): Make configurable #}
   match "{{ i['regex'] | mandatory }}";
-  target { channel; private; }; {# TODO: Make configurable #}
+  target { channel; private; };{# TODO: Make configurable #}
 
   action {{ i['action'] | default('kill') }};
   reason "{{ i['reason'] | default("SPAM isn't tasty") | regex_replace('"', '\\"') }}";

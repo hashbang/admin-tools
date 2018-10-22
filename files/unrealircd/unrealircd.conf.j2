@@ -2,7 +2,7 @@
 include "modules.default.conf";
 include "opers.conf";
 include "aliases/anope.conf";
-include "help.conf";
+include "help/help.conf";
 include "badwords.conf";
 include "spamfilter.conf";
 
@@ -53,13 +53,15 @@ link {{ server }} {
 link services.irc.hashbang.sh {
   incoming {
     mask *;
-  }
+  };
   outgoing {
     bind-ip (null);
     hostname services.irc.hashbang.sh;
     port 6697;
     options { ssl; };
-  }
+  };
+  class servers;
+  password-connect "{{ irc.link_keys.irc }}";
 };
 
 ulines { services.irc.hashbang.sh ; };
@@ -113,7 +115,7 @@ listen {
   port 6800;
   options { ssl; };
   ssl-options {
-      options { no-client-certificate; };
+    options { no-client-certificate; };
   };
 };
 
@@ -172,4 +174,4 @@ set {
   };
 };
 
-include "operclass.default.conf"
+include "operclass.default.conf";
