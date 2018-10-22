@@ -12,9 +12,9 @@ admin {
 };
 
 me {
-  name "{{ ansible_fqdn }}.irc.hashbang.sh";
+  name "{{ ansible_fqdn }}";
   info "Hashbang IRC Network";
-  numeric {{ irc_numeric }};
+  sid {{ irc_numeric }};
 };
 
 class clients {
@@ -51,18 +51,15 @@ link {{ server }} {
 {% endfor %}
 
 link services.irc.hashbang.sh {
-  username *;
-  hostname "services.irc.hashbang.sh";
-  port 6697;
-  hub *;
-  password-connect "{{ irc.link_keys.services }}";
-  password-receive "{{ irc.link_keys.services }}";
-  class servers;
-  options {
-    nohostcheck;
-    nodnscache;
-    ssl;
-  };
+  incoming {
+    mask *;
+  }
+  outgoing {
+    bind-ip (null);
+    hostname services.irc.hashbang.sh;
+    port 6697;
+    options { ssl; };
+  }
 };
 
 ulines { services.irc.hashbang.sh ; };
@@ -75,18 +72,16 @@ ban nick {
 {% endfor %}
 
 allow {
-  ip       *@*;
-  hostname *@*;
-  class       clients;
-  maxperip    1000;
+  ip "*@*";
+  class clients;
+  maxperip 1000;
   options {
     useip;
   };
 };
 
 allow {
-  hostname *@*.hashbang.sh;
-  ip       INVALID;
+  hostname "*@*.hashbang.sh";
   class clients;
   maxperip 1000;
 };
@@ -107,13 +102,19 @@ log "/usr/lib64/unrealircd/logs/ircd.log" {
   };
 };
 
-listen *:6697 { options { ssl; }; };
+listen {
+  ip *;
+  port 6697;
+  options { ssl; };
+}
 
-listen *:6800 {
-    options { ssl; };
-    ssl-options {
-        options { no-client-certificate; };
-    };
+listen {
+  ip *;
+  port 6800;
+  options { ssl; };
+  ssl-options {
+      options { no-client-certificate; };
+  };
 };
 
 /* Network configuration */
@@ -127,15 +128,6 @@ set {
     {% for item in irc.cloak_keys %}
     "{{ item }}";
     {% endfor %}
-  };
-  hosts {
-    local       "locop.hashbang.sh";
-    global      "ircop.hashbang.sh";
-    coadmin     "coadmin.hashbang.sh";
-    admin       "admin.hashbang.sh";
-    servicesadmin   "csops.hashbang.sh";
-    netadmin    "netadmin.hashbang.sh";
-    host-on-oper-up "no";
   };
   ssl {
     trusted-ca-file "/usr/lib64/unrealircd/conf/ssl/server-bundle.crt";
@@ -180,3 +172,4 @@ set {
   };
 };
 
+include "operclass.default.conf"
