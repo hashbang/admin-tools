@@ -34,6 +34,14 @@ user_groups:
     - stinethebean
     - Xomen
 
+  # Members of the Board
+  board_members:
+    - lrvick
+    - dgrove
+    - Xomen
+    - SaidinWoT
+    - stinethebean
+
 users:
   # Admins
   alissa:
@@ -112,13 +120,16 @@ users:
     irc_oper:
       type: sha1
       pass: "{{ vault_users.SaidinWoT.irc_operpass }}"
+    mail: "{{ vault_users.SaidinWoT.mail }}"
 
   stinethebean:
     irc_oper:
       type: sha1
       pass: "{{ vault_users.stinethebean.irc_operpass }}"
+    mail: "{{ vault_users.stinethebean.mail }}"
 
   Xomen:
+    mail: "{{ vault_users.Xomen.mail }}"
     irc_oper:
       type: sha1
       pass: "{{ vault_users.Xomen.irc_operpass }}"
