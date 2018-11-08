@@ -50,21 +50,23 @@ link {{ server }} {
 
 {% endfor %}
 
-link services.irc.hashbang.sh {
+{% for server in groups.irc if not server == ansible_fqdn %}
+link {{ server }} {
   incoming {
     mask *;
   };
   outgoing {
     bind-ip (null);
-    hostname services.irc.hashbang.sh;
+    hostname {{ server }};
     port 6697;
     options { ssl; };
   };
   class servers;
-  password-connect "{{ irc.link_keys.irc }}";
+  password "{{ irc.link_keys.irc }}";
 };
 
-ulines { services.irc.hashbang.sh ; };
+ulines { {{ server }}; };
+{% endfor %}
 
 {% for service in ['Nick', 'Chan', 'Memo', 'Oper', 'Bot', 'Host'] %}
 ban nick {
@@ -108,7 +110,7 @@ listen {
   ip *;
   port 6697;
   options { ssl; };
-}
+};
 
 listen {
   ip *;
@@ -122,8 +124,8 @@ listen {
 /* Network configuration */
 set {
   network-name        "#!";
-  default-server      "irc.hashbang.sh";
-  services-server     "services.irc.hashbang.sh";
+  default-server      "{{ ansible_fqdn }}";
+  services-server     "services.{{ ansible_fqdn }}";
   help-channel        "#help";
   hiddenhost-prefix   "#!";
   cloak-keys {
@@ -132,12 +134,12 @@ set {
     {% endfor %}
   };
   ssl {
-    trusted-ca-file "/usr/lib64/unrealircd/conf/ssl/server-bundle.crt";
-    certificate "/usr/lib64/unrealircd/conf/ssl/server.crt";
-    key "/usr/lib64/unrealircd/conf/ssl/server.key";
+    trusted-ca-file "/usr/lib64/unrealircd/ssl/etc/letsencrypt/live/{{ ansible_fqdn }}/chain.pem";
+    certificate "/usr/lib64/unrealircd/ssl/etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem";
+    key "/usr/lib64/unrealircd/ssl/etc/letsencrypt/live/{{ ansible_fqdn }}/privkey.pem";
     server-cipher-list "ECDH+AESGCM256:ECDH+AESGCM128:ECDH+AES256:ECDH+AES128:!aNULL:!MD5:!RC4:!DSS:!EXPORT";
   };
-  sasl-server "services.irc.hashbang.sh";
+  sasl-server "services.{{ ansible_fqdn }}";
 };
 
 /* Server specific configuration */

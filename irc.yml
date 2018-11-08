@@ -76,9 +76,19 @@
       command: docker exec -i ircd /usr/lib64/unrealircd/bin/unrealircd rehash
 
 - name: Configure IRC services
-  hosts: services.irc.hashbang.sh
-  become: true
+  hosts: serenity.lan
+  become: false
   tasks:
+    - name: Create anope folder
+      file:
+        path: "{{ ansible_env.HOME }}/anope"
+        state: directory
+
+    - name: Create anope/config folder
+      file:
+        path: "{{ ansible_env.HOME }}/anope/config"
+        state: directory
+
 
     - name: Copy static configuration
       copy:
@@ -86,7 +96,7 @@
         dest: "{{ ansible_env.HOME }}/anope/config/{{ item | basename }}"
       with_fileglob:
         - anope/*.conf
-      notify: [Reload anope config]
+      # notify: [Reload anope config]
 
     - name: Generate templated configuration
       template:
