@@ -34,14 +34,6 @@ user_groups:
     - stinethebean
     - Xomen
 
-  # Members of the Board
-  board_members:
-    - lrvick
-    - dgrove
-    - Xomen
-    - SaidinWoT
-    - stinethebean
-
 users:
   # Admins
   alissa:
