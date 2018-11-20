@@ -10,7 +10,7 @@
       prompt: Comma-separated list of users to ban
       private: no
 
-    - name: delete
+    - name: delete_home
       prompt: Delete home directories? (yes/no)
       private: no
       default: "no"
@@ -19,13 +19,16 @@
     - name: Parse users list
       set_fact:
         user_list: "{{ users.split(',') }}"
-        delete_homedirs: "{{ delete }}"
+        delete_homedirs: "{{ delete_home }}"
 
-- name: Disable the account in LDAP
+- name: Update LDAP directory
   hosts: ldap.hashbang.sh
   gather_facts: no
   tasks:
-    - ldap_attr:
+    - name: Disable the account (shell set to nologin)
+      delegate_to: localhost
+      with_items: "{{ user_list }}"
+      ldap_attr:
         server_uri: ldaps://ldap.hashbang.sh
         bind_dn: "{{ ldap.admin.dn }}"
         bind_pw: "{{ ldap.admin.password }}"
@@ -34,8 +37,6 @@
         name: loginShell
         state: exact
         values: /usr/sbin/nologin
-      delegate_to: localhost
-      with_items: "{{ user_list }}"
 
 - hosts: shell_servers
   become: true
