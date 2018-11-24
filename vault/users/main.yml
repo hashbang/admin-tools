@@ -35,7 +35,7 @@ user_groups:
     - Xomen
 
   # Members of the Board
-  board_members:
+  board:
     - lrvick
     - dgrove
     - Xomen
