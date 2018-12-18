@@ -124,6 +124,13 @@ resource "aws_route53_record" "sf1-ipv4" {
     ttl  = "1800"
     records = ["45.58.38.222"]
 }
+resource "aws_route53_record" "sf1-wildcard" {
+    zone_id = "${aws_route53_zone.hashbang.zone_id}"
+    name = "*.sf1.${aws_route53_zone.hashbang.name}"
+    type = "CNAME"
+    ttl  = "1800"
+    records = ["sf1.${aws_route53_zone.hashbang.name}"]
+}
 
 resource "aws_route53_record" "da1-ipv6" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
