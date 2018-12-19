@@ -4,7 +4,10 @@ set -e
 
 # Global options
 declare -a OPTIONS=( --exclude=roles/coreos-bootstrap )
-declare -a IGNORES=( ANSIBLE0011 )
+declare -a IGNORES=(
+    ANSIBLE0011 # All tasks should be named
+    405 # Remote package tasks should have a retry
+)
 
 # Per-file lint ignores
 declare -A F_IGNORES=(
