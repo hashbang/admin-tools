@@ -3,5 +3,6 @@
   hosts: "{{ hosts | default('all') }}"
   gather_facts: False
   tasks:
-    - local_action: include_vars dir=vault/{{ item }}
+    - include_vars:
+        dir: vault/{{ item }}
       with_items: "{{ load.split(',') }}"
