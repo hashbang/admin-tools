@@ -11,5 +11,6 @@ abuse: root
 noc: root
 security: root
 root: team
-team: {% for user in user_groups.admins %} {{ users[user].mail | mandatory }} {% endfor %}
 
+board: {% for user in user_groups.board %} {{ users[user].mail | mandatory }} {% endfor %}
+team: {% for user in user_groups.admins %} {{ users[user].mail | mandatory }} {% endfor %}
