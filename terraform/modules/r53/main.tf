@@ -170,6 +170,13 @@ resource "aws_route53_record" "to1-ipv4" {
     records = ["104.245.37.138"]
 }
 
+resource "aws_route53_record" "lo1-ipv6" {
+    zone_id = "${aws_route53_zone.hashbang.zone_id}"
+    name = "lo1.${aws_route53_zone.hashbang.name}"
+    type = "AAAA"
+    ttl  = "1800"
+    records = ["2a00:1c10:5:301::2019:228"]
+}
 resource "aws_route53_record" "lo1-ipv4" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
     name = "lo1.${aws_route53_zone.hashbang.name}"
