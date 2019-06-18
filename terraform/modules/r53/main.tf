@@ -125,6 +125,21 @@ resource "aws_route53_record" "sf1-ipv4" {
     records = ["45.58.38.222"]
 }
 
+resource "aws_route53_record" "sf1-ipv6-wildcard" {
+    zone_id = "${aws_route53_zone.hashbang.zone_id}"
+    name = "*.sf1.${aws_route53_zone.hashbang.name}"
+    type = "AAAA"
+    ttl  = "1800"
+    records = ["2001:470:1f05:82e::"]
+}
+resource "aws_route53_record" "sf1-ipv4-wildcard" {
+    zone_id = "${aws_route53_zone.hashbang.zone_id}"
+    name = "*.sf1.${aws_route53_zone.hashbang.name}"
+    type = "A"
+    ttl  = "1800"
+    records = ["45.58.38.222"]
+}
+
 resource "aws_route53_record" "da1-ipv6" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
     name = "da1.${aws_route53_zone.hashbang.name}"
@@ -135,6 +150,21 @@ resource "aws_route53_record" "da1-ipv6" {
 resource "aws_route53_record" "da1-ipv4" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
     name = "da1.${aws_route53_zone.hashbang.name}"
+    type = "A"
+    ttl  = "1800"
+    records = ["104.245.35.240"]
+}
+
+resource "aws_route53_record" "da1-ipv6-wildcard" {
+    zone_id = "${aws_route53_zone.hashbang.zone_id}"
+    name = "*.da1.${aws_route53_zone.hashbang.name}"
+    type = "AAAA"
+    ttl  = "1800"
+    records = ["2001:470:1f0f:645::"]
+}
+resource "aws_route53_record" "da1-ipv4-wildcard" {
+    zone_id = "${aws_route53_zone.hashbang.zone_id}"
+    name = "*.da1.${aws_route53_zone.hashbang.name}"
     type = "A"
     ttl  = "1800"
     records = ["104.245.35.240"]
@@ -155,6 +185,21 @@ resource "aws_route53_record" "ny1-ipv4" {
     records = ["45.58.35.111"]
 }
 
+resource "aws_route53_record" "ny1-ipv6-wildcard" {
+    zone_id = "${aws_route53_zone.hashbang.zone_id}"
+    name = "*.ny1.${aws_route53_zone.hashbang.name}"
+    type = "AAAA"
+    ttl  = "1800"
+    records = ["2001:470:1f07:11f4::"]
+}
+resource "aws_route53_record" "ny1-ipv4-wildcard" {
+    zone_id = "${aws_route53_zone.hashbang.zone_id}"
+    name = "*.ny1.${aws_route53_zone.hashbang.name}"
+    type = "A"
+    ttl  = "1800"
+    records = ["45.58.35.111"]
+}
+
 resource "aws_route53_record" "to1-ipv6" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
     name = "to1.${aws_route53_zone.hashbang.name}"
@@ -170,19 +215,19 @@ resource "aws_route53_record" "to1-ipv4" {
     records = ["104.245.37.138"]
 }
 
-resource "aws_route53_record" "lo1-ipv6" {
+resource "aws_route53_record" "to1-ipv6-wildcard" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
-    name = "lo1.${aws_route53_zone.hashbang.name}"
+    name = "*.to1.${aws_route53_zone.hashbang.name}"
     type = "AAAA"
     ttl  = "1800"
-    records = ["2a00:1c10:5:301::2019:228"]
+    records = ["2001:470:1d:5fe::"]
 }
-resource "aws_route53_record" "lo1-ipv4" {
+resource "aws_route53_record" "to1-ipv4-wildcard" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
-    name = "lo1.${aws_route53_zone.hashbang.name}"
+    name = "*.to1.${aws_route53_zone.hashbang.name}"
     type = "A"
     ttl  = "1800"
-    records = ["5.102.168.7"]
+    records = ["104.245.37.138"]
 }
 
 resource "aws_route53_record" "services-irc-ipv6" {
