@@ -110,6 +110,21 @@ resource "aws_route53_record" "ldap-ipv4" {
     records = ["165.227.96.208"]
 }
 
+resource "aws_route53_record" "de1-ipv6" {
+    zone_id = "${aws_route53_zone.hashbang.zone_id}"
+    name = "de1.${aws_route53_zone.hashbang.name}"
+    type = "AAAA"
+    ttl  = "1800"
+    records = ["2a01:4f8:141:1272::2"]
+}
+resource "aws_route53_record" "de1-ipv4" {
+    zone_id = "${aws_route53_zone.hashbang.zone_id}"
+    name = "de1.${aws_route53_zone.hashbang.name}"
+    type = "A"
+    ttl  = "1800"
+    records = ["46.4.114.111"]
+}
+
 resource "aws_route53_record" "sf1-ipv6" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
     name = "sf1.${aws_route53_zone.hashbang.name}"
