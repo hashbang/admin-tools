@@ -27,6 +27,14 @@ resource "aws_route53_record" "lon1-irc-ipv4" {
     records = ["178.62.33.133"]
 }
 
+resource "aws_route53_record" "userdb-ipv4" {
+    zone_id = "${aws_route53_zone.hashbang.zone_id}"
+    name = "userdb.${aws_route53_zone.hashbang.name}"
+    type = "A"
+    ttl  = "1800"
+    records = ["157.245.24.99"]
+}
+
 // GEO
 resource "aws_route53_record" "irc-ipv4-default" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
