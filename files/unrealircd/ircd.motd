@@ -9,6 +9,3 @@
   Server: irc.hashbang.sh      -     Port: 6697      -      SSL: Required
 -----------------------------------------------------------------------------
 
-Please register your nick: /msg nickserv register somepassword some@email.com
-
------------------------------------------------------------------------------
