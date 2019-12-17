@@ -42,6 +42,6 @@ mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 
-virtual_alias_maps = ldap:/etc/postfix/ldap-aliases.cf 
+virtual_alias_maps = pgsql:/etc/postfix/userdb-aliases.cf
 
 message_size_limit = 52428800
