@@ -1,15 +1,11 @@
 # -*- mode: conf -*-
 [shell_servers]
-da1.hashbang.sh
-ny1.hashbang.sh
-sf1.hashbang.sh
-to1.hashbang.sh
+de1.hashbang.sh
 
 [shell_servers:vars]
 # become/sudo does not work properly due to a pam_namespace issue
 # See hashbang/shell-etc#74
 ansible_user=root
-
 
 [coreos]
 hashbang.sh
@@ -27,13 +23,12 @@ ansible_port=8993
 [coreos:children]
 irc
 
-
 [irc]
 services.irc.hashbang.sh
 
 [irc:children]
 irc_servers
 
-
 [irc_servers]
 sfo1.irc.hashbang.sh irc_numeric=1 ansible_port=22
+
