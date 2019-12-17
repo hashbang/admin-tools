@@ -1,6 +1,6 @@
+domain = hashbang.sh
 hosts = postgresql://userdb-attempt-too-do-user-989073-0.db.ondigitalocean.com:25060/userdb?sslmode=require
 user = mail
 password = userdb-mail-lookup
 dbname = userdb
-query = select host from passwd where user = '%u'
-result_format = %d
+query = select name || '@' || host from passwd where name = '%u'
