@@ -45,3 +45,6 @@ inet_interfaces = all
 virtual_alias_maps = pgsql:/etc/postfix/userdb-aliases.cf
 
 message_size_limit = 52428800
+
+compatibility_level = 2
+
