@@ -19,14 +19,6 @@ resource "aws_route53_record" "sfo1-irc-ipv4" {
     records = ["107.170.252.157"]
 }
 
-resource "aws_route53_record" "lon1-irc-ipv4" {
-    zone_id = "${aws_route53_zone.hashbang.zone_id}"
-    name = "lon1.irc.${aws_route53_zone.hashbang.name}"
-    type = "A"
-    ttl  = "1800"
-    records = ["178.62.33.133"]
-}
-
 resource "aws_route53_record" "userdb-ipv4" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
     name = "userdb.${aws_route53_zone.hashbang.name}"
@@ -71,20 +63,6 @@ resource "aws_route53_record" "irc-ipv4-us" {
     health_check_id = "${aws_route53_health_check.irc-us.id}"
 }
 
-resource "aws_route53_record" "irc-ipv4-eu" {
-    zone_id = "${aws_route53_zone.hashbang.zone_id}"
-    name = "irc.${aws_route53_zone.hashbang.name}"
-    type = "A"
-    ttl  = "1800"
-    records = ["178.62.33.133"]
-
-    set_identifier = "eu"
-    geolocation_routing_policy {
-    	continent = "EU"
-    }
-    health_check_id = "${aws_route53_health_check.irc-eu.id}"
-}
-
 // HEALTHCHECKS
 resource "aws_route53_health_check" "irc-us" {
   ip_address        = "107.170.252.157"
@@ -96,34 +74,6 @@ resource "aws_route53_health_check" "irc-us" {
   tags = {
     Name = "tf-irc-us"
   }
-}
-
-resource "aws_route53_health_check" "irc-eu" {
-  ip_address        = "178.62.33.133"
-  port              = 6697
-  type              = "TCP"
-  failure_threshold = "5"
-  request_interval  = "30"
-
-  tags = {
-    Name = "tf-irc-eu"
-  }
-}
-
-// A + AAAA PAIRS
-resource "aws_route53_record" "ldap-ipv6" {
-    zone_id = "${aws_route53_zone.hashbang.zone_id}"
-    name = "ldap.${aws_route53_zone.hashbang.name}"
-    type = "AAAA"
-    ttl  = "1800"
-    records = ["2604:a880:800:a1::1295:f001"]
-}
-resource "aws_route53_record" "ldap-ipv4" {
-    zone_id = "${aws_route53_zone.hashbang.zone_id}"
-    name = "ldap.${aws_route53_zone.hashbang.name}"
-    type = "A"
-    ttl  = "1800"
-    records = ["165.227.96.208"]
 }
 
 resource "aws_route53_record" "de1-ipv6" {
@@ -276,21 +226,6 @@ resource "aws_route53_record" "to1-ipv4-wildcard" {
     records = ["46.4.114.111"]
 }
 
-resource "aws_route53_record" "services-irc-ipv6" {
-    zone_id = "${aws_route53_zone.hashbang.zone_id}"
-    name = "services.irc.${aws_route53_zone.hashbang.name}"
-    type = "AAAA"
-    ttl  = "1800"
-    records = ["2604:a880:800:10::120a:7001"]
-}
-resource "aws_route53_record" "services-irc-ipv4" {
-    zone_id = "${aws_route53_zone.hashbang.zone_id}"
-    name = "services.irc.${aws_route53_zone.hashbang.name}"
-    type = "A"
-    ttl  = "1800"
-    records = ["45.55.71.38"]
-}
-
 resource "aws_route53_record" "im-ipv6" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
     name = "im.${aws_route53_zone.hashbang.name}"
@@ -336,21 +271,6 @@ resource "aws_route53_record" "hashbang-ipv4" {
     records = ["104.131.13.197"]
 }
 
-resource "aws_route53_record" "voip-ipv6" {
-    zone_id = "${aws_route53_zone.hashbang.zone_id}"
-    name = "voip.${aws_route53_zone.hashbang.name}"
-    type = "AAAA"
-    ttl  = "1800"
-    records = ["2604:a880:2:d0::17d:6001"]
-}
-resource "aws_route53_record" "voip-ipv4" {
-    zone_id = "${aws_route53_zone.hashbang.zone_id}"
-    name = "voip.${aws_route53_zone.hashbang.name}"
-    type = "A"
-    ttl  = "1800"
-    records = ["138.68.57.139"]
-}
-
 resource "aws_route53_record" "nyc3-apps-ipv6" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
     name = "nyc3.apps.${aws_route53_zone.hashbang.name}"
@@ -394,14 +314,6 @@ resource "aws_route53_record" "va1-alias" {
   records = ["ny1.${aws_route53_zone.hashbang.name}"]
 }
 
-resource "aws_route53_record" "git-infra-alias" {
-  zone_id = "${aws_route53_zone.hashbang.zone_id}"
-  name = "git-infra.${aws_route53_zone.hashbang.name}"
-  type = "CNAME"
-  ttl = "1800"
-  records = ["nyc3.apps.${aws_route53_zone.hashbang.name}"]
-}
-
 // MX
 resource "aws_route53_record" "mx" {
     zone_id = "${aws_route53_zone.hashbang.zone_id}"
@@ -411,20 +323,4 @@ resource "aws_route53_record" "mx" {
     records = [
         "10 mail.${aws_route53_zone.hashbang.name}"
     ]
-}
-
-// temporary?
-resource "aws_route53_record" "brokenchat-ipv6" {
-    zone_id = "${aws_route53_zone.hashbang.zone_id}"
-    name = "brokenchat.${aws_route53_zone.hashbang.name}"
-    type = "AAAA"
-    ttl  = "1800"
-    records = ["2604:a880:800:10::189c:f001"]
-}
-resource "aws_route53_record" "brokenchat-ipv4" {
-    zone_id = "${aws_route53_zone.hashbang.zone_id}"
-    name = "brokenchat.${aws_route53_zone.hashbang.name}"
-    type = "A"
-    ttl  = "1800"
-    records = ["45.55.162.19"]
 }
