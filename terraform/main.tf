@@ -13,7 +13,7 @@ variable "region" {
 }
 
 provider "aws" {
-  region     = "${var.region}"
+  region     = var.region
 }
 
 module "r53" {
