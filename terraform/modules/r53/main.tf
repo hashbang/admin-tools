@@ -265,7 +265,7 @@ resource "aws_route53_record" "hashbang-ipv6" {
 }
 resource "aws_route53_record" "hashbang-ipv4" {
     zone_id = aws_route53_zone.hashbang.zone_id
-    name = "${aws_route53_zone.hashbang.name}"
+    name = aws_route53_zone.hashbang.name
     type = "A"
     ttl  = "1800"
     records = ["104.131.13.197"]
