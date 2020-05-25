@@ -11,6 +11,15 @@ resource "aws_route53_record" "mail-ipv4" {
     records = ["104.236.46.93"]
 }
 
+// A
+resource "aws_route53_record" "factorio" {
+    zone_id = aws_route53_zone.hashbang.zone_id
+    name = "factorio.${aws_route53_zone.hashbang.name}"
+    type = "A"
+    ttl  = "1800"
+    records = ["51.79.32.57"]
+}
+
 resource "aws_route53_record" "sfo1-irc-ipv4" {
     zone_id = aws_route53_zone.hashbang.zone_id
     name = "sfo1.irc.${aws_route53_zone.hashbang.name}"
@@ -323,4 +332,39 @@ resource "aws_route53_record" "mx" {
     records = [
         "10 mail.${aws_route53_zone.hashbang.name}"
     ]
+}
+
+// DNS managed by cert-manager
+data "aws_iam_policy_document" "kubernetes-cert-manager-dns" {
+    statement {
+        actions = ["route53:GetChange"]
+        resources = ["arn:aws:route53:::change/*"]
+    }
+    statement {
+        actions = ["route53:ChangeResourceRecordSets",
+                   "route53:ListResourceRecordSets"]
+        resources = ["arn:aws:route53:::hostedzone/*"]
+    }
+    statement {
+        actions = ["route53:ListHostedZonesByName"]
+        resources = ["*"]
+    }
+}
+
+resource "aws_iam_policy" "kubernetes-cert-manager-dns" {
+  name = "kubernetes-cert-manager-dns"
+  policy = data.aws_iam_policy_document.kubernetes-cert-manager-dns.json
+}
+
+resource "aws_iam_user" "kubernetes-cert-manager-dns" {
+    name = "kubernetes-cert-manager-dns"
+}
+
+resource "aws_iam_user_policy_attachment" "kubernetes-cert-manager-dns" {
+    user = aws_iam_user.kubernetes-cert-manager-dns.name
+    policy_arn = aws_iam_policy.kubernetes-cert-manager-dns.arn
+}
+
+resource "aws_iam_access_key" "kubernetes-cert-manager-dns" {
+  user = aws_iam_user.kubernetes-cert-manager-dns.name
 }
