@@ -11,15 +11,6 @@ resource "aws_route53_record" "mail-ipv4" {
     records = ["104.236.46.93"]
 }
 
-// A
-resource "aws_route53_record" "factorio" {
-    zone_id = aws_route53_zone.hashbang.zone_id
-    name = "factorio.${aws_route53_zone.hashbang.name}"
-    type = "A"
-    ttl  = "1800"
-    records = ["51.79.32.57"]
-}
-
 resource "aws_route53_record" "sfo1-irc-ipv4" {
     zone_id = aws_route53_zone.hashbang.zone_id
     name = "sfo1.irc.${aws_route53_zone.hashbang.name}"
