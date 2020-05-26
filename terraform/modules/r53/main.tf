@@ -11,14 +11,6 @@ resource "aws_route53_record" "mail-ipv4" {
     records = ["104.236.46.93"]
 }
 
-resource "aws_route53_record" "sfo1-irc-ipv4" {
-    zone_id = aws_route53_zone.hashbang.zone_id
-    name = "sfo1.irc.${aws_route53_zone.hashbang.name}"
-    type = "A"
-    ttl  = "1800"
-    records = ["107.170.252.157"]
-}
-
 resource "aws_route53_record" "userdb-ipv4" {
     zone_id = aws_route53_zone.hashbang.zone_id
     name = "userdb.${aws_route53_zone.hashbang.name}"
@@ -27,45 +19,12 @@ resource "aws_route53_record" "userdb-ipv4" {
     records = ["157.245.24.99"]
 }
 
-// GEO
 resource "aws_route53_record" "irc-ipv4-default" {
     zone_id = aws_route53_zone.hashbang.zone_id
     name = "irc.${aws_route53_zone.hashbang.name}"
     type = "A"
-    ttl  = "1800"
+    ttl  = "60"
     records = ["107.170.252.157"]
-
-    set_identifier = "default"
-    geolocation_routing_policy {
-        country = "*"
-    }
-}
-
-resource "aws_route53_record" "irc-ipv4-us" {
-    zone_id = aws_route53_zone.hashbang.zone_id
-    name = "irc.${aws_route53_zone.hashbang.name}"
-    type = "A"
-    ttl  = "1800"
-    records = ["107.170.252.157"]
-
-    set_identifier = "us"
-    geolocation_routing_policy {
-        continent = "NA"
-    }
-    health_check_id = aws_route53_health_check.irc-us.id
-}
-
-// HEALTHCHECKS
-resource "aws_route53_health_check" "irc-us" {
-  ip_address        = "107.170.252.157"
-  port              = 6697
-  type              = "TCP"
-  failure_threshold = "5"
-  request_interval  = "30"
-
-  tags = {
-    Name = "tf-irc-us"
-  }
 }
 
 resource "aws_route53_record" "de1-ipv6" {
