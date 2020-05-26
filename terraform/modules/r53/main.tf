@@ -294,8 +294,8 @@ data "aws_iam_policy_document" "kubernetes-cert-manager-dns" {
 }
 
 resource "aws_iam_policy" "kubernetes-cert-manager-dns" {
-  name = "kubernetes-cert-manager-dns"
-  policy = data.aws_iam_policy_document.kubernetes-cert-manager-dns.json
+    name = "kubernetes-cert-manager-dns"
+    policy = data.aws_iam_policy_document.kubernetes-cert-manager-dns.json
 }
 
 resource "aws_iam_user" "kubernetes-cert-manager-dns" {
