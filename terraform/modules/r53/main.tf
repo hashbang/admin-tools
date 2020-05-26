@@ -11,22 +11,6 @@ resource "aws_route53_record" "mail-ipv4" {
     records = ["104.236.46.93"]
 }
 
-resource "aws_route53_record" "userdb-ipv4" {
-    zone_id = aws_route53_zone.hashbang.zone_id
-    name = "userdb.${aws_route53_zone.hashbang.name}"
-    type = "A"
-    ttl  = "1800"
-    records = ["157.245.24.99"]
-}
-
-resource "aws_route53_record" "irc-ipv4-default" {
-    zone_id = aws_route53_zone.hashbang.zone_id
-    name = "irc.${aws_route53_zone.hashbang.name}"
-    type = "A"
-    ttl  = "60"
-    records = ["107.170.252.157"]
-}
-
 resource "aws_route53_record" "de1-ipv6" {
     zone_id = aws_route53_zone.hashbang.zone_id
     name = "de1.${aws_route53_zone.hashbang.name}"
