@@ -27,14 +27,6 @@ resource "aws_route53_record" "userdb-ipv4" {
     records = ["157.245.24.99"]
 }
 
-resource "aws_route53_record" "book-ipv4" {
-    zone_id = aws_route53_zone.hashbang.zone_id
-    name = "book.${aws_route53_zone.hashbang.name}"
-    type = "A"
-    ttl  = "1800"
-    records = ["157.245.24.99"]
-}
-
 // GEO
 resource "aws_route53_record" "irc-ipv4-default" {
     zone_id = aws_route53_zone.hashbang.zone_id
