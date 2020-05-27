@@ -294,3 +294,34 @@ resource "aws_iam_user_policy_attachment" "kubernetes-cert-manager-dns" {
 resource "aws_iam_access_key" "kubernetes-cert-manager-dns" {
   user = aws_iam_user.kubernetes-cert-manager-dns.name
 }
+
+// DNS managed by external-dns (https://github.com/kubernetes-sigs/external-dns/blob/v0.7.1/docs/tutorials/aws.md)
+data "aws_iam_policy_document" "kubernetes-external-dns" {
+    statement {
+        actions = ["route53:ChangeResourceRecordSets",
+                   "route53:ListResourceRecordSets"]
+        resources = ["arn:aws:route53:::hostedzone/*"]
+    }
+    statement {
+        actions = ["route53:ListHostedZones"]
+        resources = ["*"]
+    }
+}
+
+resource "aws_iam_policy" "kubernetes-external-dns" {
+    name = "kubernetes-external-dns"
+    policy = data.aws_iam_policy_document.kubernetes-external-dns.json
+}
+
+resource "aws_iam_user" "kubernetes-external-dns" {
+    name = "kubernetes-external-dns"
+}
+
+resource "aws_iam_user_policy_attachment" "kubernetes-external-dns" {
+    user = aws_iam_user.kubernetes-external-dns.name
+    policy_arn = aws_iam_policy.kubernetes-external-dns.arn
+}
+
+resource "aws_iam_access_key" "kubernetes-external-dns" {
+    user = aws_iam_user.kubernetes-external-dns.name
+}
