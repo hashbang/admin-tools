@@ -176,36 +176,6 @@ resource "aws_route53_record" "im-ipv4" {
     records = ["107.170.254.61"]
 }
 
-resource "aws_route53_record" "www-ipv6" {
-    zone_id = aws_route53_zone.hashbang.zone_id
-    name = "www.${aws_route53_zone.hashbang.name}"
-    type = "AAAA"
-    ttl  = "1800"
-    records = ["2604:a880:800:10::1909:a001"]
-}
-resource "aws_route53_record" "www-ipv4" {
-    zone_id = aws_route53_zone.hashbang.zone_id
-    name = "www.${aws_route53_zone.hashbang.name}"
-    type = "A"
-    ttl  = "1800"
-    records = ["104.131.13.197"]
-}
-
-resource "aws_route53_record" "hashbang-ipv6" {
-    zone_id = aws_route53_zone.hashbang.zone_id
-    name = aws_route53_zone.hashbang.name
-    type = "AAAA"
-    ttl  = "1800"
-    records = ["2604:a880:800:10::1909:a001"]
-}
-resource "aws_route53_record" "hashbang-ipv4" {
-    zone_id = aws_route53_zone.hashbang.zone_id
-    name = aws_route53_zone.hashbang.name
-    type = "A"
-    ttl  = "1800"
-    records = ["104.131.13.197"]
-}
-
 resource "aws_route53_record" "nyc3-apps-ipv6" {
     zone_id = aws_route53_zone.hashbang.zone_id
     name = "nyc3.apps.${aws_route53_zone.hashbang.name}"
