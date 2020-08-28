@@ -19,3 +19,7 @@ provider "aws" {
 module "r53" {
   source = "./modules/r53"
 }
+
+module "podcast" {
+  source = "./modules/podcast"
+}
