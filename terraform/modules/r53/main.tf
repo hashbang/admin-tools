@@ -46,7 +46,7 @@ resource "aws_route53_record" "ca1-ipv4" {
     name = "ca1.${aws_route53_zone.hashbang.name}"
     type = "A"
     ttl  = "1800"
-    records = ["192.95.3.18"]
+    records = ["51.222.150.9"]
 }
 
 resource "aws_route53_record" "ca1-ipv4-wildcard" {
@@ -54,7 +54,7 @@ resource "aws_route53_record" "ca1-ipv4-wildcard" {
     name = "*.ca1.${aws_route53_zone.hashbang.name}"
     type = "A"
     ttl  = "1800"
-    records = ["192.95.3.18"]
+    records = ["51.222.150.9"]
 }
 
 resource "aws_route53_record" "sf1-ipv6" {
