@@ -1,11 +1,16 @@
 terraform {
-  required_version = "> 0.8.4"
   backend "s3" {
     bucket = "hashbang-terraform"
     key    = "state.tfstate"
     region = "us-west-2"
-    lock_table = "hashbang-terraform"
+    dynamodb_table = "hashbang-terraform"
   }
+  required_providers {
+    aws = {
+      source = "hashicorp/aws"
+    }
+  }
+  required_version = ">= 0.13"
 }
 
 variable "region" {
