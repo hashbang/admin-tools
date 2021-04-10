@@ -41,20 +41,43 @@ resource "aws_route53_record" "de1-ipv4-wildcard" {
     records = ["46.4.114.111"]
 }
 
-resource "aws_route53_record" "ca1-ipv4" {
+resource "aws_route53_record" "ca1-de2-cname" {
     zone_id = aws_route53_zone.hashbang.zone_id
     name = "ca1.${aws_route53_zone.hashbang.name}"
+    type = "CNAME"
+    ttl  = "1800"
+    records = ["de2.hashbang.sh."]
+}
+resource "aws_route53_record" "de2-ipv4" {
+    zone_id = aws_route53_zone.hashbang.zone_id
+    name = "de2.${aws_route53_zone.hashbang.name}"
     type = "A"
     ttl  = "1800"
-    records = ["51.222.150.9"]
+    records = ["157.90.196.61"]
 }
 
-resource "aws_route53_record" "ca1-ipv4-wildcard" {
+resource "aws_route53_record" "de2-ipv4-wildcard" {
     zone_id = aws_route53_zone.hashbang.zone_id
-    name = "*.ca1.${aws_route53_zone.hashbang.name}"
+    name = "*.de2.${aws_route53_zone.hashbang.name}"
     type = "A"
     ttl  = "1800"
-    records = ["51.222.150.9"]
+    records = ["157.90.196.61"]
+}
+
+resource "aws_route53_record" "de2-ipv6" {
+    zone_id = aws_route53_zone.hashbang.zone_id
+    name = "de2.${aws_route53_zone.hashbang.name}"
+    type = "AAAA"
+    ttl  = "1800"
+    records = ["2a01:4f8:252:3e22::61"]
+}
+
+resource "aws_route53_record" "de2-ipv6-wildcard" {
+    zone_id = aws_route53_zone.hashbang.zone_id
+    name = "*.de2.${aws_route53_zone.hashbang.name}"
+    type = "AAAA"
+    ttl  = "1800"
+    records = ["2a01:4f8:252:3e22::61"]
 }
 
 resource "aws_route53_record" "sf1-ipv6" {
