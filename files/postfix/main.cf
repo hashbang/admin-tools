@@ -33,7 +33,7 @@ smtpd_relay_restrictions = permit_mynetworks permit_sasl_authenticated defer_una
 myhostname = mail.hashbang.sh
 relay_domains = hashbang.sh
 mydestination = mail.hashbang.sh, hashbang.sh, localhost.hashbang.sh, localhost
-mynetworks = 127.0.0.0/8 104.245.35.240 104.245.37.138 45.58.35.111 45.58.38.222
+mynetworks = 127.0.0.0/8 46.4.114.111
 relayhost = 
 alias_maps = hash:/etc/aliases
 alias_database = hash:/etc/aliases
@@ -42,6 +42,9 @@ mailbox_size_limit = 0
 recipient_delimiter = +
 inet_interfaces = all
 
-virtual_alias_maps = ldap:/etc/postfix/ldap-aliases.cf 
+virtual_alias_maps = pgsql:/etc/postfix/userdb-aliases.cf
 
 message_size_limit = 52428800
+
+compatibility_level = 2
+
