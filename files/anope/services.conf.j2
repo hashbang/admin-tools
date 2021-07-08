@@ -1,21 +1,21 @@
 define
 {
 	name = "services.host"
-	value = "services.irc.hashbang.sh"
+	value = "services.irc.dannygrove.com"
 }
 
 uplink
 {
-	host = "irc.hashbang.sh"
+	host = "irc.dannygrove.com"
 	ipv6 = no
 	ssl = yes
-	port = 6697
+	port = 7000
 	password = "{{ vault_irc.link_keys.services }}"
 }
 
 serverinfo
 {
-	name = "services.irc.hashbang.sh"
+	name = "services.irc.dannygrove.com"
 	description = "Services for #! IRC Network"
 	pid = "data/services.pid"
 	motd = "conf/services.motd"
@@ -197,7 +197,7 @@ mail
 {
 	usemail = no
 	sendmailpath = "/usr/sbin/sendmail -t"
-	sendfrom = "irc-services@hashbang.sh"
+	sendfrom = "irc-services@dannygrove.com"
 	delay = 5m
 	#dontquoteaddresses = yes
 	registration_subject = "Nickname registration for %n"
@@ -248,7 +248,11 @@ module
 	fork = no
 }
 
-module { name = "m_ssl_gnutls" }
+module {
+  name = "m_ssl_gnutls"
+  cert = "data/ssl/etc/letsencrypt/live/{{ ansible_fqdn }}/fullchain.pem"
+  key = "data/ssl/etc/letsencrypt/live/{{ ansible_fqdn }}/privkey.pem"
+}
 
 module { name = "m_sasl" }
 module { name = "enc_sha256" }

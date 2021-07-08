@@ -1,5 +1,5 @@
 # -*- eval: (ansible) -*-
-- include: vault.yml load=irc,users hosts=irc
+- import_playbook: vault.yml load=irc,users hosts=irc
 
 - name: Configure IRC servers
   hosts: irc_servers
@@ -12,47 +12,99 @@
 #        name: ircd
 #        state: started
 
+    - name: Create unrealircd folder
+      file:
+        path: "{{ ansible_env.HOME }}/unrealircd"
+        state: directory
+
+    - name: Create conf folder
+      file:
+        path: "{{ ansible_env.HOME }}/unrealircd/conf"
+        state: directory
+
+    - name: Create help folder
+      file:
+        path: "{{ ansible_env.HOME }}/unrealircd/conf/help"
+        state: directory
+
+    - name: Create conf folder
+      file:
+        path: "{{ ansible_env.HOME }}/unrealircd/conf/aliases"
+        state: directory
+
     - name: Copy static configuration
-      copy:
+      synchronize:
         src: "{{ item }}"
-        dest: /home/core/unrealircd/{{ item | basename }}
+        dest: "{{ ansible_env.HOME }}/unrealircd/conf/{{ item | relpath('files/unrealircd') }}"
+        compress: true
+        recursive: true
       with_fileglob:
         - unrealircd/*.conf
         - unrealircd/ircd.motd
-      notify: [rehash ircd]
+      # notify: [rehash ircd]
+
+    - name: Copy help configuration
+      synchronize:
+        src: "{{ item }}"
+        dest: "{{ ansible_env.HOME }}/unrealircd/conf/help/{{ item | relpath('files/unrealircd/help') }}"
+        compress: true
+        recursive: true
+      with_fileglob:
+        - unrealircd/help/*.conf
+      # notify: [rehash ircd]
+
+    - name: Copy alias configuration
+      synchronize:
+        src: "{{ item }}"
+        dest: "{{ ansible_env.HOME }}/unrealircd/conf/aliases/{{ item | relpath('files/unrealircd/aliases') }}"
+        compress: true
+        recursive: true
+      with_fileglob:
+        - unrealircd/aliases/*.conf
+      # notify: [rehash ircd]
 
     - name: Generate templated configuration
       template:
         src: "{{ item }}"
-        dest: /home/core/unrealircd/{{ item | basename | regex_replace('\.j2$', '') }}
+        dest: "{{ ansible_env.HOME }}/unrealircd/conf/{{ item | relpath('files/unrealircd') | regex_replace('\\.j2$', '') }}"
       with_fileglob:
         - unrealircd/*.j2
-      notify: [rehash ircd]
+      # notify: [rehash ircd]
 
   handlers:
     - name: rehash ircd
-      command: docker exec -i ircd /unrealircd/unreal rehash
+      command: docker exec -i ircd /usr/lib64/unrealircd/bin/unrealircd rehash
 
 - name: Configure IRC services
-  hosts: services.irc.hashbang.sh
-  become: true
+  hosts: serenity.lan
+  become: false
   tasks:
+    - name: Create anope folder
+      file:
+        path: "{{ ansible_env.HOME }}/anope"
+        state: directory
+
+    - name: Create anope/config folder
+      file:
+        path: "{{ ansible_env.HOME }}/anope/config"
+        state: directory
+
 
     - name: Copy static configuration
       copy:
         src: "{{ item }}"
-        dest: /home/core/anope/config/{{ item | basename }}
+        dest: "{{ ansible_env.HOME }}/anope/config/{{ item | basename }}"
       with_fileglob:
         - anope/*.conf
-      notify: [Reload anope config]
+      # notify: [Reload anope config]
 
     - name: Generate templated configuration
       template:
         src: "{{ item }}"
-        dest: /home/core/anope/config/{{ item | basename | regex_replace('\.j2$', '') }}
+        dest: "{{ ansible_env.HOME }}/anope/config/{{ item | basename | regex_replace('\\.j2$', '') }}"
       with_fileglob:
         - anope/*.j2
-      notify: [Reload anope config]
+      # notify: [Reload anope config]
 
   handlers:
     - name: Reload anope config

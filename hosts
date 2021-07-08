@@ -20,8 +20,9 @@ nyc3.apps.hashbang.sh
 voip.hashbang.sh
 
 [coreos:vars]
-ansible_user=core
-ansible_python_interpreter="/home/core/bin/python"
+ansible_user=groved
+# ansible_user=core
+# ansible_python_interpreter="/home/core/bin/python"
 ansible_port=8993
 
 [coreos:children]
@@ -29,11 +30,11 @@ irc
 
 
 [irc]
-services.irc.hashbang.sh
+serenity.lan
 
 [irc:children]
 irc_servers
 
 
 [irc_servers]
-sfo1.irc.hashbang.sh irc_numeric=1 ansible_port=22
+serenity.lan irc_numeric=001 ansible_port=22
